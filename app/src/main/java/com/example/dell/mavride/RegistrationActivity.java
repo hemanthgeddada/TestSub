@@ -1,20 +1,26 @@
 package com.example.dell.mavride;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 
 public class RegistrationActivity extends Activity {
 
     //declaring
-    protected EditText username;
+    protected EditText firstname;
+    protected EditText lastname;
     protected EditText email;
     protected EditText phone;
     protected EditText password;
@@ -24,8 +30,11 @@ public class RegistrationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        Parse.initialize(this, "Z1onpLDjhguG5Xerjh1sSzCm4T6o3tgQdN4TwjiM", "7WOxDqGAYaJulOnKZdLA9huezBWyB7OuOaBwjCQ0");
+
         //Initializing
-        username = (EditText) findViewById(R.id.username_reg);
+        firstname = (EditText) findViewById(R.id.firstname_reg);
+        lastname = (EditText) findViewById(R.id.lastname_reg);
         email= (EditText) findViewById(R.id.email_reg);
         phone = (EditText) findViewById(R.id.phone_reg);
         password = (EditText) findViewById(R.id.password_reg);
@@ -36,7 +45,8 @@ public class RegistrationActivity extends Activity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username1 = username.getText().toString().trim();
+                String firstname1 = firstname.getText().toString().trim();
+                String lastname1 = lastname.getText().toString().trim();
                 String email1 = email.getText().toString().trim();
                 String password1 = password.getText().toString().trim();
 
@@ -45,17 +55,30 @@ public class RegistrationActivity extends Activity {
                 //get user's values and convert them to string
 
                 //store user in parse
-                ParseObject signup = new ParseObject("Sign_Up");
-                signup.put("User_name", username1);
-                signup.put("Password", password1);
-                signup.put("Email", email1);
-                signup.put("Phone no", phone1);
+                ParseObject registration = new ParseObject("Registration");
+                registration.put("First_Name", firstname1);
+                registration.put("Last_Name", lastname1);
+                registration.put("Password", password1);
+                registration.put("Email", email1);
+                registration.put("Phone no", phone1);
 
 
-                signup.saveInBackground();
+                registration.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
 
-                //Toast
-                //Toast.makeText(RegistrationActivity.this, "You have been Successfully Registered", Toast.LENGTH_LONG).show();
+                        if(e==null){
+                            //Toast
+                            Toast.makeText(RegistrationActivity.this, "You have been Successfully Registered", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getApplicationContext(), MapPane.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(RegistrationActivity.this, "Some Error Occured, Try Again", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+
 
             }
         });
