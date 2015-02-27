@@ -8,11 +8,11 @@
     <string name="title_activity_main_activity2">MainActivity2</string>
     <string name="MavRides_image" />
     <string name="Heading" />
+    <string name="title_activity_driver_options" />
+    <string name="title_activity_driver_home_page" />
+    <string name="title_activity_driver_home" />
+    <string name="title_activity_user_home" />
     <string name="title_activity_main" />
     <string name="title_activity_login" />
-    <string name="title_activity_user_home" />
-    <string name="title_activity_driver_home" />
-    <string name="title_activity_driver_home_page" />
-    <string name="title_activity_driver_options" />
 
 </resources>
