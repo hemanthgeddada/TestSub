@@ -1,9 +1,12 @@
 package com.example.dell.mavride;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import com.parse.Parse;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -11,31 +14,42 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-       // Parse.initialize(this, "Z1onpLDjhguG5Xerjh1sSzCm4T6o3tgQdN4TwjiM", "7WOxDqGAYaJulOnKZdLA9huezBWyB7OuOaBwjCQ0");
+        setContentView(R.layout.activity_main);
+        //Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "Z1onpLDjhguG5Xerjh1sSzCm4T6o3tgQdN4TwjiM", "7WOxDqGAYaJulOnKZdLA9huezBWyB7OuOaBwjCQ0");
+        //ParseUser user = new ParseUser();
+        //user.setUsername("Hemanth");
+        //user.setPassword("12345");
+        //user.setEmail("hemanthgeddada@gmail.com");
 
-    }
+        //user.signUpInBackground(new SignUpCallback() {
+            //@Override
+          //  public void done(com.parse.ParseException e) {
+            //    if (e == null) {
+                    // Hooray! Let them use the app now.
+              //  } else {
+                    // Sign up didn't succeed. Look at the ParseException
+                    // to figure out what went wrong
+                //}
+            //}
+        //});
 
+        Button btn = (Button) findViewById(R.id.btnLogin);
+        Button btn1 = (Button) findViewById(R.id.btnRegister);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+            }
+        });
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
