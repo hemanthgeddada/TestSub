@@ -19,7 +19,7 @@ public class DriverOptions extends ActionBarActivity {
 
     protected Button pickupbtn;
     protected Button waitbtn;
-    protected Button dropbtn;
+    protected Button dropbtn = (Button)findViewById(R.id.btnDrop);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +30,6 @@ public class DriverOptions extends ActionBarActivity {
 
         pickupbtn=(Button)findViewById(R.id.btnPick);
         waitbtn=(Button)findViewById(R.id.btnWait);
-        dropbtn=(Button)findViewById(R.id.btnDrop);
 
 
         pickupbtn.setOnClickListener(new View.OnClickListener(){
