@@ -1,9 +1,9 @@
 package com.example.dell.mavride;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,14 +18,15 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 
-public class Login extends ActionBarActivity {
+public class Login extends Activity {
     protected EditText Email;
     protected EditText nPassword;
     protected Button logBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        super.onCreate(savedInstanceState);
+
 
         Email = (EditText)findViewById(R.id.txtEmail);
         nPassword = (EditText)findViewById(R.id.txtPass);

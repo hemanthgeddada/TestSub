@@ -1,12 +1,12 @@
 package com.example.dell.mavride;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class UserHome extends ActionBarActivity {
+public class UserHome extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

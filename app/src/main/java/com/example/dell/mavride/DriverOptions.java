@@ -1,8 +1,8 @@
 package com.example.dell.mavride;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +14,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 
-public class DriverOptions extends ActionBarActivity {
+public class DriverOptions extends Activity {
     String objectid;
 
     protected Button pickupbtn;
