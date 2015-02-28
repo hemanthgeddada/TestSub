@@ -98,8 +98,6 @@ public class Login extends Activity {
         });
 
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -120,5 +118,10 @@ public class Login extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void onClickForgotPassword(View view)
+    {
+        Intent intent=new Intent(this, ForgotPasswordFormActivity.class);
+        startActivity(intent);
     }
 }

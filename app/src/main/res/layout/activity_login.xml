@@ -22,14 +22,14 @@
 
     <EditText
         android:layout_width="290dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:id="@+id/txtEmail"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:hint="email@mavs.uta.edu"
+        android:hint="something@mavs.uta.edu"
         android:textColor="#ff020202"
         android:background="#ffffffff"
-        android:layout_weight="0.09" />
+        />
 
     <EditText
         android:layout_width="290dp"
@@ -42,7 +42,9 @@
         android:layout_marginTop="20dp"
         android:hint="Password"
         android:textColor="#ff020202" />
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,5 +53,17 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_forgot_password"
+        android:id="@+id/btnForgotPassword"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:onClick="onClickForgotPassword"/>
+
+</LinearLayout>
+
 
 </LinearLayout>
