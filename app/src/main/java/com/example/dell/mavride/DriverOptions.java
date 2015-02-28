@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -27,7 +28,7 @@ public class DriverOptions extends Activity {
 
         Intent intent=getIntent();
         objectid=intent.getStringExtra("objectID");
-
+        Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
         pickupbtn=(Button)findViewById(R.id.btnPick);
         waitbtn=(Button)findViewById(R.id.btnWait);
 
@@ -38,11 +39,12 @@ public class DriverOptions extends Activity {
             {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
                 query.getInBackground(objectid, new GetCallback<ParseObject>() {
-                    public void done(ParseObject RideRequest, ParseException e) {
+                    public void done(ParseObject Riderequest, ParseException e) {
                         if (e == null) {
 
-                            String rideStatus=RideRequest.getString("Status");
-                            RideRequest.put("Status","PickedUp");
+                           // String rideStatus=RideRequest.getString("Status");
+                            Riderequest.put("Status","PickedUp");
+                            Toast.makeText(getApplicationContext(), "updated", Toast.LENGTH_LONG).show();
                         }else{
                             //error
                         }

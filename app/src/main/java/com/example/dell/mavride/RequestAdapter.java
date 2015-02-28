@@ -42,8 +42,10 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
         }
         ParseObject Requests = reqObjects.get(Position);
 
-        String Id = Requests.getString("objectId");
-        holder.DvrTxtReqId.setText(Id);
+        //String Id = Requests.getString("objectId");
+
+        String objectId = Requests.getObjectId();
+        holder.DvrTxtReqId.setText(objectId);
 
         String Loc = Requests.getString("Source");
         holder.DvrTxtReqLoc.setText(Loc);
