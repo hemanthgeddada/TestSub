@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
-        android:hint="someone@mavs.uta.edu"
+        android:hint="@string/hint_email"
         android:ems="10"
         android:id="@+id/email_reg"
         android:layout_below="@+id/lastname_reg"

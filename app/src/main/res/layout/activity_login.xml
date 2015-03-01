@@ -28,6 +28,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
         android:textColor="#ff020202"
 
         />

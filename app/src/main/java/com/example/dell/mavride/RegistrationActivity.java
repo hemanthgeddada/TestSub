@@ -3,6 +3,7 @@ package com.example.dell.mavride;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,16 +39,33 @@ public class RegistrationActivity extends Activity {
         email= (EditText) findViewById(R.id.email_reg);
         phone = (EditText) findViewById(R.id.phone_reg);
         password = (EditText) findViewById(R.id.password_reg);
-
         signup= (Button) findViewById(R.id.signup_reg);
 
         //Listen to register button click
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String firstname1 = firstname.getText().toString().trim();
                 String lastname1 = lastname.getText().toString().trim();
                 String email1 = email.getText().toString().trim();
+                if(email1.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter your email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //if the email string is not a valid email id
+                if(!Patterns.EMAIL_ADDRESS.matcher(email1).matches()) {
+                    Toast.makeText(getApplicationContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                    //if the email string doesn't end with @mavs.uta.edu
+                    if (!email1.endsWith("@mavs.uta.edu"))
+                    {
+                        //email is validated to be correct
+                        Toast.makeText(getApplicationContext(),"You need to enter your @mavs.uta.edu email address",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 String password1 = password.getText().toString().trim();
 
                String phone1 = phone.getText().toString().trim();

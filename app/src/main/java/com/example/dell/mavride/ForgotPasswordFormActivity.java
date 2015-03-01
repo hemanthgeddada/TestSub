@@ -3,9 +3,10 @@ package com.example.dell.mavride;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.StrictMode;
-import android.support.v7.app.ActionBarActivity;
+//import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,9 +64,21 @@ public class ForgotPasswordFormActivity extends Activity {
     public void onClickSendCode(View view)
     {
         //EditText editTextEmail=(EditText)findViewById(R.id.editTextEmail);
-        if(((EditText)findViewById(R.id.editTextEmail)).getText().toString().isEmpty())
+        String email1=((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+        if(email1.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "Please enter your email", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email1).matches()) {
+            Toast.makeText(getApplicationContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //if the email string doesn't end with @mavs.uta.edu
+        if (!email1.endsWith("@mavs.uta.edu"))
+        {
+            //email is validated to be correct
+            Toast.makeText(getApplicationContext(),"You need to enter your @mavs.uta.edu email address",Toast.LENGTH_SHORT).show();
             return;
         }
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
