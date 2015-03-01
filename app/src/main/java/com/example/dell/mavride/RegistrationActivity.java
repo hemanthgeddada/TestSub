@@ -1,6 +1,8 @@
 package com.example.dell.mavride;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -11,9 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 
@@ -31,7 +35,7 @@ public class RegistrationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        Parse.initialize(this, "Z1onpLDjhguG5Xerjh1sSzCm4T6o3tgQdN4TwjiM", "7WOxDqGAYaJulOnKZdLA9huezBWyB7OuOaBwjCQ0");
+       // Parse.initialize(this, "Z1onpLDjhguG5Xerjh1sSzCm4T6o3tgQdN4TwjiM", "7WOxDqGAYaJulOnKZdLA9huezBWyB7OuOaBwjCQ0");
 
         //Initializing
         firstname = (EditText) findViewById(R.id.firstname_reg);
@@ -46,9 +50,9 @@ public class RegistrationActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                String firstname1 = firstname.getText().toString().trim();
-                String lastname1 = lastname.getText().toString().trim();
-                String email1 = email.getText().toString().trim();
+                final String firstname1 = firstname.getText().toString().trim();
+                final String lastname1 = lastname.getText().toString().trim();
+                final String email1 = email.getText().toString().trim();
                 if(email1.isEmpty())
                 {
                     Toast.makeText(getApplicationContext(), "Please enter your email", Toast.LENGTH_SHORT).show();
@@ -66,35 +70,62 @@ public class RegistrationActivity extends Activity {
                         Toast.makeText(getApplicationContext(),"You need to enter your @mavs.uta.edu email address",Toast.LENGTH_SHORT).show();
                         return;
                     }
-                String password1 = password.getText().toString().trim();
+                final String password1 = password.getText().toString().trim();
 
-               String phone1 = phone.getText().toString().trim();
+               final String phone1 = phone.getText().toString().trim();
 
                 //get user's values and convert them to string
-
-                //store user in parse
-                ParseObject registration = new ParseObject("Registration");
-                registration.put("First_Name", firstname1);
-                registration.put("Last_Name", lastname1);
-                registration.put("Password", password1);
-                registration.put("Email", email1);
-                registration.put("Phone no", phone1);
-
-
-                registration.saveInBackground(new SaveCallback() {
+                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
+                query2.whereEqualTo("Email", email1);
+                query2.getFirstInBackground(new GetCallback<ParseObject>() {
                     @Override
-                    public void done(ParseException e) {
+                    public void done(ParseObject parseObject, ParseException e) {
+                        if (e == null) {
+                            String objectId = parseObject.getObjectId();
+                            Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
 
-                        if(e==null){
-                            //Toast
-                            Toast.makeText(RegistrationActivity.this, "You have been Successfully Registered", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(), MapPane.class);
-                            startActivity(intent);
-                        }else{
-                            Toast.makeText(RegistrationActivity.this, "Some Error Occured, Try Again", Toast.LENGTH_LONG).show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+                            //builder.setMessage(e.getMessage());
+                            builder.setTitle("Email id is already registered");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int i) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                        //store user in parse
+                        else{
+                            ParseObject registration = new ParseObject("Registration");
+                            registration.put("First_Name", firstname1);
+                            registration.put("Last_Name", lastname1);
+                            registration.put("Password", password1);
+                            registration.put("Email", email1);
+                            registration.put("PhoneNo", phone1);
+                            registration.put("UserType", "Rider");
+
+
+                            registration.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+
+                                    if(e==null){
+                                        //Toast
+                                        Toast.makeText(RegistrationActivity.this, "You have been Successfully Registered", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                                        startActivity(intent);
+                                    }else{
+                                        Toast.makeText(RegistrationActivity.this, "Some Error Occured, Try Again", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
                         }
                     }
                 });
+
 
 
 
