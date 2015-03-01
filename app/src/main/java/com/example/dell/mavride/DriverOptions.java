@@ -13,6 +13,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 
 public class DriverOptions extends Activity {
@@ -20,7 +21,7 @@ public class DriverOptions extends Activity {
 
     protected Button pickupbtn;
     protected Button waitbtn;
-    protected Button dropbtn = (Button)findViewById(R.id.btnDrop);
+    protected Button dropbtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,21 +32,33 @@ public class DriverOptions extends Activity {
         Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
         pickupbtn=(Button)findViewById(R.id.btnPick);
         waitbtn=(Button)findViewById(R.id.btnWait);
-
-
+        dropbtn = (Button)findViewById(R.id.btnDrop);
         pickupbtn.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view)
             {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
+
                 query.getInBackground(objectid, new GetCallback<ParseObject>() {
                     public void done(ParseObject Riderequest, ParseException e) {
                         if (e == null) {
 
                            // String rideStatus=RideRequest.getString("Status");
                             Riderequest.put("Status","PickedUp");
-                            Toast.makeText(getApplicationContext(), "updated", Toast.LENGTH_LONG).show();
-                        }else{
+                            Riderequest.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e == null){
+                                        Toast.makeText(getApplicationContext(), "Updated successfully", Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "update failed", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
+                        }
+                        else{
                             //error
                         }
                     }
@@ -64,6 +77,17 @@ public class DriverOptions extends Activity {
 
                             String rideStatus=RideRequest.getString("Status");
                             RideRequest.put("Status","Waiting");
+                            RideRequest.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e == null){
+                                        Toast.makeText(getApplicationContext(), "Updated successfully", Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "update failed", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                         }else{
                             //error
                         }
@@ -84,6 +108,17 @@ public class DriverOptions extends Activity {
 
                             String rideStatus=RideRequest.getString("Status");
                             RideRequest.put("Status","Dropped");
+                            RideRequest.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e == null){
+                                        Toast.makeText(getApplicationContext(), "Updated successfully", Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "update failed", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                         }else{
                             //error
                         }

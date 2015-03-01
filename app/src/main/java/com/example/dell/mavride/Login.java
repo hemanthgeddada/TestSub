@@ -16,6 +16,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 
 public class Login extends Activity {
@@ -63,7 +64,18 @@ public class Login extends Activity {
 
                                         String objectId = parseObject.getObjectId();
                                         Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
-
+                                       /* parseObject.put("Email", "hemanth.geddada@mavs.uta.edu");
+                                        parseObject.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if(e == null){
+                                                    Toast.makeText(getApplicationContext(), "Updated successfully", Toast.LENGTH_LONG).show();
+                                                }
+                                                else{
+                                                    Toast.makeText(getApplicationContext(), "update failed", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }); */
                                         Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
                                         startActivity(driverHome);
 
