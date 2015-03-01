@@ -16,7 +16,6 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 
 public class Login extends Activity {
@@ -80,7 +79,7 @@ public class Login extends Activity {
                                         startActivity(driverHome);
 
                                     } else {
-                                        Intent userHome = new Intent(getApplicationContext(), MapPane.class);
+                                        Intent userHome = new Intent(getApplicationContext(), UserHome.class);
 
                                         startActivity(userHome);
                                     }

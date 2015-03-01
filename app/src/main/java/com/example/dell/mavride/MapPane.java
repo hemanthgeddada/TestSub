@@ -2,6 +2,10 @@ package com.example.dell.mavride;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +25,11 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
         MapFragment mapfragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
                 mapfragment.getMapAsync(this);
+        Toast.makeText(getApplicationContext(), "Enter Your Source and Destination Address", Toast.LENGTH_LONG).show();
+        Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
+        String[] items = new String[]{"1", "2", "3"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
+        dropdown.setAdapter(adapter);
 
     }
     @Override
@@ -117,5 +126,8 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
          googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13))
          googleMap.setMapType(googleMap.MAP_TYPE_TERRAIN);**/
 
+    }
+
+    public void startActivity(View view) {
     }
 }

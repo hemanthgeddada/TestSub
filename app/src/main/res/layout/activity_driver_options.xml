@@ -11,25 +11,34 @@
             android:layout_width="136dp"
             android:layout_height="wrap_content"
             android:text="Picked Up"
-            android:id="@+id/btnPick" />
-
-        <Button
-            android:layout_width="136dp"
-            android:layout_height="wrap_content"
-            android:text="Waiting"
-            android:id="@+id/btnWait" />
-
-        <Chronometer
-            android:layout_width="105dp"
-            android:layout_height="105dp"
-            android:id="@+id/chronometer"
+            android:id="@+id/btnPick"
+            android:background="#ff8800"
             android:layout_gravity="center_horizontal" />
 
         <Button
             android:layout_width="136dp"
             android:layout_height="wrap_content"
+            android:text="Waiting"
+            android:id="@+id/btnWait"
+            android:layout_marginTop="47dp"
+            android:background="#ff8800"
+            android:layout_gravity="center_horizontal" />
+
+        <Chronometer
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/chronometer"
+            android:layout_gravity="right" />
+
+        <Button
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
             android:text="Dropped"
-            android:id="@+id/btnDrop" />
+            android:background="#ff8800"
+            android:layout_marginTop="20dp"
+            android:id="@+id/btnDrop"
+            android:layout_gravity="center_horizontal" />
 
 
 </LinearLayout>
