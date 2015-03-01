@@ -35,6 +35,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+
         LatLng erb = new LatLng(32.7330729,-97.1130619);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(erb,16));

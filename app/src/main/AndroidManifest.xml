@@ -46,6 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+
         </activity>
         <activity
             android:name=".Login"
@@ -56,6 +57,7 @@
         <activity
             android:name=".UserHome"
             android:label="@string/title_activity_user_home" >
+
 
         </activity>
         <activity

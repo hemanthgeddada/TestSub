@@ -78,7 +78,8 @@ public class Login extends Activity {
                                         Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
                                         startActivity(driverHome);
 
-                                    } else {
+                                     }
+                                    else {
                                         Intent userHome = new Intent(getApplicationContext(), UserHome.class);
 
                                         startActivity(userHome);

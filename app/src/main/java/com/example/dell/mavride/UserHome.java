@@ -3,6 +3,8 @@ package com.example.dell.mavride;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,9 +20,9 @@ public class UserHome extends Activity {
         setContentView(R.layout.activity_user_home);
 
 
-        btnr = (Button)findViewById(R.id.btnLogin2);
-        btnc = (Button)findViewById(R.id.btnLogin2);
-        btns = (Button)findViewById(R.id.btnLogin2);
+        btnr = (Button)findViewById(R.id.btnride);
+        btnc = (Button)findViewById(R.id.btncride);
+        btns = (Button)findViewById(R.id.btnstatus);
 
         btnr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,4 +37,25 @@ public class UserHome extends Activity {
 
 
 }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_user_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     }

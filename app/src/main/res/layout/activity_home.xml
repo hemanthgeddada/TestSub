@@ -28,11 +28,10 @@
         android:layout_marginTop="80dp"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:text="@string/button_forgot_password"
 
         android:layout_gravity="center_horizontal"
 
-        android:layout_marginLeft="110dp"
+        android:layout_marginLeft="120dp"
         android:background="#ff8800"
         android:spinnerMode="dropdown" />
 
