@@ -16,6 +16,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,9 +28,19 @@ public class DriverHomePage extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_home_page);
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
-        query.whereEqualTo("Status", "Pending");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("RideRequest");
+        query1.whereEqualTo("Status", "Pending");
+
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
+        query2.whereEqualTo("Status", "PickedUp");
+
+        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+        queries.add(query1);
+        queries.add(query2);
+
+        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+        mainQuery.orderByDescending("Status");
+        mainQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null) {
