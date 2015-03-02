@@ -113,6 +113,8 @@ public class DriverOptions extends Activity {
                                 public void done(ParseException e) {
                                     if(e == null){
                                         Toast.makeText(getApplicationContext(), "Updated successfully", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(getApplicationContext(), DriverHomePage.class);
+                                        startActivity(intent);
                                     }
                                     else{
                                         Toast.makeText(getApplicationContext(), "update failed", Toast.LENGTH_LONG).show();

@@ -28,6 +28,7 @@ public class DriverHomePage extends ListActivity {
         setContentView(R.layout.activity_driver_home_page);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
+        query.whereEqualTo("Status", "Pending");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
