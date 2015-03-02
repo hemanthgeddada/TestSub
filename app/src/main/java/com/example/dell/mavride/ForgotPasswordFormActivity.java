@@ -81,6 +81,18 @@ public class ForgotPasswordFormActivity extends Activity {
             Toast.makeText(getApplicationContext(),"You need to enter your @mavs.uta.edu email address",Toast.LENGTH_SHORT).show();
             return;
         }
+        /*THE SECTION FROM
+        **START**
+         *  TO
+          *  **END**
+          *  WAS COPIED/REFERRED FROM
+          *  http://stackoverflow.com/a/13470775/2039735
+          *
+           *  Javamail-android api libraries activation.jar, additionnal.jar and mail.jar
+           *  are taken from
+           *  https://code.google.com/p/javamail-android/downloads/list
+         */
+        //**START**
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         new SendEmailAsyncTask().execute();
@@ -119,4 +131,5 @@ public class ForgotPasswordFormActivity extends Activity {
             }
         }
     }
+    //**END**
 }

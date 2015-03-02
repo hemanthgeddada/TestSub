@@ -1,7 +1,4 @@
 package com.example.dell.mavride;
-/**
- * Created by Pranay Shirolkar on 2/25/2015.
- */
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.CommandMap;
@@ -19,7 +16,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-
+/** The code of this class has been copied as it is from http://stackoverflow.com/a/12967162/2039735*/
 public class Mail extends javax.mail.Authenticator {
     private String _user;
     private String _pass;
