@@ -51,7 +51,17 @@ public class RegistrationActivity extends Activity {
             public void onClick(View v) {
 
                 final String firstname1 = firstname.getText().toString().trim();
+                if(firstname1.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter your First Name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 final String lastname1 = lastname.getText().toString().trim();
+                if(lastname1.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter your Last Name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 final String email1 = email.getText().toString().trim();
                 if(email1.isEmpty())
                 {
@@ -71,8 +81,18 @@ public class RegistrationActivity extends Activity {
                         return;
                     }
                 final String password1 = password.getText().toString().trim();
+                if(password1.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter your Password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                final String phone1 = phone.getText().toString().trim();
+                if(phone1.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter your Phone Number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 //get user's values and convert them to string
                 ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
