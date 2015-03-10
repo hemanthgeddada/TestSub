@@ -21,8 +21,6 @@ public class UserHome extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-
-
         btnr = (Button)findViewById(R.id.btnride);
         btnc = (Button)findViewById(R.id.btncride);
         btns = (Button)findViewById(R.id.btnstatus);

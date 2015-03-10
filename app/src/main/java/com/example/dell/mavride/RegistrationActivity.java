@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
-import com.parse.Parse;
+//import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -29,7 +29,7 @@ public class RegistrationActivity extends Activity {
     protected EditText email;
     protected EditText phone;
     protected EditText password;
-    protected EditText confirmpassword;
+    //protected EditText confirmpassword;
     protected Button signup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +97,11 @@ public class RegistrationActivity extends Activity {
                 //get user's values and convert them to string
                 ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
                 query2.whereEqualTo("Email", email1);
+                //whereEqualTo specifies a selection condition for a particular tuple like where Email = email1 in table Registration
                 query2.getFirstInBackground(new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
+                        //getfirstinbackground will return exactly one result instead of find, which i think will return all results.
                         if (e == null) {
                             String objectId = parseObject.getObjectId();
                             Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
@@ -125,12 +127,9 @@ public class RegistrationActivity extends Activity {
                             registration.put("Email", email1);
                             registration.put("PhoneNo", phone1);
                             registration.put("UserType", "Rider");
-
-
                             registration.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-
                                     if(e==null){
                                         //Toast
                                         Toast.makeText(RegistrationActivity.this, "You have been Successfully Registered", Toast.LENGTH_LONG).show();

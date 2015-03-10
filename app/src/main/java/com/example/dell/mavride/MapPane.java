@@ -25,17 +25,14 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
         MapFragment mapfragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
                 mapfragment.getMapAsync(this);
-        Toast.makeText(getApplicationContext(), "Enter Your Source and Destination Address", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Select Your Source and Destination On the Map", Toast.LENGTH_LONG).show();
         Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
         String[] items = new String[]{"1", "2", "3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
-
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-
         LatLng erb = new LatLng(32.7330729,-97.1130619);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(erb,16));

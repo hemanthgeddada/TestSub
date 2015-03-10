@@ -53,6 +53,7 @@ public class Login extends Activity {
                             // Hooray! The user is logged in.
                             //   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
                             ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
+                            //TODO @hemanth: instead of querying again, can we just check for UserType="Driver" in the object just fetched?
                             query2.whereEqualTo("Email", email);
                             query2.whereEqualTo("Password", password);
                             query2.whereEqualTo("UserType","Driver");
@@ -61,7 +62,6 @@ public class Login extends Activity {
                                 @Override
                                 public void done(ParseObject parseObject, ParseException e) {
                                     if (e == null) {
-
                                         String objectId = parseObject.getObjectId();
                                         Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
                                        /* parseObject.put("Email", "hemanth.geddada@mavs.uta.edu");

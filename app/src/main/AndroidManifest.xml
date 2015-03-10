@@ -55,7 +55,11 @@
         </activity>
         <activity
             android:name=".DriverOptions"
-            android:label="@string/title_activity_driver_options" >
+            android:label="@string/title_activity_driver_options"
+            android:parentActivityName=".DriverHomePage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dell.mavride.DriverHomePage" />
         </activity>
         <activity
             android:name=".Login"
