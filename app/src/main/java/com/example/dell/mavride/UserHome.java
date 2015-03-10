@@ -7,12 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+//import android.widget.Toast;
 
 
 public class UserHome extends Activity {
     protected Button btnr;
     protected Button btnc;
     protected Button btns;
+    //private int backButtonCount=0;
+    //private Toast backExitToast=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,4 +61,40 @@ public class UserHome extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //@Override
+    /**
+     * Back button listener.
+     * Will close the application if the back button pressed twice.
+     */
+    //copied as it is from http://stackoverflow.com/a/16383385/2039735
+
+    //public void onBackPressed()
+    //{
+        //super.onBackPressed();
+        //finish();
+        /*
+        if(backButtonCount >= 1)
+        {
+            backExitToast.cancel();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            backExitToast=Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_LONG);
+            backExitToast.show();
+            backButtonCount++;
+        }
+        */
+    //}
+    /*
+    @Override
+    public void onDestroy()
+    {
+        android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
+    }*/
     }

@@ -64,10 +64,6 @@
         android:layout_below="@+id/phone_reg"
         android:layout_centerHorizontal="true" />
 
-
-
-
-
     <Button
         android:layout_width="75dp"
         android:layout_height="wrap_content"

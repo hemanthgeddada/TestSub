@@ -24,8 +24,9 @@ public class Login extends Activity {
     protected Button logBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_login);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
 
 
         Email = (EditText)findViewById(R.id.txtEmail);
@@ -77,11 +78,9 @@ public class Login extends Activity {
                                         }); */
                                         Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
                                         startActivity(driverHome);
-
                                      }
                                     else {
                                         Intent userHome = new Intent(getApplicationContext(), UserHome.class);
-
                                         startActivity(userHome);
                                     }
                                 }

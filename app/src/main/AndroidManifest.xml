@@ -27,16 +27,11 @@
 
         <activity
             android:name=".MapPane"
-            android:label="@string/app_name" >
-
-
-
-        </activity>
-        <activity
-            android:name=".RegistrationActivity"
-            android:label="@string/title_activity_registration" >
-
-
+            android:label="@string/app_name"
+            android:parentActivityName=".UserHome">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dell.mavride.UserHome" />
         </activity>
         <activity
             android:name=".MainActivity"
@@ -45,20 +40,10 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
-        </activity>
-        <activity
-            android:name=".Login"
-            android:label="@string/title_activity_login" >
-
-
         </activity>
         <activity
             android:name=".UserHome"
             android:label="@string/title_activity_user_home" >
-
-
         </activity>
         <activity
             android:name=".DriverHome"
@@ -71,6 +56,22 @@
         <activity
             android:name=".DriverOptions"
             android:label="@string/title_activity_driver_options" >
+        </activity>
+        <activity
+            android:name=".Login"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dell.mavride.MainActivity" />
+        </activity>
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="@string/title_activity_registration"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dell.mavride.MainActivity" />
         </activity>
         <activity
             android:name=".ForgotPasswordFormActivity"
