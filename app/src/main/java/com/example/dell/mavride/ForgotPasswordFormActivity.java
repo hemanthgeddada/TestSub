@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 //import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
@@ -14,16 +16,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
+
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 
 
 public class ForgotPasswordFormActivity extends Activity {
 
+    protected String email1=null;
+    protected int code=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password_form);
+        ((EditText)findViewById(R.id.editTextEmail)).addTextChangedListener(new TextWatcher()
+        {
+            public void afterTextChanged(Editable s)
+            {
+                (findViewById(R.id.buttonSendCode)).setEnabled(true);
+                ((Button)findViewById(R.id.buttonSendCode)).setText("Send Email");
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
     }
 
 
@@ -52,19 +72,60 @@ public class ForgotPasswordFormActivity extends Activity {
     {
         //System.out.println("have code clicked");
         EditText editTextResetCode=(EditText)findViewById(R.id.editTextResetCode);
+
         editTextResetCode.setVisibility(View.VISIBLE);
         if(((Button)findViewById(R.id.buttonHaveCode)).getText().equals("Validate Code"))
         {
             //toast and return if email empty
             //validate code and email
-            Toast.makeText(getApplicationContext(),"Code Validation",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Code Validation",Toast.LENGTH_SHORT).show();
+            if(editTextResetCode.getText().toString().trim().isEmpty() || editTextResetCode.getText().toString().trim().length()<4)
+            {
+                Toast.makeText(getApplicationContext(),"The code needs to be of 4 digits",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            int code=Integer.parseInt(editTextResetCode.getText().toString());
+            email1=((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+            if(email1.isEmpty())
+            {
+                Toast.makeText(getApplicationContext(), "Please enter your email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!Patterns.EMAIL_ADDRESS.matcher(email1).matches()) {
+                Toast.makeText(getApplicationContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            //if the email string doesn't end with @mavs.uta.edu
+            if (!email1.endsWith("@mavs.uta.edu"))
+            {
+                //email is validated to be correct
+                Toast.makeText(getApplicationContext(),"You need to enter your @mavs.uta.edu email address",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ParseQuery<ParseObject> query=ParseQuery.getQuery("forgot_password");
+            query.whereEqualTo("email",email1);
+            query.whereEqualTo("code",code);
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    if(e==null)
+                    {
+                        //code found
+                        Toast.makeText(getApplicationContext(),"to new intent",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        //code and email not found
+                        Toast.makeText(getApplicationContext(),"Your code is invalid. Please send email to your email id",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
         ((Button)findViewById(R.id.buttonHaveCode)).setText("Validate Code");
     }
-    public void onClickSendCode(View view)
+        public void onClickSendCode(View view)
     {
-        //EditText editTextEmail=(EditText)findViewById(R.id.editTextEmail);
-        String email1=((EditText)findViewById(R.id.editTextEmail)).getText().toString();
+        email1=((EditText)findViewById(R.id.editTextEmail)).getText().toString();
         if(email1.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "Please enter your email", Toast.LENGTH_SHORT).show();
@@ -81,6 +142,44 @@ public class ForgotPasswordFormActivity extends Activity {
             Toast.makeText(getApplicationContext(),"You need to enter your @mavs.uta.edu email address",Toast.LENGTH_SHORT).show();
             return;
         }
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
+        query.whereEqualTo("Email", email1);
+        (findViewById(R.id.buttonSendCode)).setEnabled(false);
+        ((Button)findViewById(R.id.buttonSendCode)).setText("Code Being Sent");
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                //getfirstinbackground will return exactly one result instead of find, which i think will return all results.
+                if (e == null) {
+                    //no exception, result found with email
+                    //so send the email
+                    ParseObject fpwd = new ParseObject("forgot_password");
+                    fpwd.put("email", email1);
+                    code = (int) (Math.random() * 9000) + 1000;
+                    fpwd.put("code", code);
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                    new SendEmailAsyncTask().execute();
+                    Toast.makeText(getApplicationContext(), "Mail sent successfully", Toast.LENGTH_SHORT).show();
+                    fpwd.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                //success
+                                //Toast
+                            } else {
+                                Toast.makeText(getApplicationContext(),"Unfortunately, an error occured. Please try again",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    //exception occured no email found
+                    Toast.makeText(getApplicationContext(),"This email id is not registered.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         /*THE SECTION FROM
         **START**
          *  TO
@@ -93,10 +192,6 @@ public class ForgotPasswordFormActivity extends Activity {
            *  https://code.google.com/p/javamail-android/downloads/list
          */
         //**START**
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        new SendEmailAsyncTask().execute();
-        Toast.makeText(getApplicationContext(),"Mail sent successfully",Toast.LENGTH_SHORT).show();
     }
     class SendEmailAsyncTask extends AsyncTask<Void, Void, Boolean> {
         Mail m = new Mail("mavrideuta@gmail.com", "team2csallner");
@@ -107,7 +202,9 @@ public class ForgotPasswordFormActivity extends Activity {
             m.setTo(toArr);
             m.setFrom("mavrideuta@gmail.com");
             m.setSubject("MavRide App Password Reset Code");
-            int code=(int)(Math.random()*9000)+1000;
+
+            ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
+            query2.whereEqualTo("Email", email1);
             //ALSO STORE THIS CODE IN PARSE AGAINST THE USER'S EMAIL TO VALIDATE WHEN USER ENTERS THIS IN APP
             m.setBody("Hello,\nYour password reset code for MavRide App is "+code+".\n\nRegards,\n-Team MavRide");
         }
