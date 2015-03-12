@@ -1,6 +1,7 @@
 package com.example.dell.mavride;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 //import android.support.v7.app.ActionBarActivity;
@@ -112,6 +113,8 @@ public class ForgotPasswordFormActivity extends Activity {
                     {
                         //code found
                         Toast.makeText(getApplicationContext(),"to new intent",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(getApplicationContext(), setNewPasswordActivity.class);
+                        startActivity(intent);
                     }
                     else
                     {
