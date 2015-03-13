@@ -17,8 +17,8 @@ import com.parse.ParseQuery;
 
 
 public class UserHome extends Activity {
-   // String objectid;
-   // protected TextView UserLoggedName;
+    String objectid;
+    protected TextView UserLoggedName;
     protected Button btnr;
     protected Button btnc;
     protected Button btns;
@@ -33,7 +33,7 @@ public class UserHome extends Activity {
         btnc = (Button)findViewById(R.id.btncride);
         btns = (Button)findViewById(R.id.btnstatus);
 
-        /*Intent intent=getIntent();
+        Intent intent=getIntent();
         objectid = intent.getStringExtra("objectID");
         UserLoggedName = (TextView)findViewById(R.id.txtViewUser);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
@@ -46,7 +46,7 @@ public class UserHome extends Activity {
                     // something went wrong
                 }
             }
-        }); */
+        });
         btnr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
