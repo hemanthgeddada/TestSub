@@ -14,8 +14,9 @@
         android:text="Get a Ride"
         android:id="@+id/btnride"
         android:background="#ff8800"
-        android:layout_above="@+id/btnride"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/txtViewUser"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp" />
 
     <Button
         android:layout_width="150dp"
@@ -23,8 +24,8 @@
         android:text="Cancel Ride"
         android:id="@+id/btncride"
         android:background="#ff8800"
-        android:layout_marginTop="47dp"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/btnride"
         android:layout_alignLeft="@+id/btnride"
         android:layout_alignStart="@+id/btnride" />
 
@@ -38,5 +39,16 @@
         android:layout_below="@+id/btncride"
         android:layout_alignLeft="@+id/btncride"
         android:layout_alignStart="@+id/btncride" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Logged User"
+        android:id="@+id/txtViewUser"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textStyle="normal"
+        android:textSize="20sp"/>
 
 </RelativeLayout>

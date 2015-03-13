@@ -8,10 +8,9 @@
     android:clickable="true">
 
     <TextView
-        android:layout_width="170dp"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Driver Home"
         android:textStyle="normal"
         android:textSize="20sp"
         android:layout_marginTop="3dp"

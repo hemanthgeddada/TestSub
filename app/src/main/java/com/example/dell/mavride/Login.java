@@ -76,7 +76,7 @@ public class Login extends Activity {
                                         String objectId = parseObject.getObjectId();
                                         Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
                                         Intent userHome = new Intent(getApplicationContext(), UserHome.class);
-                                        userHome.putExtra("objectID",objectId);
+                                       // userHome.putExtra("objectID",objectId);
                                         startActivity(userHome);
                                     }
                                 }

@@ -7,10 +7,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 //import android.widget.Toast;
 
 
 public class UserHome extends Activity {
+   // String objectid;
+   // protected TextView UserLoggedName;
     protected Button btnr;
     protected Button btnc;
     protected Button btns;
@@ -25,6 +33,20 @@ public class UserHome extends Activity {
         btnc = (Button)findViewById(R.id.btncride);
         btns = (Button)findViewById(R.id.btnstatus);
 
+        /*Intent intent=getIntent();
+        objectid = intent.getStringExtra("objectID");
+        UserLoggedName = (TextView)findViewById(R.id.txtViewUser);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
+        query.getInBackground(objectid , new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    final String UserLogged = object.getString("First_Name");
+                    UserLoggedName.setText("Welcome "+ UserLogged);
+                } else {
+                    // something went wrong
+                }
+            }
+        }); */
         btnr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

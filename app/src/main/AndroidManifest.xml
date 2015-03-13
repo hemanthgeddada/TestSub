@@ -48,11 +48,11 @@
         </activity>
         <activity
             android:name=".DriverHome"
-            android:label="@string/title_activity_driver_home" >
+            android:label="MavRide" >
         </activity>
         <activity
             android:name=".DriverHomePage"
-            android:label="@string/title_activity_driver_home_page" >
+            android:label="MavRide" >
         </activity>
         <activity
             android:name=".DriverOptions"

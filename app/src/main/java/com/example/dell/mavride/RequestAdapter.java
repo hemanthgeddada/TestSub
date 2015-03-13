@@ -35,7 +35,7 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
             convertView = LayoutInflater.from(reqContext).inflate(
                     R.layout.activity_driver_home, null);
             holder = new ViewHolder();
-           // holder.DvrTxtReqId = (TextView) convertView.findViewById(R.id.dvrTxtId);
+            holder.DvrTxtReqStatus = (TextView) convertView.findViewById(R.id.dvrTxtSts);
             holder.DvrTxtReqLoc = (TextView) convertView.findViewById(R.id.dvrTxtLoc);
             holder.DvrTxtReqDes = (TextView) convertView.findViewById(R.id.dvrTxtDes);
             holder.DvrTxtReqName = (TextView) convertView.findViewById(R.id.dvrTxtName);
@@ -47,8 +47,8 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
 
         //String Id = Requests.getString("objectId");
 
-       // String objectId = Requests.getObjectId();
-       // holder.DvrTxtReqId.setText(objectId);
+        String Status = Requests.getString("Status");
+        holder.DvrTxtReqStatus.setText(Status);
 
         String Loc = Requests.getString("Source");
         holder.DvrTxtReqLoc.setText(Loc);
@@ -72,7 +72,7 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
     }
 
     public static class ViewHolder{
-       // TextView DvrTxtReqId;
+        TextView DvrTxtReqStatus;
         TextView DvrTxtReqLoc;
         TextView DvrTxtReqDes;
         TextView DvrTxtReqName;

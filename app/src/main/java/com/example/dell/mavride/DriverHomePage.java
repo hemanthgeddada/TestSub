@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -22,13 +23,31 @@ import java.util.List;
 
 
 public class DriverHomePage extends ListActivity {
-
+    String objectid;
     protected List<ParseObject> request;
     protected TextView UserName;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_home_page);
+
+        Intent intent=getIntent();
+        objectid = intent.getStringExtra("objectID");
+        UserName = (TextView)findViewById(R.id.textView);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
+        query.getInBackground(objectid , new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    final String UserLogged = object.getString("First_Name");
+                    UserName.setText("Welcome "+ UserLogged);
+                } else {
+                    // something went wrong
+                }
+            }
+        });
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("RideRequest");
         query1.whereEqualTo("Status", "Pending");
