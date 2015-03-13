@@ -25,5 +25,7 @@
     <string name="button_have_code">Have a code?</string>
     <string name="button_send_code">Send Email</string>
     <string name="title_activity_set_new_password">Set New Password</string>
+    <string name="Name">Name</string>
+    <string name="Destination">Destination</string>
 
 </resources>

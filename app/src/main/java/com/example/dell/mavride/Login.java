@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
@@ -64,23 +65,18 @@ public class Login extends Activity {
                                     if (e == null) {
                                         String objectId = parseObject.getObjectId();
                                         Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
-                                       /* parseObject.put("Email", "hemanth.geddada@mavs.uta.edu");
-                                        parseObject.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                if(e == null){
-                                                    Toast.makeText(getApplicationContext(), "Updated successfully", Toast.LENGTH_LONG).show();
-                                                }
-                                                else{
-                                                    Toast.makeText(getApplicationContext(), "update failed", Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        }); */
+
                                         Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
+
+                                        driverHome.putExtra("objectID",objectId);
                                         startActivity(driverHome);
+
                                      }
                                     else {
+                                        String objectId = parseObject.getObjectId();
+                                        Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
                                         Intent userHome = new Intent(getApplicationContext(), UserHome.class);
+                                        userHome.putExtra("objectID",objectId);
                                         startActivity(userHome);
                                     }
                                 }
@@ -109,6 +105,7 @@ public class Login extends Activity {
         });
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

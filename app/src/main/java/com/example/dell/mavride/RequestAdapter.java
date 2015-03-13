@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.parse.GetCallback;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -26,16 +29,16 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
     }
     @Override
     public View getView(final int Position, View convertView, ViewGroup Parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if (convertView == null) {
             convertView = LayoutInflater.from(reqContext).inflate(
                     R.layout.activity_driver_home, null);
             holder = new ViewHolder();
-            holder.DvrTxtReqId = (TextView) convertView.findViewById(R.id.dvrTxtId);
+           // holder.DvrTxtReqId = (TextView) convertView.findViewById(R.id.dvrTxtId);
             holder.DvrTxtReqLoc = (TextView) convertView.findViewById(R.id.dvrTxtLoc);
             holder.DvrTxtReqDes = (TextView) convertView.findViewById(R.id.dvrTxtDes);
-
+            holder.DvrTxtReqName = (TextView) convertView.findViewById(R.id.dvrTxtName);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -44,8 +47,8 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
 
         //String Id = Requests.getString("objectId");
 
-        String objectId = Requests.getObjectId();
-        holder.DvrTxtReqId.setText(objectId);
+       // String objectId = Requests.getObjectId();
+       // holder.DvrTxtReqId.setText(objectId);
 
         String Loc = Requests.getString("Source");
         holder.DvrTxtReqLoc.setText(Loc);
@@ -53,13 +56,25 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
         String Des = Requests.getString("Destination");
         holder.DvrTxtReqDes.setText(Des);
 
+        String FirstName = Requests.getString("RiderId");
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
+        query.getInBackground(FirstName, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, com.parse.ParseException e) {
+                if(e==null){
+                    final String FName = parseObject.getString("First_Name");
+                    holder.DvrTxtReqName.setText(FName);
+                }
+            }
+        });
         return convertView;
     }
 
     public static class ViewHolder{
-        TextView DvrTxtReqId;
+       // TextView DvrTxtReqId;
         TextView DvrTxtReqLoc;
         TextView DvrTxtReqDes;
+        TextView DvrTxtReqName;
     }
 }
