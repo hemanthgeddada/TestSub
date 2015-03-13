@@ -53,34 +53,23 @@ public class Login extends Activity {
                         if (e == null) {
                             // Hooray! The user is logged in.
                             //   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
-                            ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
-                            //TODO @hemanth: instead of querying again, can we just check for UserType="Driver" in the object just fetched?
-                            query2.whereEqualTo("Email", email);
-                            query2.whereEqualTo("Password", password);
-                            query2.whereEqualTo("UserType","Driver");
-                            query2.getFirstInBackground(new GetCallback<ParseObject>() {
+                            String objid = parseObject.getObjectId();
+                            String type = parseObject.getString("UserType");
+                            if(type.equals("Driver")){
+                                //String objectId = parseObject.getObjectId();
+                                Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
+                                Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
+                                driverHome.putExtra("objectID",objid);
+                                startActivity(driverHome);
+                            }
+                            else{
+                                // String objectId = parseObject.getObjectId();
+                                //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
+                                Intent userHome = new Intent(getApplicationContext(), UserHome.class);
+                                 userHome.putExtra("objectID",objid);
+                                startActivity(userHome);
+                            }
 
-                                @Override
-                                public void done(ParseObject parseObject, ParseException e) {
-                                    if (e == null) {
-                                        String objectId = parseObject.getObjectId();
-                                        Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
-
-                                        Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
-
-                                        driverHome.putExtra("objectID",objectId);
-                                        startActivity(driverHome);
-
-                                     }
-                                    else {
-                                        String objectId = parseObject.getObjectId();
-                                        Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
-                                        Intent userHome = new Intent(getApplicationContext(), UserHome.class);
-                                       // userHome.putExtra("objectID",objectId);
-                                        startActivity(userHome);
-                                    }
-                                }
-                            });
                         }else {
                             // Signup failed. Look at the ParseException to see what happened.
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
