@@ -1,7 +1,9 @@
 package com.example.dell.mavride;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -13,6 +15,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseUser;
 
 
 public class MapPane extends FragmentActivity implements OnMapReadyCallback {
@@ -127,5 +130,22 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
     }
 
     public void startActivity(View view) {
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.Logout) {
+            ParseUser.logOut();
+            Intent userhome = new Intent(getApplicationContext(), Login.class);
+            startActivity(userhome);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

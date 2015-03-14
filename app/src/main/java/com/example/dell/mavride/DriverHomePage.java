@@ -57,9 +57,13 @@ public class DriverHomePage extends ListActivity {
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
         query2.whereEqualTo("Status", "PickedUp");
 
+        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("RideRequest");
+        query3.whereEqualTo("Status", "Waiting");
+
         List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
         queries.add(query1);
         queries.add(query2);
+        queries.add(query3);
 
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
         mainQuery.orderByDescending("Status");

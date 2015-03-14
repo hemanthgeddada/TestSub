@@ -14,6 +14,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 //import android.widget.Toast;
 
 
@@ -77,13 +78,15 @@ public class UserHome extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.Logout) {
+            ParseUser.logOut();
+            Intent userhome = new Intent(getApplicationContext(), Login.class);
+            startActivity(userhome);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
     //@Override
     /**

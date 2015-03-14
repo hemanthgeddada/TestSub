@@ -13,6 +13,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 
@@ -152,7 +153,10 @@ public class DriverOptions extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.Logout) {
+            ParseUser.logOut();
+            Intent userhome = new Intent(getApplicationContext(), Login.class);
+            startActivity(userhome);
             return true;
         }
 
