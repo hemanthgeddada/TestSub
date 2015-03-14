@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -18,7 +19,7 @@ import com.parse.ParseQuery;
 
 public class UserHome extends Activity {
     String objectid;
-    protected TextView UserLoggedName;
+    //protected TextView UserLoggedName;
     protected Button btnr;
     protected Button btnc;
     protected Button btns;
@@ -35,13 +36,14 @@ public class UserHome extends Activity {
 
         Intent intent=getIntent();
         objectid = intent.getStringExtra("objectID");
-        UserLoggedName = (TextView)findViewById(R.id.txtViewUser);
+        //UserLoggedName = (TextView)findViewById(R.id.txtViewUser);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
         query.getInBackground(objectid , new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     final String UserLogged = object.getString("First_Name");
-                    UserLoggedName.setText("Welcome "+ UserLogged);
+                    //UserLoggedName.setText("Welcome "+ UserLogged);
+                    Toast.makeText(getApplicationContext(), "Welcome " + UserLogged, Toast.LENGTH_LONG).show();
                 } else {
                     // something went wrong
                 }
@@ -81,6 +83,7 @@ public class UserHome extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     //@Override
     /**

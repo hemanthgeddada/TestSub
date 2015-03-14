@@ -28,8 +28,6 @@ public class Login extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
         Email = (EditText)findViewById(R.id.txtEmail);
         nPassword = (EditText)findViewById(R.id.txtPass);
         logBtn = (Button)findViewById(R.id.btnLogin2);
@@ -57,7 +55,7 @@ public class Login extends Activity {
                             String type = parseObject.getString("UserType");
                             if(type.equals("Driver")){
                                 //String objectId = parseObject.getObjectId();
-                                Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
+                               // Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
                                 Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
                                 driverHome.putExtra("objectID",objid);
                                 startActivity(driverHome);
