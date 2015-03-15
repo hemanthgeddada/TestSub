@@ -39,6 +39,7 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
             holder.DvrTxtReqLoc = (TextView) convertView.findViewById(R.id.dvrTxtLoc);
             holder.DvrTxtReqDes = (TextView) convertView.findViewById(R.id.dvrTxtDes);
             holder.DvrTxtReqName = (TextView) convertView.findViewById(R.id.dvrTxtName);
+            holder.DvrTxtReqRiders = (TextView) convertView.findViewById(R.id.dvrTxtRidCnt);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -56,6 +57,10 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
         String Des = Requests.getString("Destination");
         holder.DvrTxtReqDes.setText(Des);
 
+        int Riders = Requests.getInt("NoRiders");
+        String Rid = String.valueOf(Riders);
+        holder.DvrTxtReqRiders.setText(Rid);
+
         String FirstName = Requests.getString("RiderId");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
@@ -68,6 +73,7 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
                 }
             }
         });
+
         return convertView;
     }
 
@@ -76,5 +82,6 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
         TextView DvrTxtReqLoc;
         TextView DvrTxtReqDes;
         TextView DvrTxtReqName;
+        TextView DvrTxtReqRiders;
     }
 }
