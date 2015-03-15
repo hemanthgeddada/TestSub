@@ -14,9 +14,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 
 public class Login extends Activity {
@@ -38,60 +41,79 @@ public class Login extends Activity {
                 final String email = Email.getText().toString().trim();
                 final String password = nPassword.getText().toString().trim();
 
-                ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
-                query1.whereEqualTo("Email", email);
-                query1.whereEqualTo("Password", password);
+                //ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
+                //query1.whereEqualTo("Email", email);
+                //query1.whereEqualTo("Password", password);
                 //query1.whereEqualTo("Type","Driver");
-                //ParseUser.logInInBackground(username, password, new LogInCallback() {
+                ParseUser.logInInBackground(email, password, new LogInCallback() {
+                    public void done(ParseUser parseUser, com.parse.ParseException e) {
 
-                query1.getFirstInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject parseObject, ParseException e) {
-                        // public void done(ParseUser parseUser, com.parse.ParseException e) {
-                        if (e == null) {
-                            // Hooray! The user is logged in.
-                            //   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
-                            String objid = parseObject.getObjectId();
-                            String type = parseObject.getString("UserType");
-                            if(type.equals("Driver")){
-                                //String objectId = parseObject.getObjectId();
-                               // Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
-                                Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
-                                driverHome.putExtra("objectID",objid);
-                                startActivity(driverHome);
-                            }
-                            else{
-                                // String objectId = parseObject.getObjectId();
-                                //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
-                                Intent userHome = new Intent(getApplicationContext(), UserHome.class);
-                                 userHome.putExtra("objectID",objid);
-                                startActivity(userHome);
-                            }
+                        final String obj = parseUser.getObjectId();
+                        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
+                        query1.whereEqualTo("Email", email);
+                        query1.whereEqualTo("Password", password);
 
-                        }else {
-                            // Signup failed. Look at the ParseException to see what happened.
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                            builder.setMessage(e.getMessage());
-                            builder.setTitle("Login Failed");
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int i) {
-                                    dialog.dismiss();
+                        query1.getFirstInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject parseObject, ParseException e) {
+                                // public void done(ParseUser parseUser, com.parse.ParseException e) {
+                                if (e == null) {
+                                    // Hooray! The user is logged in.
+                                    //   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                    parseObject.put("UserId", obj);
+                                    parseObject.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null) {
+                                                Toast.makeText(Login.this, "updated in registration", Toast.LENGTH_LONG).show();
+                                            } else {
+                                                //error
+                                            }
+                                        }
+                                    });
+                                    String objid = parseObject.getObjectId();
+                                    String type = parseObject.getString("UserType");
+                                    if (type.equals("Driver")) {
+                                        //String objectId = parseObject.getObjectId();
+                                        // Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
+                                        Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
+                                        driverHome.putExtra("objectID", objid);
+                                        startActivity(driverHome);
+                                    } else {
+                                        // String objectId = parseObject.getObjectId();
+                                        //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
+                                        Intent userHome = new Intent(getApplicationContext(), UserHome.class);
+                                        userHome.putExtra("objectID", objid);
+                                        startActivity(userHome);
+                                    }
+
+
+                                } else {
+                                    // Signup failed. Look at the ParseException to see what happened.
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                                    builder.setMessage(e.getMessage());
+                                    builder.setTitle("Login Failed");
+                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int i) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+
+                                    // Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
                                 }
-                            });
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
 
-                            // Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
-                        }
+                            }
+                        });
 
                     }
                 });
-
             }
         });
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

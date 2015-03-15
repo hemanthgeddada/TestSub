@@ -15,10 +15,13 @@ import android.widget.Toast;
 
 import com.parse.GetCallback;
 //import com.parse.Parse;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 
 
 public class RegistrationActivity extends Activity {
@@ -120,6 +123,23 @@ public class RegistrationActivity extends Activity {
                         }
                         //store user in parse
                         else{
+                            ParseUser user = new ParseUser();
+                            user.setUsername(email1);
+                            user.setPassword(password1);
+                            user.signUpInBackground(new SignUpCallback() {
+                            @Override
+                              public void done(com.parse.ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(RegistrationActivity.this, "inserted in user", Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    //error
+                                 }
+                            }
+                            });
+                            //String objid = user.getObjectId();
+                            //Toast.makeText(RegistrationActivity.this, objid, Toast.LENGTH_LONG).show();
+
                             ParseObject registration = new ParseObject("Registration");
                             registration.put("First_Name", firstname1);
                             registration.put("Last_Name", lastname1);
@@ -127,6 +147,7 @@ public class RegistrationActivity extends Activity {
                             registration.put("Email", email1);
                             registration.put("PhoneNo", phone1);
                             registration.put("UserType", "Rider");
+                           // registration.put("UserId",objid);
                             registration.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -140,7 +161,6 @@ public class RegistrationActivity extends Activity {
                                     }
                                 }
                             });
-
                         }
                     }
                 });
