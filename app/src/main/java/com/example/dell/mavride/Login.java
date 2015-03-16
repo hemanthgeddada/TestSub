@@ -65,17 +65,41 @@ public class Login extends Activity {
                                         @Override
                                         public void done(ParseException e) {
                                             if (e == null) {
-                                                Toast.makeText(Login.this, "updated in registration", Toast.LENGTH_LONG).show();
+                                              //  Toast.makeText(Login.this, "updated in registration", Toast.LENGTH_LONG).show();
                                             } else {
                                                 //error
                                             }
                                         }
                                     });
-                                    String objid = parseObject.getObjectId();
+                                    final String objid = parseObject.getObjectId();
                                     String type = parseObject.getString("UserType");
                                     if (type.equals("Driver")) {
                                         //String objectId = parseObject.getObjectId();
                                         // Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
+                                        ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
+                                        query.whereEqualTo("DriverId", obj);
+                                        query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                            public void done(ParseObject object, ParseException e) {
+                                                if (e == null) {
+                                                    object.put("DriverStatus","Active");
+                                                    object.saveInBackground(new SaveCallback() {
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            if (e == null) {
+                                                                Toast.makeText(Login.this, "status changed", Toast.LENGTH_LONG).show();
+                                                            } else {
+                                                                //error
+                                                                Toast.makeText(Login.this, "status didnt change", Toast.LENGTH_LONG).show();
+
+                                                            }
+                                                        }
+                                                    });
+                                                } else {
+                                                    // something went wrong
+                                                    Toast.makeText(Login.this, "status changed", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
                                         Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
                                         driverHome.putExtra("objectID", objid);
                                         startActivity(driverHome);

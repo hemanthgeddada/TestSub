@@ -154,6 +154,34 @@ public class DriverOptions extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.Logout) {
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            String obj = currentUser.getObjectId();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
+            query.whereEqualTo("DriverId", obj);
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    if (e == null) {
+                        object.put("DriverStatus","Offline");
+                        object.put("NoAssigned",0);
+                        object.put("CurrentLocation","UC");
+                        object.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(getApplicationContext(), "status changed to default", Toast.LENGTH_LONG).show();
+                                } else {
+                                    //error
+                                    Toast.makeText(getApplicationContext(), "status didnt change", Toast.LENGTH_LONG).show();
+
+                                }
+                            }
+                        });
+                    } else {
+                        // something went wrong
+                        Toast.makeText(getApplicationContext(), "status changed", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
             ParseUser.logOut();
             Intent userhome = new Intent(getApplicationContext(), Login.class);
             startActivity(userhome);
