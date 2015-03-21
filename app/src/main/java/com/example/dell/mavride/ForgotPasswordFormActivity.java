@@ -114,12 +114,13 @@ public class ForgotPasswordFormActivity extends Activity {
                         //code found
                         Toast.makeText(getApplicationContext(),"to new intent",Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(getApplicationContext(), setNewPasswordActivity.class);
+                        intent.putExtra("email",email1);
                         startActivity(intent);
                     }
                     else
                     {
                         //code and email not found
-                        Toast.makeText(getApplicationContext(),"Your code is invalid. Please send email to your email id",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Your code is invalid. Please check or send email to your email id for the code first",Toast.LENGTH_SHORT).show();
                     }
                 }
             });

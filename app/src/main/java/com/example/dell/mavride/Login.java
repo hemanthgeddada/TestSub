@@ -47,12 +47,10 @@ public class Login extends Activity {
                 //query1.whereEqualTo("Type","Driver");
                 ParseUser.logInInBackground(email, password, new LogInCallback() {
                     public void done(ParseUser parseUser, com.parse.ParseException e) {
-
                         final String obj = parseUser.getObjectId();
                         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
                         query1.whereEqualTo("Email", email);
                         query1.whereEqualTo("Password", password);
-
                         query1.getFirstInBackground(new GetCallback<ParseObject>() {
                             @Override
                             public void done(ParseObject parseObject, ParseException e) {
@@ -86,17 +84,16 @@ public class Login extends Activity {
                                                         @Override
                                                         public void done(ParseException e) {
                                                             if (e == null) {
-                                                                Toast.makeText(Login.this, "status changed", Toast.LENGTH_LONG).show();
+                                                                Toast.makeText(Login.this, "Driver status is not Active", Toast.LENGTH_LONG).show();
                                                             } else {
                                                                 //error
-                                                                Toast.makeText(Login.this, "status didnt change", Toast.LENGTH_LONG).show();
-
+                                                                Toast.makeText(Login.this, "Driver status couldn't change", Toast.LENGTH_LONG).show();
                                                             }
                                                         }
                                                     });
                                                 } else {
                                                     // something went wrong
-                                                    Toast.makeText(Login.this, "status changed", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(Login.this, "An error occured in the change status module", Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         });

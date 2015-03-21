@@ -9,14 +9,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.List;
+
 
 public class setNewPasswordActivity extends Activity {
-
-
+    String email;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_new_password);
+        email=getIntent().getStringExtra("email");
+        intent=new Intent(this,Login.class);
     }
 
 
@@ -47,7 +58,7 @@ public class setNewPasswordActivity extends Activity {
     }
     public void onClickSetPassword(View view)
     {
-        String newPassword=((EditText)findViewById(R.id.newPasswordEditText)).getText().toString().trim();
+        final String newPassword=((EditText)findViewById(R.id.newPasswordEditText)).getText().toString().trim();
         String newPasswordConfirm=((EditText)findViewById(R.id.newPasswordConfirmEditText)).getText().toString().trim();
         if(newPassword.isEmpty() || newPasswordConfirm.isEmpty() || !newPassword.equals(newPasswordConfirm))
         {
@@ -55,11 +66,41 @@ public class setNewPasswordActivity extends Activity {
             t.show();
             return;
         }
-        //delete parse objects from forgot_password
         //update in registration object
-        Toast.makeText(getApplicationContext(),"You can now login with your new password",Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(this,Login.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        ParseQuery<ParseObject> query=ParseQuery.getQuery("Registration");
+        query.whereEqualTo("Email",email);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if(e==null) {
+                    parseObject.put("Password",newPassword);
+                    parseObject.saveInBackground();
+                    ParseUser currentUser=ParseUser.getCurrentUser();
+                    if(currentUser !=null)
+                    {
+                        currentUser.setPassword(newPassword);
+                        currentUser.saveInBackground();
+                    }
+                    //delete parse objects from forgot_password
+                    ParseQuery<ParseObject> query1 = ParseQuery.getQuery("forgot_password");
+                    query1.whereEqualTo("email", email);
+                    query1.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> parseObjects, ParseException e) {
+                            int i=0;
+                            while(i<parseObjects.size())
+                            {
+                                //System.out.println("object: "+parseObjects.get(i).get("code").toString());
+                                parseObjects.get(i).deleteInBackground();
+                                i++;
+                            }
+                        }
+                    });
+                    Toast.makeText(getApplicationContext(),"You can now login with your new password",Toast.LENGTH_SHORT).show();
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }
