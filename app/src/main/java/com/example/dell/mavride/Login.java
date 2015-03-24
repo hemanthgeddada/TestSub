@@ -73,21 +73,9 @@ public class Login extends Activity {
                                                 public void done(ParseObject object, ParseException e) {
                                                     if (e == null) {
                                                         object.put("DriverStatus","Active");
-                                                        object.saveInBackground(new SaveCallback() {
-                                                            @Override
-                                                            public void done(ParseException e) {
-                                                                if (e == null) {
-                                                                    Toast.makeText(Login.this, "Driver status is not Active", Toast.LENGTH_LONG).show();
-                                                                }
-                                                                else {
-                                                                    //error
-                                                                    Toast.makeText(Login.this, "Driver status couldn't change", Toast.LENGTH_LONG).show();
-                                                                }
-                                                            }
-                                                        });
+                                                        object.saveInBackground();
                                                     }
                                                     else {
-                                                        // something went wrong
                                                         Toast.makeText(Login.this, "An error occured in the change status module", Toast.LENGTH_LONG).show();
                                                     }
                                                 }
@@ -96,15 +84,13 @@ public class Login extends Activity {
                                             driverHome.putExtra("objectID", objid);
                                             startActivity(driverHome);
                                         } else {
-                                            // String objectId = parseObject.getObjectId();
-                                            //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
                                             Intent userHome = new Intent(getApplicationContext(), UserHome.class);
                                             userHome.putExtra("objectID", objid);
                                             startActivity(userHome);
                                         }
                                     }
                                     else {
-                                        Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Login.this, "Login failed because of registration table", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -113,7 +99,7 @@ public class Login extends Activity {
                         else {
                             // Signup failed. Look at the ParseException to see what happened.
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                            builder.setMessage(e.getMessage());
+                            builder.setMessage("Invalid Username/Password");
                             builder.setTitle("Login Failed");
                             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
