@@ -54,65 +54,64 @@ public class Login extends Activity {
                             query1.whereEqualTo("Email", email);
                             query1.whereEqualTo("Password", password);
                             query1.getFirstInBackground(new GetCallback<ParseObject>() {
-                            @Override
-                            public void done(ParseObject parseObject, ParseException e) {
-                                // public void done(ParseUser parseUser, com.parse.ParseException e) {
-                                if (e == null) {
-                                    // Hooray! The user is logged in.
-                                    //   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
-                                    parseObject.put("UserId", obj);
-                                    parseObject.saveInBackground();
-                                    final String objid = parseObject.getObjectId();
-                                    String type = parseObject.getString("UserType");
-                                    if (type.equals("Driver")) {
-                                        //String objectId = parseObject.getObjectId();
-                                        // Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
-                                        ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
-                                        query.whereEqualTo("DriverId", obj);
-                                        query.getFirstInBackground(new GetCallback<ParseObject>() {
-                                            public void done(ParseObject object, ParseException e) {
-                                                if (e == null) {
-                                                    object.put("DriverStatus","Active");
-                                                    object.saveInBackground(new SaveCallback() {
-                                                        @Override
-                                                        public void done(ParseException e) {
-                                                            if (e == null) {
-                                                                Toast.makeText(Login.this, "Driver status is not Active", Toast.LENGTH_LONG).show();
-                                                            } else {
-                                                                //error
-                                                                Toast.makeText(Login.this, "Driver status couldn't change", Toast.LENGTH_LONG).show();
+                                @Override
+                                public void done(ParseObject parseObject, ParseException e) {
+                                    // public void done(ParseUser parseUser, com.parse.ParseException e) {
+                                    if (e == null) {
+                                        // Hooray! The user is logged in.
+                                        //   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                        parseObject.put("UserId", obj);
+                                        parseObject.saveInBackground();
+                                        final String objid = parseObject.getObjectId();
+                                        String type = parseObject.getString("UserType");
+                                        if (type.equals("Driver")) {
+                                            //String objectId = parseObject.getObjectId();
+                                            // Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
+                                            ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
+                                            query.whereEqualTo("DriverId", obj);
+                                            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                public void done(ParseObject object, ParseException e) {
+                                                    if (e == null) {
+                                                        object.put("DriverStatus","Active");
+                                                        object.saveInBackground(new SaveCallback() {
+                                                            @Override
+                                                            public void done(ParseException e) {
+                                                                if (e == null) {
+                                                                    Toast.makeText(Login.this, "Driver status is not Active", Toast.LENGTH_LONG).show();
+                                                                }
+                                                                else {
+                                                                    //error
+                                                                    Toast.makeText(Login.this, "Driver status couldn't change", Toast.LENGTH_LONG).show();
+                                                                }
                                                             }
-                                                        }
-                                                    });
-                                                } else {
-                                                    // something went wrong
-                                                    Toast.makeText(Login.this, "An error occured in the change status module", Toast.LENGTH_LONG).show();
+                                                        });
+                                                    }
+                                                    else {
+                                                        // something went wrong
+                                                        Toast.makeText(Login.this, "An error occured in the change status module", Toast.LENGTH_LONG).show();
+                                                    }
                                                 }
-                                            }
-                                        });
-                                        Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
-                                        driverHome.putExtra("objectID", objid);
-                                        startActivity(driverHome);
-                                    } else {
-                                        // String objectId = parseObject.getObjectId();
-                                        //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
-                                        Intent userHome = new Intent(getApplicationContext(), UserHome.class);
-                                        userHome.putExtra("objectID", objid);
-                                        startActivity(userHome);
+                                            });
+                                            Intent driverHome = new Intent(getApplicationContext(), DriverHomePage.class);
+                                            driverHome.putExtra("objectID", objid);
+                                            startActivity(driverHome);
+                                        } else {
+                                            // String objectId = parseObject.getObjectId();
+                                            //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
+                                            Intent userHome = new Intent(getApplicationContext(), UserHome.class);
+                                            userHome.putExtra("objectID", objid);
+                                            startActivity(userHome);
+                                        }
                                     }
-
-
-                                } else {
-                                     Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
+                                    else {
+                                        Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
+                                    }
                                 }
+                            });
+                        }
 
-                            }
-                        });
-
-                    }
-
-                    else{
-                        // Signup failed. Look at the ParseException to see what happened.
+                        else {
+                            // Signup failed. Look at the ParseException to see what happened.
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                             builder.setMessage(e.getMessage());
                             builder.setTitle("Login Failed");
