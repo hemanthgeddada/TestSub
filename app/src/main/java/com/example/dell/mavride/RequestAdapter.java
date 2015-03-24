@@ -39,8 +39,7 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
             holder.DvrTxtReqLoc = (TextView) convertView.findViewById(R.id.dvrTxtLoc);
             holder.DvrTxtReqDes = (TextView) convertView.findViewById(R.id.dvrTxtDes);
             // remove after homework holder.DvrTxtReqName = (TextView) convertView.findViewById(R.id.dvrTxtName);
-            holder.DvrTxtReqFName = (TextView) convertView.findViewById(R.id.dvrTxtName);
-            holder.DvrTxtReqLName = (TextView) convertView.findViewById(R.id.dvrTxtName);
+            holder.DvrTxtReqName = (TextView) convertView.findViewById(R.id.dvrTxtName);
             holder.DvrTxtReqRiders = (TextView) convertView.findViewById(R.id.dvrTxtRidCnt);
             convertView.setTag(holder);
         } else {
@@ -71,20 +70,7 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
             public void done(ParseObject parseObject, com.parse.ParseException e) {
                 if(e==null){
                     final String FName = parseObject.getString("First_Name");
-                    holder.DvrTxtReqFName.setText(FName);
-                }
-            }
-        });
-
-        String LastName = Requests.getString("RiderId");
-
-        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
-        query1.getInBackground(FirstName, new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, com.parse.ParseException e) {
-                if(e==null){
-                    final String LName = parseObject.getString("Last_Name");
-                    holder.DvrTxtReqFName.setText(LName);
+                    holder.DvrTxtReqName.setText(FName);
                 }
             }
         });
@@ -96,8 +82,7 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
         TextView DvrTxtReqStatus;
         TextView DvrTxtReqLoc;
         TextView DvrTxtReqDes;
-        TextView DvrTxtReqFName;
-        TextView DvrTxtReqLName;
+        TextView DvrTxtReqName;
         TextView DvrTxtReqRiders;
     }
 }

@@ -47,11 +47,13 @@ public class Login extends Activity {
                 //query1.whereEqualTo("Type","Driver");
                 ParseUser.logInInBackground(email, password, new LogInCallback() {
                     public void done(ParseUser parseUser, com.parse.ParseException e) {
-                        final String obj = parseUser.getObjectId();
-                        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
-                        query1.whereEqualTo("Email", email);
-                        query1.whereEqualTo("Password", password);
-                        query1.getFirstInBackground(new GetCallback<ParseObject>() {
+                        if(e== null){
+                            final String obj = parseUser.getObjectId();
+                            Toast.makeText(getApplicationContext(), obj, Toast.LENGTH_LONG).show();
+                            ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
+                            query1.whereEqualTo("Email", email);
+                            query1.whereEqualTo("Password", password);
+                            query1.getFirstInBackground(new GetCallback<ParseObject>() {
                             @Override
                             public void done(ParseObject parseObject, ParseException e) {
                                 // public void done(ParseUser parseUser, com.parse.ParseException e) {
@@ -59,16 +61,7 @@ public class Login extends Activity {
                                     // Hooray! The user is logged in.
                                     //   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
                                     parseObject.put("UserId", obj);
-                                    parseObject.saveInBackground(new SaveCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
-                                            if (e == null) {
-                                              //  Toast.makeText(Login.this, "updated in registration", Toast.LENGTH_LONG).show();
-                                            } else {
-                                                //error
-                                            }
-                                        }
-                                    });
+                                    parseObject.saveInBackground();
                                     final String objid = parseObject.getObjectId();
                                     String type = parseObject.getString("UserType");
                                     if (type.equals("Driver")) {
@@ -110,25 +103,28 @@ public class Login extends Activity {
 
 
                                 } else {
-                                    // Signup failed. Look at the ParseException to see what happened.
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setMessage(e.getMessage());
-                                    builder.setTitle("Login Failed");
-                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int i) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                    AlertDialog dialog = builder.create();
-                                    dialog.show();
-
-                                    // Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
+                                     Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
                                 }
 
                             }
                         });
 
+                    }
+
+                    else{
+                        // Signup failed. Look at the ParseException to see what happened.
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                            builder.setMessage(e.getMessage());
+                            builder.setTitle("Login Failed");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int i) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
                     }
                 });
             }
