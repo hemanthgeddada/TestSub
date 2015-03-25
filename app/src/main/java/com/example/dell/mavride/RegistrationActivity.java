@@ -100,6 +100,7 @@ public class RegistrationActivity extends Activity {
                 //get user's values and convert them to string
                 ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
                 query2.whereEqualTo("Email", email1);
+                query2.whereEqualTo("UserType", "Rider");
                 //whereEqualTo specifies a selection condition for a particular tuple like where Email = email1 in table Registration
                 query2.getFirstInBackground(new GetCallback<ParseObject>() {
                     @Override
