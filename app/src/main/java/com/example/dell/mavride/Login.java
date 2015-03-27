@@ -49,7 +49,7 @@ public class Login extends Activity {
                     public void done(ParseUser parseUser, com.parse.ParseException e) {
                         if(e== null){
                             final String obj = parseUser.getObjectId();
-                            Toast.makeText(getApplicationContext(), obj, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), obj, Toast.LENGTH_LONG).show();
                             ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
                             query1.whereEqualTo("Email", email);
                             query1.whereEqualTo("Password", password);
@@ -76,7 +76,7 @@ public class Login extends Activity {
                                                         object.saveInBackground();
                                                     }
                                                     else {
-                                                        Toast.makeText(Login.this, "An error occured in the change status module", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(Login.this, "An error occurred in the change status module", Toast.LENGTH_LONG).show();
                                                     }
                                                 }
                                             });

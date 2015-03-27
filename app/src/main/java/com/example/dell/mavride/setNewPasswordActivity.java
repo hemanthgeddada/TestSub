@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -21,6 +22,7 @@ import java.util.List;
 
 public class setNewPasswordActivity extends Activity {
     String email;
+    String oldPassword;
     Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +46,10 @@ public class setNewPasswordActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
     public void onClickCancel(View view)
@@ -66,21 +66,38 @@ public class setNewPasswordActivity extends Activity {
             t.show();
             return;
         }
-        //update in registration object
-        ParseQuery<ParseObject> query=ParseQuery.getQuery("Registration");
+        if(newPassword.length()<6)
+        {
+            Toast.makeText(getApplicationContext(), "The password needs to be atleast 6 digits", Toast.LENGTH_SHORT).show();
+            return;
+        }
+       //update in registration object-0o;'//
+       ParseQuery<ParseObject> query=ParseQuery.getQuery("Registration");
         query.whereEqualTo("Email",email);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if(e==null) {
-                    parseObject.put("Password",newPassword);
+                    oldPassword=parseObject.getString("Password");
+                    parseObject.put("Password", newPassword);
                     parseObject.saveInBackground();
-                    ParseUser currentUser=ParseUser.getCurrentUser();
-                    if(currentUser !=null)
-                    {
-                        currentUser.setPassword(newPassword);
-                        currentUser.saveInBackground();
-                    }
+                    ParseUser.logInInBackground(email, oldPassword, new LogInCallback() {
+                        @Override
+                        public void done(ParseUser parseUser, ParseException e) {
+                            if (e == null) {
+                                parseUser.setPassword(newPassword);
+                                try {
+                                    parseUser.save();
+                                }catch (ParseException pe)
+                                {
+                                    System.out.println("an error occured while saving password"+pe.getMessage());
+                                }
+                                ParseUser.logOut();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error logging in during password change", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                     //delete parse objects from forgot_password
                     ParseQuery<ParseObject> query1 = ParseQuery.getQuery("forgot_password");
                     query1.whereEqualTo("email", email);

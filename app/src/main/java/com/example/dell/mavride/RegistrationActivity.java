@@ -86,14 +86,18 @@ public class RegistrationActivity extends Activity {
                 final String password1 = password.getText().toString().trim();
                 if(password1.isEmpty())
                 {
-                    Toast.makeText(getApplicationContext(), "Please enter your Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enter the password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-               final String phone1 = phone.getText().toString().trim();
-                if(phone1.isEmpty())
+                if(password1.length()<6)
                 {
-                    Toast.makeText(getApplicationContext(), "Please enter your Phone Number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "The password has to be minimum 6 digits.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+               final String phone1 = phone.getText().toString().trim();
+                if(phone1.isEmpty()||phone1.length()<10)
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter a valid Phone Number", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -134,7 +138,7 @@ public class RegistrationActivity extends Activity {
                                     Toast.makeText(RegistrationActivity.this, "inserted in user", Toast.LENGTH_LONG).show();
                                 }
                                 else {
-                                    //error
+                                    Toast.makeText(RegistrationActivity.this, "error inserting in user", Toast.LENGTH_LONG).show();
                                  }
                             }
                             });
@@ -158,7 +162,7 @@ public class RegistrationActivity extends Activity {
                                         Intent intent = new Intent(getApplicationContext(), Login.class);
                                         startActivity(intent);
                                     }else{
-                                        Toast.makeText(RegistrationActivity.this, "Some Error Occured, Try Again", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegistrationActivity.this, "Some Error Occurred, Try Again", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
