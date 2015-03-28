@@ -29,13 +29,12 @@ public class DriverHomePage extends ListActivity {
     protected List<ParseObject> request;
     //protected TextView UserName;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_home_page);
-
+        DriverAllocation allocate = new DriverAllocation();
+        allocate.allocation();
         Intent intent=getIntent();
         objectid = intent.getStringExtra("objectID");
        // UserName = (TextView)findViewById(R.id.textView);

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
@@ -72,7 +73,7 @@ public class Login extends Activity {
                                             query.getFirstInBackground(new GetCallback<ParseObject>() {
                                                 public void done(ParseObject object, ParseException e) {
                                                     if (e == null) {
-                                                        object.put("DriverStatus","Active");
+                                                        object.put("DriverStatus","Online");
                                                         object.saveInBackground();
                                                     }
                                                     else {
