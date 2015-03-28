@@ -31,7 +31,7 @@
 
         android:layout_gravity="center_horizontal"
 
-        android:layout_marginLeft="120dp"
+        android:layout_marginLeft="115dp"
         android:background="#ff8800"
         android:spinnerMode="dropdown" />
 
