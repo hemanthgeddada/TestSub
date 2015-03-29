@@ -32,7 +32,7 @@ public class DriverAllocation {
                             @Override
                             public void done(List<ParseObject> ridesList, ParseException e) {
                                 if (e == null) {
-                                    ridersCount[0] = 0;
+                                     ridersCount[0] = 0;
                                     for (int i = 0; i < ridesList.size(); i++) {
                                         ParseObject rideObj = ridesList.get(i);
                                         if (ridersCount[0] >= 3) {
