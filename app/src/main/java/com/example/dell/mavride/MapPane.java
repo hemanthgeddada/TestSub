@@ -62,6 +62,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
         String[] items1 = new String[]{"Source", "Destination"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items1);
         dropdown1.setAdapter(adapter1);
+
         request= (Button) findViewById(R.id.request_button);
         NoOfRider= (Spinner) findViewById(R.id.NoOfRider);
 
