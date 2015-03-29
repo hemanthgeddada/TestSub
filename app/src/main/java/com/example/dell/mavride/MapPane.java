@@ -61,6 +61,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
 
         request= (Button) findViewById(R.id.request_button);
         NoOfRider= (Spinner) findViewById(R.id.NoOfRider);
+
     }
 
     private void addGoogleMap() {
