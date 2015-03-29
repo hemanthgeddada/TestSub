@@ -130,11 +130,11 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, Goo
 
 
 
-         googleMap.addMarker(new MarkerOptions()
+        /** googleMap.addMarker(new MarkerOptions()
          .position(new LatLng(32.7310,-97.1150))
          .title("Marker"));
          googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13))
-         googleMap.setMapType(googleMap.MAP_TYPE_TERRAIN);
+         googleMap.setMapType(googleMap.MAP_TYPE_TERRAIN);**/
 
     }
 
