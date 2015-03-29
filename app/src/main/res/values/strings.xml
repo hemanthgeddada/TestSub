@@ -27,5 +27,6 @@
     <string name="title_activity_set_new_password">Set New Password</string>
     <string name="Name">Name</string>
     <string name="Destination">Destination</string>
+    <string name="title_activity_driver_timer">DriverTimer</string>
 
 </resources>
