@@ -184,7 +184,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        Log.i("GoogleMapActivity", "onMarkerClick");
+        Log.i("MapPane", "onMarkerClick");
        final LatLng src = marker.getPosition();
 
         Toast.makeText(getApplicationContext(),
