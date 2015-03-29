@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,7 +40,8 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
 
     private GoogleMap googleMap;
 
-
+    protected Button request;
+    protected Spinner NoOfRider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +54,13 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
                 .findFragmentById(R.id.map);
                 mapfragment.getMapAsync(this);
         Toast.makeText(getApplicationContext(), "Select Your Source and Destination On the Map", Toast.LENGTH_LONG).show();
-        Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
+        Spinner dropdown = (Spinner)findViewById(R.id.NoOfRider);
         String[] items = new String[]{"1", "2", "3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
+
+        request= (Button) findViewById(R.id.request_button);
+        NoOfRider= (Spinner) findViewById(R.id.NoOfRider);
     }
 
     private void addGoogleMap() {
@@ -179,22 +184,33 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     public boolean onMarkerClick(Marker marker) {
 
         Log.i("GoogleMapActivity", "onMarkerClick");
-        LatLng src = marker.getPosition();
-        ParseObject map = new ParseObject("Location");
-        map.put("Source", src);
+       final LatLng src = marker.getPosition();
+
         Toast.makeText(getApplicationContext(),
                 "Your current location is " + marker.getTitle(), Toast.LENGTH_LONG)
                 .show();
-        LatLng dest = marker.getPosition();
-        map.put("Destination", dest);
+       final LatLng dest = marker.getPosition();
+
         Toast.makeText(getApplicationContext(),
                 "Your destination is  " + marker.getTitle(), Toast.LENGTH_LONG)
                 .show();
-        return false;
-    }
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseObject map = new ParseObject("RideRequest");
+                map.put("Source", src);
+                map.put("Destination", dest);
+                map.put("NoRider", NoOfRider);
 
-    @Override
+            }
+
+    });
+
+        return false;
+
+    }@Override
     public void onMapReady(GoogleMap googleMap) {
 
     }
 }
+
