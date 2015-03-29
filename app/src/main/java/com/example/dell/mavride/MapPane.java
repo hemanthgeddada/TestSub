@@ -58,7 +58,10 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
         String[] items = new String[]{"1", "2", "3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
-
+        Spinner dropdown1 = (Spinner)findViewById(R.id.select);
+        String[] items1 = new String[]{"Source", "Destination"};
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items1);
+        dropdown1.setAdapter(adapter1);
         request= (Button) findViewById(R.id.request_button);
         NoOfRider= (Spinner) findViewById(R.id.NoOfRider);
 
@@ -68,7 +71,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
 
         // check if we have got the googleMap already
         if (googleMap == null) {
-            googleMap = ((SupportMapFragment) getSupportFragmentManager()
+            googleMap = ((MapFragment) getFragmentManager()
                     .findFragmentById(R.id.map)).getMap();
             googleMap.setOnMarkerClickListener(this);
             googleMap.setOnMarkerDragListener(this);
