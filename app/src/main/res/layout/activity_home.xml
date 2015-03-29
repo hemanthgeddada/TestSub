@@ -7,10 +7,11 @@
     android:id="@+id/map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:name="com.google.android.gms.maps.MapFragment"/>
 
     <Button
-        android:id="@+id/startActivityButton"
+        android:id="@+id/request"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
@@ -23,7 +24,7 @@
         android:layout_alignParentBottom="true"  />
 
     <Spinner
-        android:id="@+id/spinner1"
+        android:id="@+id/NoOfRider"
 
         android:layout_marginTop="80dp"
         android:layout_width="150dp"

@@ -73,35 +73,14 @@ public class DriverOptions extends Activity {
 
             public void onClick(View view)
             {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
-                query.getInBackground(objectid, new GetCallback<ParseObject>() {
-                    public void done(ParseObject RideRequest, ParseException e) {
-                        if (e == null) {
-
-                            String rideStatus=RideRequest.getString("Status");
-                            RideRequest.put("Status","Waiting");
-                            RideRequest.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if(e == null){
-                                        Toast.makeText(getApplicationContext(), "Driver is Waiting", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(), DriverHomePage.class);
-                                        startActivity(intent);
-                                    }
-                                    else{
-                                        Toast.makeText(getApplicationContext(), "update failed", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                        }else{
-                            //error
-                        }
-                    }
-                });
-
+                Intent intent=new Intent(getApplicationContext(), DriverTimer.class);
+                intent.putExtra("objectId",objectid);
+                startActivity(intent);
             }
 
         });
+
+
         dropbtn.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view)
@@ -111,7 +90,7 @@ public class DriverOptions extends Activity {
                     public void done(ParseObject RideRequest, ParseException e) {
                         if (e == null) {
 
-                            String rideStatus=RideRequest.getString("Status");
+
                             RideRequest.put("Status","Dropped");
                             RideRequest.saveInBackground(new SaveCallback() {
                                 @Override

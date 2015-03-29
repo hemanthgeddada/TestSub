@@ -3,9 +3,11 @@ package com.example.dell.mavride;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -14,12 +16,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 
-public class MapPane extends FragmentActivity implements OnMapReadyCallback {
+public class MapPane extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener,GoogleMap.OnMarkerDragListener {
 
+    protected Spinner NoOfRider;
+
+    protected Button request;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +36,11 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
                 mapfragment.getMapAsync(this);
         Toast.makeText(getApplicationContext(), "Select Your Source and Destination On the Map", Toast.LENGTH_LONG).show();
-        Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
+        Spinner dropdown = (Spinner)findViewById(R.id.NoOfRider);
         String[] items = new String[]{"1", "2", "3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
+
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -102,6 +110,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
                 .snippet("Lipscomb Hall")
                 .position(lh));
 
+
         LatLng wh = new LatLng(32.731606,-97.112588);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wh,16));
@@ -129,6 +138,41 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
 
     }
 
+
+
+    public boolean onMarkerClick(Marker marker) {
+
+        Log.i("MapPane", "onMarkerClick");
+        final LatLng src = marker.getPosition();
+
+        Toast.makeText(getApplicationContext(),
+                "Your current location is " + marker.getTitle(), Toast.LENGTH_LONG)
+                .show();
+        final LatLng dest = marker.getPosition();
+
+        Toast.makeText(getApplicationContext(),
+                "Your destination is  " + marker.getTitle(), Toast.LENGTH_LONG)
+                .show();
+
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseObject map = new ParseObject("RideRequest");
+                map.put("Source", src);
+                map.put("Destination", dest);
+                map.put("NoRider", NoOfRider);
+
+
+
+            }
+
+        });
+
+        return false;
+
+    }
+
+
     public void startActivity(View view) {
     }
     @Override
@@ -147,5 +191,20 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+
     }
 }

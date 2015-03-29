@@ -86,9 +86,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.dell.mavride.Login" />
         </activity>
-        <activity android:theme="@android:style/Theme.Holo.Dialog"
+        <activity
             android:name=".setNewPasswordActivity"
-            android:label="@string/title_activity_set_new_password" >
+            android:label="@string/title_activity_set_new_password"
+            android:theme="@android:style/Theme.Holo.Dialog" >
+        </activity>
+        <activity
+            android:name=".DriverTimer"
+            android:label="@string/title_activity_driver_timer"
+            android:parentActivityName=".DriverOptions"
+            android:theme="@android:style/Theme.Holo.Dialog">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dell.mavride.DriverOptions" />
         </activity>
     </application>
 
