@@ -44,90 +44,98 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, Goo
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Marker marker;
         LatLng erb = new LatLng(32.7330729,-97.1130619);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(erb,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("ERB")
                 .snippet("ERB")
                 .position(erb));
+        onMarkerClick(marker);
 
         LatLng nh = new LatLng(32.7324781,-97.1138454);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nh,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("NH")
                 .snippet("Nedderman Hall")
                 .position(nh));
+        onMarkerClick(marker);
 
 
         LatLng uc = new LatLng(32.731654,-97.110998);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uc,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("UC")
                 .snippet("University Center")
                 .position(uc));
+        onMarkerClick(marker);
 
         LatLng cl = new LatLng(32.729659,-97.112958);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cl,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("CL")
                 .snippet("Central library")
                 .position(cl));
+        onMarkerClick(marker);
 
         LatLng uh = new LatLng(32.7290307,-97.1138804);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(uh,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("UH")
                 .snippet("University Hall")
                 .position(uh));
+        onMarkerClick(marker);
 
         LatLng kc = new LatLng(32.728002,-97.109622);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kc,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("KCH")
                 .snippet("Kalpana Chawla Hall")
                 .position(kc));
+        onMarkerClick(marker);
 
         LatLng pl = new LatLng(32.730395,-97.111811);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pl,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("PL")
                 .snippet("Planeterium")
                 .position(pl));
-
+        onMarkerClick(marker);
 
         LatLng lh = new LatLng(32.7290878,-97.1082488);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lh,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("LH")
                 .snippet("Lipscomb Hall")
                 .position(lh));
-
+        onMarkerClick(marker);
 
         LatLng wh = new LatLng(32.731606,-97.112588);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wh,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker=googleMap.addMarker(new MarkerOptions()
                 .title("WH")
                 .snippet("Woolf Hall")
                 .position(wh));
+        onMarkerClick(marker);
 
 
         LatLng ah = new LatLng(32.7310998,-97.1093611);
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ah,16));
-        googleMap.addMarker(new MarkerOptions()
+        marker = googleMap.addMarker(new MarkerOptions()
                 .title("AH")
                 .snippet("Arlington Hall")
                 .position(ah));
-
+        onMarkerClick(marker);
 
 
         /** googleMap.addMarker(new MarkerOptions()
