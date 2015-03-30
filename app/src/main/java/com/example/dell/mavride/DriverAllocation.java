@@ -5,6 +5,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,9 +25,25 @@ public class DriverAllocation {
                         final ParseObject obj = userList.get(i);
                         ridersCount[0] = 0;
                         final String driverId = obj.getString("DriverId");
-                        ParseQuery<ParseObject> NoOfRiders = ParseQuery.getQuery("RideRequest");
-                        NoOfRiders.whereEqualTo("DriverId", driverId);
-                        NoOfRiders.whereEqualTo("Status", "Pending");
+                        ParseQuery<ParseObject> NoOfRiders_Pending = ParseQuery.getQuery("RideRequest");
+                        NoOfRiders_Pending.whereEqualTo("DriverId", driverId);
+                        NoOfRiders_Pending.whereEqualTo("Status", "Pending");
+
+                        ParseQuery<ParseObject> NoOfRiders_Pickedup = ParseQuery.getQuery("RideRequest");
+                        NoOfRiders_Pickedup.whereEqualTo("DriverId", driverId);
+                        NoOfRiders_Pickedup.whereEqualTo("Status", "PickedUp");
+
+                        ParseQuery<ParseObject> NoOfRiders_Waiting = ParseQuery.getQuery("RideRequest");
+                        NoOfRiders_Waiting.whereEqualTo("DriverId", driverId);
+                        NoOfRiders_Waiting.whereEqualTo("Status", "Waiting");
+
+                        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+                        queries.add(NoOfRiders_Pending);
+                        queries.add(NoOfRiders_Pickedup);
+                        queries.add(NoOfRiders_Waiting);
+
+                        ParseQuery<ParseObject> NoOfRiders = ParseQuery.or(queries);
+                        NoOfRiders.orderByAscending("updatedAt");
                         //must include remianing status
                         NoOfRiders.findInBackground(new FindCallback<ParseObject>() {
                             @Override

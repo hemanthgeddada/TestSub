@@ -29,6 +29,8 @@
             android:name=".MapPane"
             android:label="@string/app_name"
             android:parentActivityName=".UserHome" >
+
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.dell.mavride.UserHome" />
@@ -41,6 +43,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".UserHome"

@@ -1,11 +1,14 @@
 package com.example.dell.mavride;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -21,8 +24,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.Objects;
 
 
 public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener, OnMarkerDragListener {
@@ -42,6 +49,10 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
 
     protected Button request;
     protected Spinner NoOfRider;
+    public String source;
+    public String destination;
+    public String ridersCount;
+    protected String place;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,17 +66,93 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
                 mapfragment.getMapAsync(this);
         Toast.makeText(getApplicationContext(), "Select Your Source and Destination On the Map", Toast.LENGTH_LONG).show();
         Spinner dropdown = (Spinner)findViewById(R.id.NoOfRider);
-        String[] items = new String[]{"1", "2", "3"};
+        String[] items = new String[]{"No of Riders","1", "2", "3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
         Spinner dropdown1 = (Spinner)findViewById(R.id.select);
         String[] items1 = new String[]{"Source", "Destination"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items1);
         dropdown1.setAdapter(adapter1);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String riders = (String) parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(),"selected :  " + riders, Toast.LENGTH_LONG).show();
+                ridersCount = riders;
+            }
 
-        request= (Button) findViewById(R.id.request_button);
-        NoOfRider= (Spinner) findViewById(R.id.NoOfRider);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
+                builder.setMessage("Please select no of riders");
+                builder.setTitle("Select Riders");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
+        dropdown1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                             @Override
+                                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                 String location = (String) parent.getItemAtPosition(position);
+                                                 Toast.makeText(getApplicationContext(),"selected :  " + location, Toast.LENGTH_LONG).show();
+                                                 place = location;
+                                             }
+
+                                             @Override
+                                             public void onNothingSelected(AdapterView<?> parent) {
+                                                 AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
+                                                 builder.setMessage("Please select Source or Destination");
+                                                 builder.setTitle("Select Location ");
+                                                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(DialogInterface dialog, int i) {
+                                                         dialog.dismiss();
+                                                     }
+                                                 });
+                                                 AlertDialog dialog = builder.create();
+                                                 dialog.show();
+                                             }
+                                         });
+        request= (Button) findViewById(R.id.request);
+       // NoOfRider= (Spinner) findViewById(R.id.NoOfRider);
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int riders = Integer.parseInt(ridersCount);
+               // final String userid;
+                ParseUser currentUser = ParseUser.getCurrentUser();
+               // if (currentUser != null) {
+                //    userid = currentUser.getObjectId();
+                //}
+                ParseObject map = new ParseObject("RideRequest");
+                map.put("Status","Unallocated");
+                map.put("Source", source);
+                map.put("Destination", destination);
+                map.put("NoRiders", riders);
+               // map.put("RiderId",userid);
+                map.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e==null){
+                            //Toast
+                            Toast.makeText(getApplicationContext(), "You have been Successfully Registered", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getApplicationContext(), UserHome.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Some Error Occurred, Try Again", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+
+        });
 
     }
 
@@ -190,29 +277,21 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     public boolean onMarkerClick(Marker marker) {
 
         Log.i("MapPane", "onMarkerClick");
+
        final LatLng src = marker.getPosition();
 
         Toast.makeText(getApplicationContext(),
-                "Your current location is " + marker.getTitle(), Toast.LENGTH_LONG)
+                "Your selected location is " + marker.getTitle(), Toast.LENGTH_LONG)
                 .show();
-       final LatLng dest = marker.getPosition();
+      // final LatLng dest = marker.getPosition();
+        if(place.equals("Source")){
+            source = marker.getTitle();
+        }
+        if (place.equals("Destination")){
+            destination = marker.getTitle();
+        }
+      //  Toast.makeText(getApplicationContext(),"Your destination is  " + marker.getTitle(), Toast.LENGTH_LONG).show();
 
-        Toast.makeText(getApplicationContext(),
-                "Your destination is  " + marker.getTitle(), Toast.LENGTH_LONG)
-                .show();
-        request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseObject map = new ParseObject("RideRequest");
-                map.put("Source", src);
-                map.put("Destination", dest);
-                map.put("NoRider", NoOfRider);
-
-
-
-            }
-
-    });
 
         return false;
 

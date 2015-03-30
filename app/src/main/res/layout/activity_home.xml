@@ -12,8 +12,8 @@
 
     <Button
         android:id="@+id/request"
-        android:layout_width="100"
-        android:layout_height="30"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
         android:onClick="startActivity"
         android:layout_marginLeft="270dp"
@@ -26,8 +26,8 @@
     <Spinner
         android:id="@+id/NoOfRider"
         android:layout_marginTop="50dp"
-        android:layout_width="100"
-        android:layout_height="40"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="270dp"
         android:background="#ff8800"
         android:spinnerMode="dropdown" />
@@ -35,8 +35,8 @@
     <Spinner
 
         android:layout_marginTop="100dp"
-        android:layout_width="100"
-        android:layout_height="40"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:id="@+id/select"
         android:layout_marginLeft="270dp"
         android:background="#ff8800"
