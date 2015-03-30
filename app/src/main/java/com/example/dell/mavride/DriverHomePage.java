@@ -37,9 +37,10 @@ public class DriverHomePage extends ListActivity {
         allocate.allocation();
         Intent intent=getIntent();
         objectid = intent.getStringExtra("objectID");
-       // UserName = (TextView)findViewById(R.id.textView);
+        ParseUser userLogged = ParseUser.getCurrentUser();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
-        query.getInBackground(objectid , new GetCallback<ParseObject>() {
+        query.whereEqualTo("UserId", userLogged.getObjectId());
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     final String UserLogged = object.getString("First_Name");
@@ -52,12 +53,15 @@ public class DriverHomePage extends ListActivity {
         });
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("RideRequest");
+        query1.whereEqualTo("DriverId", userLogged.getObjectId());
         query1.whereEqualTo("Status", "Pending");
 
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
+        query2.whereEqualTo("DriverId", userLogged.getObjectId());
         query2.whereEqualTo("Status", "PickedUp");
 
         ParseQuery<ParseObject> query3 = ParseQuery.getQuery("RideRequest");
+        query3.whereEqualTo("DriverId", userLogged.getObjectId());
         query3.whereEqualTo("Status", "Waiting");
 
         List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();

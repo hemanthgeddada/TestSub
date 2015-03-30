@@ -37,14 +37,15 @@ public class UserHome extends Activity {
 
         Intent intent=getIntent();
         objectid = intent.getStringExtra("objectID");
-        //UserLoggedName = (TextView)findViewById(R.id.txtViewUser);
+        ParseUser userLogged = ParseUser.getCurrentUser();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
-        query.getInBackground(objectid , new GetCallback<ParseObject>() {
+        query.whereEqualTo("UserId", userLogged.getObjectId());
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     final String UserLogged = object.getString("First_Name");
-                    //UserLoggedName.setText("Welcome "+ UserLogged);
                     Toast.makeText(getApplicationContext(), "Welcome " + UserLogged, Toast.LENGTH_LONG).show();
+                    //UserName.setText("Welcome "+ UserLogged);
                 } else {
                     // something went wrong
                 }

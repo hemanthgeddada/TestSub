@@ -126,25 +126,34 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
             @Override
             public void onClick(View v) {
                 int riders = Integer.parseInt(ridersCount);
-               // final String userid;
+
                 ParseUser currentUser = ParseUser.getCurrentUser();
-               // if (currentUser != null) {
-                //    userid = currentUser.getObjectId();
-                //}
+                String userid = currentUser.getObjectId();
                 ParseObject map = new ParseObject("RideRequest");
                 map.put("Status","Unallocated");
                 map.put("Source", source);
                 map.put("Destination", destination);
                 map.put("NoRiders", riders);
-               // map.put("RiderId",userid);
+                map.put("RiderId",userid);
                 map.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if(e==null){
                             //Toast
-                            Toast.makeText(getApplicationContext(), "You have been Successfully Registered", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(), UserHome.class);
-                            startActivity(intent);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
+                            builder.setMessage("Thanks for requesting the ride. Your ride is from "+source+" to "+destination);
+                            builder.setTitle("Request Accepted");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int i) {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(getApplicationContext(), UserHome.class);
+                                    startActivity(intent);
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+
                         }else{
                             Toast.makeText(getApplicationContext(), "Some Error Occurred, Try Again", Toast.LENGTH_LONG).show();
                         }
