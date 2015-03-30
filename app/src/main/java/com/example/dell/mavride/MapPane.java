@@ -283,20 +283,20 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     public boolean onMarkerClick(Marker marker) {
 
         Log.i("MapPane", "onMarkerClick");
-
-       final LatLng src = marker.getPosition();
-
-        Toast.makeText(getApplicationContext(),
-                "Your selected Source location is " + marker.getTitle(), Toast.LENGTH_LONG)
-                .show();
-      // final LatLng dest = marker.getPosition();
-        if(place.equals("Source")){
+        if(place.equals("Source")) {
             source = marker.getTitle();
+
+            Toast.makeText(getApplicationContext(),
+                    "Your selected Source location is " + marker.getTitle(), Toast.LENGTH_LONG)
+                    .show();
         }
-        if (place.equals("Destination")){
+      // final LatLng dest = marker.getPosition();
+
+        if (place.equals("Destination")) {
             destination = marker.getTitle();
+
+            Toast.makeText(getApplicationContext(), "Your destination Location is  " + marker.getTitle(), Toast.LENGTH_LONG).show();
         }
-      Toast.makeText(getApplicationContext(),"Your destination Location is  " + marker.getTitle(), Toast.LENGTH_LONG).show();
 
 
         return false;
