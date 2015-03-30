@@ -22,7 +22,6 @@ import com.parse.GetCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
@@ -50,8 +49,8 @@ public class DriverTimer extends Activity {
         stopButton=(Button)findViewById(R.id.stopbutton);
         tV=(TextView)findViewById(R.id.textViewTimer);
 
-        tV.setText("00:00:20");
-        final CounterClass clock=new CounterClass(20000,1000);
+        tV.setText("00:05:00");
+        final CounterClass clock=new CounterClass(300000,1000);
         Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
         clock.start();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
