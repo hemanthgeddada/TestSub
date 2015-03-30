@@ -16,11 +16,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -28,8 +27,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.util.Objects;
 
 
 public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener, OnMarkerDragListener {
@@ -77,7 +74,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String riders = (String) parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),"selected :  " + riders, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"No Of Riders:  " + riders, Toast.LENGTH_LONG).show();
                 ridersCount = riders;
             }
 
@@ -108,7 +105,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
                                              @Override
                                              public void onNothingSelected(AdapterView<?> parent) {
                                                  AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
-                                                 builder.setMessage("Please select Source or Destination");
+                                                 builder.setMessage("Please select Source and Destination");
                                                  builder.setTitle("Select Location ");
                                                  builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                      @Override
@@ -290,7 +287,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
        final LatLng src = marker.getPosition();
 
         Toast.makeText(getApplicationContext(),
-                "Your selected location is " + marker.getTitle(), Toast.LENGTH_LONG)
+                "Your selected Source location is " + marker.getTitle(), Toast.LENGTH_LONG)
                 .show();
       // final LatLng dest = marker.getPosition();
         if(place.equals("Source")){
@@ -299,7 +296,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
         if (place.equals("Destination")){
             destination = marker.getTitle();
         }
-      //  Toast.makeText(getApplicationContext(),"Your destination is  " + marker.getTitle(), Toast.LENGTH_LONG).show();
+      Toast.makeText(getApplicationContext(),"Your destination Location is  " + marker.getTitle(), Toast.LENGTH_LONG).show();
 
 
         return false;
