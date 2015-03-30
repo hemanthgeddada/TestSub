@@ -75,9 +75,24 @@ public class DriverHomePage extends ListActivity {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null) {
-                    request = parseObjects;
-                    RequestAdapter adapter = new RequestAdapter(getListView().getContext(), request);
-                    setListAdapter(adapter);
+                    if(parseObjects.size()>0){
+                        request = parseObjects;
+                        RequestAdapter adapter = new RequestAdapter(getListView().getContext(), request);
+                        setListAdapter(adapter);
+                    }
+                    else{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
+                        builder.setMessage("No Pending Requests. Please refresh after some time");
+                        builder.setTitle("No Requests");
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                dialog.dismiss();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
                     builder.setMessage(e.getMessage());
@@ -123,18 +138,7 @@ public class DriverHomePage extends ListActivity {
                         object.put("DriverStatus","Offline");
                         object.put("NoAssigned",0);
                         object.put("CurrentLocation","UC");
-                        object.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    Toast.makeText(getApplicationContext(), "status changed to default", Toast.LENGTH_LONG).show();
-                                } else {
-                                    //error
-                                    Toast.makeText(getApplicationContext(), "status didnt change", Toast.LENGTH_LONG).show();
-
-                                }
-                            }
-                        });
+                        object.saveInBackground();
                     } else {
                         // something went wrong
                         Toast.makeText(getApplicationContext(), "status changed", Toast.LENGTH_LONG).show();
@@ -146,7 +150,10 @@ public class DriverHomePage extends ListActivity {
             startActivity(userhome);
             return true;
         }
-
+        if (id == R.id.Refresh) {
+            Intent intent = getIntent();
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 

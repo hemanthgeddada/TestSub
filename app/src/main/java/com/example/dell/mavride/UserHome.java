@@ -1,6 +1,8 @@
 package com.example.dell.mavride;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +17,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 //import android.widget.Toast;
 
 
@@ -51,16 +56,160 @@ public class UserHome extends Activity {
                 }
             }
         });
+        ParseQuery<ParseObject> query_pending = ParseQuery.getQuery("RideRequest");
+        query_pending.whereEqualTo("RiderId", userLogged.getObjectId());
+        query_pending.whereEqualTo("Status", "Pending");
+
+        ParseQuery<ParseObject> query_pickedup = ParseQuery.getQuery("RideRequest");
+        query_pickedup.whereEqualTo("RiderId", userLogged.getObjectId());
+        query_pickedup.whereEqualTo("Status", "PickedUp");
+
+        ParseQuery<ParseObject> query_waiting = ParseQuery.getQuery("RideRequest");
+        query_waiting.whereEqualTo("RiderId", userLogged.getObjectId());
+        query_waiting.whereEqualTo("Status", "Waiting");
+
+        ParseQuery<ParseObject> query_unallocated = ParseQuery.getQuery("RideRequest");
+        query_unallocated.whereEqualTo("RiderId", userLogged.getObjectId());
+        query_unallocated.whereEqualTo("Status", "Unallocated");
+
+        final List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+        queries.add(query_pending);
+        queries.add(query_pickedup);
+        queries.add(query_waiting);
+        queries.add(query_unallocated);
         btnr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(), MapPane.class);
-                startActivity(intent);
+                ParseQuery<ParseObject> compoundQuery = ParseQuery.or(queries);
+                compoundQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
+                            builder.setMessage("Can request one ride at a time");
+                            builder.setTitle("Already Requested");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int i) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), MapPane.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
+        });
 
+        btnc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> compoundQuery = ParseQuery.or(queries);
+                compoundQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null) {
+                            object.put("Status","Cancelled");
+                            object.saveInBackground();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
+                            builder.setMessage("Your Pending requests is Cancelled");
+                            builder.setTitle("Request Status");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int i) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
+                            builder.setMessage("Sorry, you don't have any pending requests");
+                            builder.setTitle("No Pending Requests");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int i) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    }
+                });
+            }
+        });
 
-    });
+        btns.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ParseQuery<ParseObject> compoundQuery = ParseQuery.or(queries);
+                compoundQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
+                            if(object.get("Status").equals("Unallocated")){
+                                builder.setMessage("Your Request (Id: "+object.getObjectId()+") is under process and driver will be allocated soon");
+                                builder.setTitle("Request Status");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                            if(object.get("Status").equals("Pending")){
+                                builder.setMessage("Your request (Id: "+object.getObjectId()+") is processed and driver is on the way");
+                                builder.setTitle("Request Status");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                            if(object.get("Status").equals("Waiting")){
+                                builder.setMessage("Driver is waiting for you at "+object.get("Source")+". Please reach your driver");
+                                builder.setTitle("Request Status");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                            if(object.get("Status").equals("PickedUp")){
+                                builder.setMessage("You are picked by a driver. Enjoy your safe ride to your destination");
+                                builder.setTitle("Request Status");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
+                            builder.setMessage("Sorry, you don't have any pending requests");
+                            builder.setTitle("No Pending Requests");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int i) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    }
+                });
+            }
+        });
 
 
 }
