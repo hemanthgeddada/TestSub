@@ -30,7 +30,7 @@ public class DriverOptions extends Activity {
 
         Intent intent=getIntent();
         objectid=intent.getStringExtra("objectID");
-        Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
         pickupbtn=(Button)findViewById(R.id.btnPick);
         waitbtn=(Button)findViewById(R.id.btnWait);
         dropbtn = (Button)findViewById(R.id.btnDrop);
@@ -143,18 +143,7 @@ public class DriverOptions extends Activity {
                         object.put("DriverStatus","Offline");
                         object.put("NoAssigned",0);
                         object.put("CurrentLocation","UC");
-                        object.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    Toast.makeText(getApplicationContext(), "status changed to default", Toast.LENGTH_LONG).show();
-                                } else {
-                                    //error
-                                    Toast.makeText(getApplicationContext(), "status didnt change", Toast.LENGTH_LONG).show();
-
-                                }
-                            }
-                        });
+                        object.saveInBackground();
                     } else {
                         // something went wrong
                         Toast.makeText(getApplicationContext(), "status changed", Toast.LENGTH_LONG).show();
