@@ -348,5 +348,19 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     public void onMapReady(GoogleMap googleMap) {
 
     }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
+        builder.setMessage("Back is restricted");
+        builder.setTitle("Caution");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
 
