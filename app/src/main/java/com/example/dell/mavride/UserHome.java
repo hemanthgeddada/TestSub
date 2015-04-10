@@ -109,16 +109,33 @@ public class UserHome extends Activity {
             public void onClick(View v) {
                 ParseQuery<ParseObject> compoundQuery = ParseQuery.or(queries);
                 compoundQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
+                    public void done(final ParseObject object, ParseException e) {
                         if (e == null) {
-                            object.put("Status","Cancelled");
-                            object.saveInBackground();
                             AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
-                            builder.setMessage("Your Pending requests is Cancelled");
+                            builder.setMessage("Confirm cancel ?");
                             builder.setTitle("Request Status");
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int i) {
+                                    object.put("Status","Cancelled");
+                                    object.saveInBackground();
+                                    dialog.dismiss();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
+                                    builder.setMessage("Your request has been cancelled. Thank you for using Mav Ride");
+                                    builder.setTitle("Request Cancelled");
+                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int i) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    AlertDialog subDialog = builder.create();
+                                    subDialog.show();
+                                }
+                            });
+                            builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
                             });
