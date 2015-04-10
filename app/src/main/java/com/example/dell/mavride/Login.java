@@ -125,15 +125,15 @@ public class Login extends Activity {
         return true;
     }
 
-   /* @Override
+  /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+       // Handle action bar item clicks here. The action bar will
+       // automatically handle clicks on the Home/Up button, so long
+       // as you specify a parent activity in AndroidManifest.xml.
+       int id = item.getItemId();
 
-        return super.onOptionsItemSelected(item);
-    }*/
+       return super.onOptionsItemSelected(item);
+   } */
     public void onClickForgotPassword(View view)
     {
         Intent intent=new Intent(this, ForgotPasswordFormActivity.class);
