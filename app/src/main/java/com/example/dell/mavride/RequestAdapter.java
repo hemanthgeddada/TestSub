@@ -65,7 +65,8 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
         String FirstName = Requests.getString("RiderId");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
-        query.getInBackground(FirstName, new GetCallback<ParseObject>() {
+        query.whereEqualTo("UserId",FirstName);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, com.parse.ParseException e) {
                 if(e==null){

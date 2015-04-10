@@ -77,7 +77,21 @@ public class DriverTimer extends Activity {
             @Override
             public void onClick(View v) {
                 clock.cancel();
-                Intent intent = new Intent(getApplicationContext(), DriverOptions.class);
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
+
+                query.getInBackground(objectid, new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject RideRequest, com.parse.ParseException e) {
+                        if (e == null) {
+
+                            RideRequest.put("Status","PickedUp");
+                            RideRequest.saveInBackground();
+                        }else{
+                            //error
+                        }
+                    }
+                });
+                Intent intent = new Intent(getApplicationContext(), DriverHomePage.class);
                 startActivity(intent);
             }
         });

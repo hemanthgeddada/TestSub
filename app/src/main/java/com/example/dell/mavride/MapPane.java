@@ -63,7 +63,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
                 mapfragment.getMapAsync(this);
         Toast.makeText(getApplicationContext(), "Select Your Source and Destination On the Map", Toast.LENGTH_LONG).show();
         Spinner dropdown = (Spinner)findViewById(R.id.NoOfRider);
-        String[] items = new String[]{"No of Riders","1", "2", "3"};
+        String[] items = new String[]{"0","1", "2", "3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         dropdown.setAdapter(adapter);
         Spinner dropdown1 = (Spinner)findViewById(R.id.select);
@@ -122,40 +122,83 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int riders = Integer.parseInt(ridersCount);
-
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                String userid = currentUser.getObjectId();
-                ParseObject map = new ParseObject("RideRequest");
-                map.put("Status","Unallocated");
-                map.put("Source", source);
-                map.put("Destination", destination);
-                map.put("NoRiders", riders);
-                map.put("RiderId",userid);
-                map.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e==null){
-                            //Toast
+                final int riders = Integer.parseInt(ridersCount);
+                if(riders == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
+                    builder.setMessage("Please select No of Riders");
+                    builder.setTitle("Select Riders Count ");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else{
+                    if(source == null){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
+                        builder.setMessage("Please select Source");
+                        builder.setTitle("Select Location ");
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                dialog.dismiss();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                    else {
+                        if (destination == null) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
-                            builder.setMessage("Thanks for requesting the ride. Your ride is from "+source+" to "+destination);
-                            builder.setTitle("Request Accepted");
+                            builder.setMessage("Please select Destination");
+                            builder.setTitle("Select Location ");
                             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int i) {
                                     dialog.dismiss();
+                                }
+                            });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                        else{
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
+                            builder.setMessage("Thanks for requesting the ride. Your ride is from "+source+" to "+destination+". Please Confirm");
+                            builder.setTitle("Request Accepted");
+                            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int i) {
+                                    dialog.dismiss();
+                                    ParseUser currentUser = ParseUser.getCurrentUser();
+                                    String userid = currentUser.getObjectId();
+                                    ParseObject map = new ParseObject("RideRequest");
+                                    map.put("Status", "Unallocated");
+                                    map.put("Source", source);
+                                    map.put("Destination", destination);
+                                    map.put("NoRiders", riders);
+                                    map.put("RiderId",userid);
+                                    map.saveInBackground();
                                     Intent intent = new Intent(getApplicationContext(), UserHome.class);
+                                    startActivity(intent);
+                                }
+                            });
+                            builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(getApplicationContext(), MapPane.class);
                                     startActivity(intent);
                                 }
                             });
                             AlertDialog dialog = builder.create();
                             dialog.show();
 
-                        }else{
-                            Toast.makeText(getApplicationContext(), "Some Error Occurred, Try Again", Toast.LENGTH_LONG).show();
                         }
                     }
-                });
+                }
+
             }
 
         });
@@ -304,6 +347,20 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     }@Override
     public void onMapReady(GoogleMap googleMap) {
 
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
+        builder.setMessage("Back is restricted");
+        builder.setTitle("Caution");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
 
