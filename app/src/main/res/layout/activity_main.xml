@@ -1,3 +1,7 @@
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -31,7 +35,7 @@
         android:id="@+id/btnLogin"
         android:layout_marginTop="30dp"
         android:background="#ff8800"
-        android:layout_marginLeft="30dp"
+        android:layout_gravity="center_horizontal"
         android:textColor="#ffffffff"
         android:textSize="25sp" />
 
@@ -39,12 +43,11 @@
         android:layout_width="301dp"
         android:layout_height="wrap_content"
         android:text="Register"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/btnRegister"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
         android:background="#ff8800"
         android:textColor="#ffffffff"
         android:textSize="25sp" />
-
-
 </LinearLayout>
+</ScrollView>

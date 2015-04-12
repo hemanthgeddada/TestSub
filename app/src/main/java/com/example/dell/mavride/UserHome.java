@@ -49,10 +49,11 @@ public class UserHome extends Activity {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     final String UserLogged = object.getString("First_Name");
-                    Toast.makeText(getApplicationContext(), "Welcome " + UserLogged, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Welcome " + UserLogged, Toast.LENGTH_LONG).show();
                     //UserName.setText("Welcome "+ UserLogged);
                 } else {
                     // something went wrong
+                    Toast.makeText(getApplicationContext(), "Severe error Occured. ", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -1,3 +1,7 @@
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -22,9 +26,6 @@
             android:id="@+id/btnWait"
             android:layout_marginTop="57dp"
             android:layout_gravity="center_horizontal" />
-
-
-
         <Button
             android:layout_width="136dp"
             android:layout_height="wrap_content"
@@ -32,6 +33,5 @@
             android:layout_marginTop="57dp"
             android:id="@+id/btnDrop"
             android:layout_gravity="center_horizontal" />
-
-
 </LinearLayout>
+</ScrollView>
