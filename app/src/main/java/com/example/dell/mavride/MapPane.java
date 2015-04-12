@@ -379,6 +379,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     public void onMapReady(GoogleMap googleMap) {
 
     }
+    /*
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MapPane.this);
@@ -393,5 +394,6 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    */
 }
 

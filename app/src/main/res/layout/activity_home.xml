@@ -16,7 +16,7 @@
         android:layout_height="30dp"
         android:gravity="center_horizontal|center_vertical"
         android:onClick="startActivity"
-        android:layout_marginLeft="270dp"
+        android:layout_gravity="right"
         android:layout_marginTop="10dp"
         android:text="Request"
         android:background="#ff8800"
@@ -28,7 +28,7 @@
         android:layout_marginTop="50dp"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="270dp"
+        android:layout_gravity="right"
         android:background="#ff8800"
         android:spinnerMode="dropdown" />
 
@@ -38,7 +38,7 @@
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:id="@+id/select"
-        android:layout_marginLeft="270dp"
+        android:layout_gravity="right"
         android:background="#ff8800"
         android:spinnerMode="dropdown"
 
