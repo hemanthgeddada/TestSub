@@ -5,13 +5,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
@@ -21,8 +24,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-
 public class Login extends Activity {
     protected EditText Email;
     protected EditText nPassword;
@@ -41,7 +42,6 @@ public class Login extends Activity {
             public void onClick(View v) {
                 final String email = Email.getText().toString().trim();
                 final String password = nPassword.getText().toString().trim();
-
                 //ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
                 //query1.whereEqualTo("Email", email);
                 //query1.whereEqualTo("Password", password);
@@ -113,6 +113,18 @@ public class Login extends Activity {
                         }
                     }
                 });
+            }
+        });
+        //below method referred from http://stackoverflow.com/a/9598729/2039735
+        nPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(((event!=null)&&(event.getKeyCode()==KeyEvent.KEYCODE_ENTER))||(actionId== EditorInfo.IME_ACTION_DONE))
+                {
+                    System.out.println("button click catched");
+                    logBtn.performClick();
+                }
+                return false;
             }
         });
     }
