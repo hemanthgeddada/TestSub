@@ -22,16 +22,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "Z1onpLDjhguG5Xerjh1sSzCm4T6o3tgQdN4TwjiM", "7WOxDqGAYaJulOnKZdLA9huezBWyB7OuOaBwjCQ0");
-        ParsePush.subscribeInBackground("", new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
-                } else {
-                    Log.e("com.parse.push", "failed to subscribe for push", e);
-                }
-            }
-        });
+
+
         Button btn = (Button) findViewById(R.id.btnLogin);
         Button btn1 = (Button) findViewById(R.id.btnRegister);
 
