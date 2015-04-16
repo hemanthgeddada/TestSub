@@ -72,7 +72,7 @@ public class DriverHomePage extends ListActivity {
         queries.add(query3);
 
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
-        mainQuery.orderByDescending("Status");
+        mainQuery.orderByAscending("createdAt");
         mainQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -129,7 +129,7 @@ public class DriverHomePage extends ListActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.Logout) {
+       /* if (id == R.id.Logout) {
             ParseUser currentUser = ParseUser.getCurrentUser();
             String obj = currentUser.getObjectId();
             ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
@@ -151,7 +151,7 @@ public class DriverHomePage extends ListActivity {
             Intent userhome = new Intent(getApplicationContext(), Login.class);
             startActivity(userhome);
             return true;
-        }
+        }*/
         if (id == R.id.Refresh) {
             Intent intent = getIntent();
             startActivity(intent);

@@ -62,19 +62,9 @@ public class RequestAdapter extends ArrayAdapter<ParseObject> {
         String Rid = String.valueOf(Riders);
         holder.DvrTxtReqRiders.setText(Rid);
 
-        String FirstName = Requests.getString("RiderId");
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
-        query.whereEqualTo("UserId",FirstName);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, com.parse.ParseException e) {
-                if(e==null){
-                    final String FName = parseObject.getString("First_Name");
-                    holder.DvrTxtReqName.setText(FName);
-                }
-            }
-        });
+        String Id = Requests.getString("RiderId");
+        String riderId = String.valueOf(Id);
+        holder.DvrTxtReqName.setText(riderId);
 
         return convertView;
     }
