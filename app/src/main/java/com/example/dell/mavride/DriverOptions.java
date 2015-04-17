@@ -36,6 +36,21 @@ public class DriverOptions extends Activity {
         pickupbtn=(Button)findViewById(R.id.btnPick);
         waitbtn=(Button)findViewById(R.id.btnWait);
         dropbtn = (Button)findViewById(R.id.btnDrop);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
+        query.getInBackground(objectid,new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                String status = parseObject.getString("Status");
+                if(status.equals("Pending")){
+                    dropbtn.setEnabled(false);
+                }
+                if(status.equals("PickedUp")){
+                    waitbtn.setEnabled(false);
+                    pickupbtn.setEnabled(false);
+                }
+            }
+        });
+
         pickupbtn.setOnClickListener(new View.OnClickListener(){
 
             public void onClick(View view)
