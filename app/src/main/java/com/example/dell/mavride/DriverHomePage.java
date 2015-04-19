@@ -5,12 +5,10 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -19,7 +17,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +42,7 @@ public class DriverHomePage extends ListActivity {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     final String UserLogged = object.getString("First_Name");
-                    //Toast.makeText(getApplicationContext(), "Welcome " + UserLogged, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Welcome " + UserLogged, Toast.LENGTH_LONG).show();
                     //UserName.setText("Welcome "+ UserLogged);
                 } else {
                     // something went wrong
@@ -59,12 +56,12 @@ public class DriverHomePage extends ListActivity {
         query1.whereEqualTo("Status", "Pending");
 
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
-        query2.whereEqualTo("DriverId", userLogged.getObjectId());
-        query2.whereEqualTo("Status", "PickedUp");
+        query1.whereEqualTo("DriverId", userLogged.getObjectId());
+        query1.whereEqualTo("Status", "Waiting");
 
         ParseQuery<ParseObject> query3 = ParseQuery.getQuery("RideRequest");
-        query3.whereEqualTo("DriverId", userLogged.getObjectId());
-        query3.whereEqualTo("Status", "Waiting");
+        query1.whereEqualTo("DriverId", userLogged.getObjectId());
+        query1.whereEqualTo("Status", "Dropped");
 
         List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
         queries.add(query1);
@@ -95,19 +92,7 @@ public class DriverHomePage extends ListActivity {
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     }
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
-                    builder.setMessage(e.getMessage());
-                    builder.setTitle("Login Failed");
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int i) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
+                } 
             }
         });
     }
@@ -129,7 +114,7 @@ public class DriverHomePage extends ListActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-       /* if (id == R.id.Logout) {
+       if (id == R.id.Logout) {
             ParseUser currentUser = ParseUser.getCurrentUser();
             String obj = currentUser.getObjectId();
             ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
@@ -151,7 +136,7 @@ public class DriverHomePage extends ListActivity {
             Intent userhome = new Intent(getApplicationContext(), Login.class);
             startActivity(userhome);
             return true;
-        }*/
+        }
         if (id == R.id.Refresh) {
             Intent intent = getIntent();
             startActivity(intent);

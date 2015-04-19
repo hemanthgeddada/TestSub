@@ -44,7 +44,7 @@ public class DriverAllocation {
 
                         ParseQuery<ParseObject> NoOfRiders = ParseQuery.or(queries);
                         NoOfRiders.orderByAscending("updatedAt");
-                        //must include remianing status
+                        //must include remaining status
                         NoOfRiders.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> ridesList, ParseException e) {

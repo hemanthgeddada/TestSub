@@ -7,13 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +20,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 public class Login extends Activity {
     protected EditText Email;
     protected EditText nPassword;
@@ -42,32 +38,22 @@ public class Login extends Activity {
             public void onClick(View v) {
                 final String email = Email.getText().toString().trim();
                 final String password = nPassword.getText().toString().trim();
-                //ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
-                //query1.whereEqualTo("Email", email);
-                //query1.whereEqualTo("Password", password);
-                //query1.whereEqualTo("Type","Driver");
                 ParseUser.logInInBackground(email, password, new LogInCallback() {
                     public void done(ParseUser parseUser, com.parse.ParseException e) {
                         if(e== null){
                             final String obj = parseUser.getObjectId();
-                            //Toast.makeText(getApplicationContext(), obj, Toast.LENGTH_LONG).show();
                             ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
                             query1.whereEqualTo("Email", email);
                             query1.whereEqualTo("Password", password);
                             query1.getFirstInBackground(new GetCallback<ParseObject>() {
                                 @Override
                                 public void done(ParseObject parseObject, ParseException e) {
-                                    // public void done(ParseUser parseUser, com.parse.ParseException e) {
-                                    if (e == null) {
-                                        // Hooray! The user is logged in.
-                                        //   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                   if (e == null) {
                                         parseObject.put("UserId", obj);
                                         parseObject.saveInBackground();
                                         final String objid = parseObject.getObjectId();
                                         String type = parseObject.getString("UserType");
                                         if (type.equals("Driver")) {
-                                            //String objectId = parseObject.getObjectId();
-                                            // Toast.makeText(getApplicationContext(), objid, Toast.LENGTH_LONG).show();
                                             ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
                                             query.whereEqualTo("DriverId", obj);
                                             query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -98,7 +84,7 @@ public class Login extends Activity {
                         }
 
                         else {
-                            // Signup failed. Look at the ParseException to see what happened.
+                            // Login failed. Look at the ParseException to see what happened.
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                             builder.setMessage("Invalid Username/Password");
                             builder.setTitle("Login Failed");
