@@ -56,12 +56,12 @@ public class DriverHomePage extends ListActivity {
         query1.whereEqualTo("Status", "Pending");
 
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
-        query1.whereEqualTo("DriverId", userLogged.getObjectId());
-        query1.whereEqualTo("Status", "Waiting");
+        query2.whereEqualTo("DriverId", userLogged.getObjectId());
+        query2.whereEqualTo("Status", "Waiting");
 
         ParseQuery<ParseObject> query3 = ParseQuery.getQuery("RideRequest");
-        query1.whereEqualTo("DriverId", userLogged.getObjectId());
-        query1.whereEqualTo("Status", "Dropped");
+        query3.whereEqualTo("DriverId", userLogged.getObjectId());
+        query3.whereEqualTo("Status", "PickedUp");
 
         List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
         queries.add(query1);
