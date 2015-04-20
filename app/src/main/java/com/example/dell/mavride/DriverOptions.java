@@ -153,4 +153,39 @@ public class DriverOptions extends Activity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //Logging out and setting the default values for the driver
+        if (id == R.id.Logout) {
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            String obj = currentUser.getObjectId();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
+            query.whereEqualTo("DriverId", obj);
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    if (e == null) {
+                        object.put("DriverStatus","Offline");
+                        object.put("NoAssigned",0);
+                        object.put("CurrentLocation","UC");
+                        object.saveInBackground();
+                    } else {
+                        // something went wrong
+                        Toast.makeText(getApplicationContext(), "status changed", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            ParseUser.logOut();
+            Intent loginActivity = new Intent(getApplicationContext(), Login.class);
+            loginActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginActivity);
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

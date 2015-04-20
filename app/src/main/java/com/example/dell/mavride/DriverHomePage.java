@@ -96,6 +96,7 @@ public class DriverHomePage extends ListActivity {
                 } 
             }
         });
+
     }
 
 
@@ -135,7 +136,9 @@ public class DriverHomePage extends ListActivity {
             });
             ParseUser.logOut();
             Intent loginActivity = new Intent(getApplicationContext(), Login.class);
+            loginActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginActivity);
+
             return true;
         }
         if (id == R.id.Refresh) {

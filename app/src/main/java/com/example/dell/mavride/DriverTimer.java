@@ -127,7 +127,7 @@ public class DriverTimer extends Activity {
                     if (e == null) {
 
                         //String rideStatus=RideRequest.getString("Status");
-                        RideRequest.put("Status","Cancelled");
+                        RideRequest.put("Status","Expired");
                         RideRequest.saveInBackground();
                         AlertDialog.Builder builder = new AlertDialog.Builder(DriverTimer.this);
                         builder.setMessage("Waiting time Expired, choose next Ride");

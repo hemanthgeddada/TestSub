@@ -209,7 +209,7 @@ public class UserHome extends Activity {
                                     }
                                 });
                             }
-                            if(object.get("Status").equals("Cancelled")){
+                            if(object.get("Status").equals("Expired")){
                                 builder.setMessage("Your waiting time is expired and request is cancelled");
                                 builder.setTitle("Request Status");
                                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -239,7 +239,8 @@ public class UserHome extends Activity {
             }
         });
 
-
+       // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+       // startActivity(intent);
 }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -259,6 +260,7 @@ public class UserHome extends Activity {
         if (id == R.id.Logout) {
             ParseUser.logOut();
             Intent userhome = new Intent(getApplicationContext(), Login.class);
+            userhome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(userhome);
             return true;
         }
