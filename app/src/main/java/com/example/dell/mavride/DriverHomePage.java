@@ -36,20 +36,6 @@ public class DriverHomePage extends ListActivity {
         Intent intent=getIntent();
         objectid = intent.getStringExtra("objectID");
         ParseUser userLogged = ParseUser.getCurrentUser();
-        // Getting the username to print welcome user (Name)
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
-        query.whereEqualTo("UserId", userLogged.getObjectId());
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    final String UserLogged = object.getString("First_Name");
-                    Toast.makeText(getApplicationContext(), "Welcome " + UserLogged, Toast.LENGTH_LONG).show();
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Severe error", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
         // Retrieving the requests of the driver to send to request adapter
         ParseQuery<ParseObject> status_Pending = ParseQuery.getQuery("RideRequest");
         status_Pending.whereEqualTo("DriverId", userLogged.getObjectId());
