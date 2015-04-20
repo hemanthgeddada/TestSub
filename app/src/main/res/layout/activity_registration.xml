@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:fontFamily="sans-serif"
-        android:hint="Password"
+        android:hint="Password(atleast 6 digits)"
         android:ems="10"
         android:id="@+id/password_reg"
         android:layout_below="@+id/phone_reg"
