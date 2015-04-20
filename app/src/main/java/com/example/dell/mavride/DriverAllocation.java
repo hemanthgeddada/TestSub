@@ -13,10 +13,10 @@ import java.util.List;
  */
 public class DriverAllocation {
     public void allocation() {
-        String status = "Online";
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
-        query.whereEqualTo("DriverStatus", status);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        String status = "Online";  // initialising status variable for comparisons
+        ParseQuery<ParseObject> driverStatus = ParseQuery.getQuery("DriverDetail");
+        driverStatus.whereEqualTo("DriverStatus", status); // Checking the list of drivers who are online
+        driverStatus.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> userList, ParseException e) {
                 if (e == null) {
@@ -25,6 +25,7 @@ public class DriverAllocation {
                         final ParseObject obj = userList.get(i);
                         ridersCount[0] = 0;
                         final String driverId = obj.getString("DriverId");
+                        // Retrieving the allocated request for each individual driver
                         ParseQuery<ParseObject> NoOfRiders_Pending = ParseQuery.getQuery("RideRequest");
                         NoOfRiders_Pending.whereEqualTo("DriverId", driverId);
                         NoOfRiders_Pending.whereEqualTo("Status", "Pending");
@@ -44,12 +45,12 @@ public class DriverAllocation {
 
                         ParseQuery<ParseObject> NoOfRiders = ParseQuery.or(queries);
                         NoOfRiders.orderByAscending("updatedAt");
-                        //must include remaining status
                         NoOfRiders.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> ridesList, ParseException e) {
                                 if (e == null) {
-                                     ridersCount[0] = 0;
+                                    ridersCount[0] = 0;
+                                    // Checking the count of allocated riders to a individual driver
                                     for (int i = 0; i < ridesList.size(); i++) {
                                         ParseObject rideObj = ridesList.get(i);
                                         if (ridersCount[0] >= 3) {
@@ -57,6 +58,7 @@ public class DriverAllocation {
                                         }
                                         ridersCount[0] = ridersCount[0] + rideObj.getInt("NoRiders");
                                     }
+                                    // if count less than 3  then retrieve the unallocated requests
                                     if (ridersCount[0] < 3) {
                                         ParseQuery<ParseObject> unallocated = ParseQuery.getQuery("RideRequest");
                                         unallocated.whereEqualTo("Status", "Unallocated");
@@ -65,14 +67,16 @@ public class DriverAllocation {
                                             @Override
                                             public void done(List<ParseObject> unAllocate, ParseException e) {
                                                 if (e == null) {
-                                                    if(unAllocate.size() > 0) {
+                                                    // Adding the new requests ride count to the allocated requests
+                                                    if (unAllocate.size() > 0) {
                                                         for (int i = 0; i < unAllocate.size(); i++) {
                                                             ParseObject unAllocateRidersCount = unAllocate.get(i);
                                                             int reqRiders = unAllocateRidersCount.getInt("NoRiders");
                                                             int finalRiders = ridersCount[0] + reqRiders;
                                                             if (finalRiders <= 3) {
+                                                                // Assigned the request to the driver
                                                                 unAllocateRidersCount.put("DriverId", driverId);
-                                                                unAllocateRidersCount.put("Status","Pending");
+                                                                unAllocateRidersCount.put("Status", "Pending");
                                                                 unAllocateRidersCount.saveInBackground();
                                                                 ridersCount[0] = finalRiders;
                                                             }
@@ -80,9 +84,9 @@ public class DriverAllocation {
                                                                 break;
                                                             }
                                                         }
-                                                    }
-                                                    else{
-                                                        System.out.print("NO requests");
+                                                    } else {
+                                                        // No pending requests
+                                                        System.out.print("No requests");
                                                     }
                                                 } else {
                                                     System.out.print("No Pending Requests");
@@ -95,6 +99,7 @@ public class DriverAllocation {
                                     }
 
                                 } else {
+                                    // This blocks works only for the first time when there are no riders and have pending requests
                                     ParseQuery<ParseObject> unallocated = ParseQuery.getQuery("RideRequest");
                                     unallocated.whereEqualTo("Status", "Unallocated");
                                     //Allocation of requests;
@@ -107,6 +112,7 @@ public class DriverAllocation {
                                                     int reqRiders = unAllocateRidersCount.getInt("NoRiders");
                                                     int finalRiders = ridersCount[0] + reqRiders;
                                                     if (finalRiders <= 3) {
+                                                        // Allocating the driver id to the request
                                                         unAllocateRidersCount.put("DriverId", driverId);
                                                         unAllocateRidersCount.saveInBackground();
                                                         ridersCount[0] = finalRiders;
@@ -124,8 +130,7 @@ public class DriverAllocation {
                             }
                         });
                     }
-                }
-                else {
+                } else {
                     System.out.print("No Drivers are active");
                 }
             }
