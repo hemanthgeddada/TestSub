@@ -209,6 +209,16 @@ public class UserHome extends Activity {
                                     }
                                 });
                             }
+                            if(object.get("Status").equals("Cancelled")){
+                                builder.setMessage("Your waiting time is expired and request is cancelled");
+                                builder.setTitle("Request Status");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
                             AlertDialog dialog = builder.create();
                             dialog.show();
                         } else {
