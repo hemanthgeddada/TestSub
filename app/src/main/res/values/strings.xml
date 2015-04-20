@@ -9,7 +9,7 @@
     <string name="title_activity_main">MavRide</string>
     <string name="button_forgot_password">Forgot Password</string>
     <string name="MavRides_image"></string>
-    <string name="hint_new_password">Enter new password (atleast 6 digits)</string>
+    <string name="hint_new_password">Enter new password ( 6 digits)</string>
     <string name="hint_new_password_confirm">Confirm you password</string>
     <string name="set_password_button">Set Password</string>
     <string name="Heading"></string>

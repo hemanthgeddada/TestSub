@@ -112,7 +112,7 @@ public class ForgotPasswordFormActivity extends Activity {
                     if(e==null)
                     {
                         //code found
-                        Toast.makeText(getApplicationContext(),"to new intent",Toast.LENGTH_SHORT).show();
+                        System.out.print("to new intent");
                         Intent intent=new Intent(getApplicationContext(), setNewPasswordActivity.class);
                         intent.putExtra("email",email1);
                         startActivity(intent);

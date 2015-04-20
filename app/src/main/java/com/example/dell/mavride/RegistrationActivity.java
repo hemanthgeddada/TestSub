@@ -7,21 +7,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
-//import com.parse.Parse;
-import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
+
+//import com.parse.Parse;
 
 
 public class RegistrationActivity extends Activity {
@@ -135,7 +134,7 @@ public class RegistrationActivity extends Activity {
                             @Override
                               public void done(com.parse.ParseException e) {
                                 if (e == null) {
-                                    Toast.makeText(RegistrationActivity.this, "inserted in user", Toast.LENGTH_LONG).show();
+                                    System.out.print("inserted in user");
                                 }
                                 else {
                                     Toast.makeText(RegistrationActivity.this, "error inserting in user", Toast.LENGTH_LONG).show();
