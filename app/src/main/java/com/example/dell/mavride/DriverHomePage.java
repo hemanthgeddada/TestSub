@@ -25,17 +25,18 @@ import java.util.List;
 public class DriverHomePage extends ListActivity {
     String objectid;
     protected List<ParseObject> request;
-    //protected TextView UserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_home_page);
+        // Calling Driver allocation class to allocate the drivers to the requests
         DriverAllocation allocate = new DriverAllocation();
         allocate.allocation();
         Intent intent=getIntent();
         objectid = intent.getStringExtra("objectID");
         ParseUser userLogged = ParseUser.getCurrentUser();
+        // Getting the username to print welcome user (Name)
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Registration");
         query.whereEqualTo("UserId", userLogged.getObjectId());
         query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -43,32 +44,31 @@ public class DriverHomePage extends ListActivity {
                 if (e == null) {
                     final String UserLogged = object.getString("First_Name");
                     Toast.makeText(getApplicationContext(), "Welcome " + UserLogged, Toast.LENGTH_LONG).show();
-                    //UserName.setText("Welcome "+ UserLogged);
+
                 } else {
-                    // something went wrong
                     Toast.makeText(getApplicationContext(), "Severe error", Toast.LENGTH_LONG).show();
                 }
             }
         });
+        // Retrieving the requests of the driver to send to request adapter
+        ParseQuery<ParseObject> status_Pending = ParseQuery.getQuery("RideRequest");
+        status_Pending.whereEqualTo("DriverId", userLogged.getObjectId());
+        status_Pending.whereEqualTo("Status", "Pending");
 
-        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("RideRequest");
-        query1.whereEqualTo("DriverId", userLogged.getObjectId());
-        query1.whereEqualTo("Status", "Pending");
+        ParseQuery<ParseObject> status_waiting = ParseQuery.getQuery("RideRequest");
+        status_waiting.whereEqualTo("DriverId", userLogged.getObjectId());
+        status_waiting.whereEqualTo("Status", "Waiting");
 
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
-        query2.whereEqualTo("DriverId", userLogged.getObjectId());
-        query2.whereEqualTo("Status", "Waiting");
+        ParseQuery<ParseObject> status_Pickedup = ParseQuery.getQuery("RideRequest");
+        status_Pickedup.whereEqualTo("DriverId", userLogged.getObjectId());
+        status_Pickedup.whereEqualTo("Status", "PickedUp");
 
-        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("RideRequest");
-        query3.whereEqualTo("DriverId", userLogged.getObjectId());
-        query3.whereEqualTo("Status", "PickedUp");
+        List<ParseQuery<ParseObject>> compoundQuery = new ArrayList<ParseQuery<ParseObject>>();
+        compoundQuery.add(status_Pending);
+        compoundQuery.add(status_waiting);
+        compoundQuery.add(status_Pickedup);
 
-        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-        queries.add(query1);
-        queries.add(query2);
-        queries.add(query3);
-
-        ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+        ParseQuery<ParseObject> mainQuery = ParseQuery.or(compoundQuery);
         mainQuery.orderByAscending("createdAt");
         mainQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -76,6 +76,7 @@ public class DriverHomePage extends ListActivity {
                 if (e == null) {
                     if(parseObjects.size()>0){
                         request = parseObjects;
+                        //Calling request adapter class
                         RequestAdapter adapter = new RequestAdapter(getListView().getContext(), request);
                         setListAdapter(adapter);
                     }
@@ -113,7 +114,7 @@ public class DriverHomePage extends ListActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //Logging out and setting the default values for the driver
        if (id == R.id.Logout) {
             ParseUser currentUser = ParseUser.getCurrentUser();
             String obj = currentUser.getObjectId();
@@ -133,8 +134,8 @@ public class DriverHomePage extends ListActivity {
                 }
             });
             ParseUser.logOut();
-            Intent userhome = new Intent(getApplicationContext(), Login.class);
-            startActivity(userhome);
+            Intent loginActivity = new Intent(getApplicationContext(), Login.class);
+            startActivity(loginActivity);
             return true;
         }
         if (id == R.id.Refresh) {
@@ -158,6 +159,7 @@ public class DriverHomePage extends ListActivity {
 
         startActivity(options);
     }
+    // Restrict the back button
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
