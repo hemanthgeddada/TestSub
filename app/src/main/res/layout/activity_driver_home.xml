@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/dvrTxtName"
         android:layout_gravity="right"
-        android:text="Name"
+        android:text="Id"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -40,7 +40,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rider Name : "
+        android:text="Rider Id : "
         android:id="@+id/textView4"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
