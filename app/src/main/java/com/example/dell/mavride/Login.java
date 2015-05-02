@@ -40,7 +40,7 @@ public class Login extends Activity {
                 final String password = nPassword.getText().toString().trim();
                 ParseUser.logInInBackground(email, password, new LogInCallback() {
                     public void done(ParseUser parseUser, com.parse.ParseException e) {
-                        if(e== null){
+                        if(e==null){
                             final String obj = parseUser.getObjectId();
                             ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Registration");
                             query1.whereEqualTo("Email", email);
@@ -82,11 +82,17 @@ public class Login extends Activity {
                                 }
                             });
                         }
-
                         else {
                             // Login failed. Look at the ParseException to see what happened.
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                            builder.setMessage("Invalid Username/Password");
+                            if(e.getCode()==ParseException.CONNECTION_FAILED)
+                            {
+                                builder.setMessage("Unable to connect to server. Please check your internet connection and try again");
+                            }
+                            else
+                            {
+                                builder.setMessage("Invalid Username/Password");
+                            }
                             builder.setTitle("Login Failed");
                             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
@@ -113,6 +119,11 @@ public class Login extends Activity {
                 return false;
             }
         });
+        if(getIntent().getStringExtra("loginUsername")!=null)
+        {
+            Email.setText(getIntent().getStringExtra("loginUsername"));
+            nPassword.requestFocus();
+        }
     }
 
 

@@ -71,7 +71,7 @@ public class RegistrationActivity extends Activity {
                     return;
                 }
                 //if the email string is not a valid email id
-                if(!Patterns.EMAIL_ADDRESS.matcher(email1).matches()) {
+                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email1).matches()) {
                     Toast.makeText(getApplicationContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -158,10 +158,31 @@ public class RegistrationActivity extends Activity {
                                     if(e==null){
                                         //Toast
                                         Toast.makeText(RegistrationActivity.this, "You have been Successfully Registered", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.putExtra("loginPage","true");
+                                        intent.putExtra("loginUsername",email1);
                                         startActivity(intent);
                                     }else{
-                                        Toast.makeText(RegistrationActivity.this, "Some Error Occurred, Try Again", Toast.LENGTH_LONG).show();
+                                        // Login failed. Look at the ParseException to see what happened.
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
+                                        if(e.getCode()==ParseException.CONNECTION_FAILED)
+                                        {
+                                            builder.setMessage("Unable to connect to server. Please check your internet connection and try again");
+                                        }
+                                        else
+                                        {
+                                            builder.setMessage("An error occurred. Please try again or contact developers.");
+                                        }
+                                        builder.setTitle("Error");
+                                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int i) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
                                     }
                                 }
                             });

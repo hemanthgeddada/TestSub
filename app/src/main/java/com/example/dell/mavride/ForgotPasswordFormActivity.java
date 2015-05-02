@@ -1,6 +1,8 @@
 package com.example.dell.mavride;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.StrictMode;
@@ -172,15 +174,34 @@ public class ForgotPasswordFormActivity extends Activity {
                                 //success
                                 //Toast
                             } else {
-                                Toast.makeText(getApplicationContext(),"Unfortunately, an error occured. Please try again",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Unfortunately, an error occurred. Please try again",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
                 else
                 {
-                    //exception occured no email found
-                    Toast.makeText(getApplicationContext(),"This email id is not registered.",Toast.LENGTH_SHORT).show();
+                    // Login failed. Look at the ParseException to see what happened.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordFormActivity.this);
+                    if(e.getCode()==ParseException.CONNECTION_FAILED)
+                    {
+                        builder.setMessage("Unable to connect to server. Please check your internet connection and try again");
+                    }
+                    else
+                    {
+                        builder.setMessage("The Email ID is not registered.");
+                    }
+                    builder.setTitle("Error");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    (findViewById(R.id.buttonSendCode)).setEnabled(true);
+                    ((Button)findViewById(R.id.buttonSendCode)).setText("Send Email");
                 }
             }
         });

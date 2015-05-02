@@ -22,11 +22,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "Z1onpLDjhguG5Xerjh1sSzCm4T6o3tgQdN4TwjiM", "7WOxDqGAYaJulOnKZdLA9huezBWyB7OuOaBwjCQ0");
-
-
         Button btn = (Button) findViewById(R.id.btnLogin);
         Button btn1 = (Button) findViewById(R.id.btnRegister);
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +38,11 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+        if(getIntent().getStringExtra("loginPage")!=null&&getIntent().getStringExtra("loginPage").equals("true"))
+        {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            intent.putExtra("loginUsername",getIntent().getStringExtra("loginUsername"));
+            startActivity(intent);
+        }
     }
-
 }
