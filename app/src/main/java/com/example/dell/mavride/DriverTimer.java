@@ -40,6 +40,7 @@ public class DriverTimer extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_timer);
+        this.setFinishOnTouchOutside(false);
 
         Intent intent=getIntent();
         objectid=intent.getStringExtra("objectId");
@@ -150,6 +151,22 @@ public class DriverTimer extends Activity {
                 }
             });
         }
+    }
+
+    // Back is restricted
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DriverTimer.this);
+        builder.setMessage("Back is restricted");
+        builder.setTitle("Caution");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
