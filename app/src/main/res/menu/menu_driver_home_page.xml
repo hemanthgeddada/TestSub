@@ -2,9 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.dell.mavride.DriverHomePage">
-    <item android:id="@+id/Refresh"
-        android:title="Refresh"
-        app:showAsAction="always" />
     <item android:id="@+id/Logout"
         android:title="Logout"
         app:showAsAction="always" />

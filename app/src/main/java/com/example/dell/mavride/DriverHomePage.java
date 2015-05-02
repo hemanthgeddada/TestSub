@@ -23,18 +23,122 @@ import java.util.List;
 
 
 public class DriverHomePage extends ListActivity {
-    String objectid;
+    //String objectid;
     protected List<ParseObject> request;
-
+    public Thread refreshThread;
+    public DriverHomePage()
+    {
+        if(GlobalResources.REFRESH_THREAD==0) {
+            GlobalResources.REFRESH_THREAD=1;
+            asyncRefresh();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_home_page);
         // Calling Driver allocation class to allocate the drivers to the requests
+        //Intent intent=getIntent();
+        //objectid = intent.getStringExtra("objectID");
+        //asyncRefresh();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_driver_home_page, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //Logging out and setting the default values for the driver
+       if (id == R.id.Logout) {
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            String obj = currentUser.getObjectId();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
+            query.whereEqualTo("DriverId", obj);
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    if (e == null) {
+                        object.put("DriverStatus","Offline");
+                        object.put("NoAssigned",0);
+                        object.put("CurrentLocation","UC");
+                        object.saveInBackground();
+                    } else {
+                        // something went wrong
+                        Toast.makeText(getApplicationContext(), "status changed", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            ParseUser.logOut();
+           GlobalResources.REFRESH_THREAD=0;
+           refreshThread.interrupt();
+            Intent loginActivity = new Intent(getApplicationContext(), Login.class);
+            loginActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginActivity);
+            return true;
+        }
+        /*if (id == R.id.Refresh) {
+            asyncRefresh();
+        }
+        */
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long Id){
+        super.onListItemClick(l, v, position, Id);
+        ParseObject statusObject = request.get(position);
+        String objectId = statusObject.getObjectId();
+        //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
+        Intent options = new Intent(DriverHomePage.this, DriverOptions.class);
+       options.putExtra("objectID",objectId);
+        startActivity(options);
+    }
+    // Restrict the back button
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
+        builder.setMessage("Back is restricted");
+        builder.setTitle("Caution");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    public void asyncRefresh() {
+        // do something long
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                int i=0;
+                while(GlobalResources.REFRESH_THREAD!=0){
+                    System.out.println("i ki value: "+i);
+                    //Toast.makeText(getApplicationContext(),"Refreshing list",Toast.LENGTH_SHORT).show();
+                    try {
+                        Thread.sleep(5000);
+                        refresh();
+                    }catch(InterruptedException e)
+                    {
+                        System.out.println("Refresh Thread Interrupted");
+                    }
+                    i++;
+                }
+            }
+        };
+        refreshThread=new Thread(runnable);
+        refreshThread.start();
+    }
+    public void refresh()
+    {
         DriverAllocation allocate = new DriverAllocation();
         allocate.allocation();
-        Intent intent=getIntent();
-        objectid = intent.getStringExtra("objectID");
         ParseUser userLogged = ParseUser.getCurrentUser();
         // Retrieving the requests of the driver to send to request adapter
         ParseQuery<ParseObject> status_Pending = ParseQuery.getQuery("RideRequest");
@@ -79,84 +183,8 @@ public class DriverHomePage extends ListActivity {
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     }
-                } 
-            }
-        });
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_driver_home_page, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //Logging out and setting the default values for the driver
-       if (id == R.id.Logout) {
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            String obj = currentUser.getObjectId();
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
-            query.whereEqualTo("DriverId", obj);
-            query.getFirstInBackground(new GetCallback<ParseObject>() {
-                public void done(ParseObject object, ParseException e) {
-                    if (e == null) {
-                        object.put("DriverStatus","Offline");
-                        object.put("NoAssigned",0);
-                        object.put("CurrentLocation","UC");
-                        object.saveInBackground();
-                    } else {
-                        // something went wrong
-                        Toast.makeText(getApplicationContext(), "status changed", Toast.LENGTH_LONG).show();
-                    }
                 }
-            });
-            ParseUser.logOut();
-            Intent loginActivity = new Intent(getApplicationContext(), Login.class);
-            loginActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(loginActivity);
-            return true;
-        }
-        if (id == R.id.Refresh) {
-            Intent intent = getIntent();
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long Id){
-        super.onListItemClick(l, v, position, Id);
-        ParseObject statusObject = request.get(position);
-        String objectId = statusObject.getObjectId();
-        //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
-        Intent options = new Intent(DriverHomePage.this, DriverOptions.class);
-       options.putExtra("objectID",objectId);
-        startActivity(options);
-    }
-    // Restrict the back button
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
-        builder.setMessage("Back is restricted");
-        builder.setTitle("Caution");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.dismiss();
             }
         });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
-
-
 }
