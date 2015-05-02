@@ -15,10 +15,8 @@ import java.util.List;
  * Created by Hemanth on 2/25/2015.
  */
 public class RequestAdapter extends ArrayAdapter<ParseObject> {
-
     protected Context reqContext;
     protected List<ParseObject> reqObjects;
-
     public RequestAdapter(Context context, List<ParseObject> request) {
         super(context, R.layout.activity_driver_home, request);
         reqContext = context;

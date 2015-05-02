@@ -138,7 +138,7 @@ public class DriverOptions extends Activity {
         getMenuInflater().inflate(R.menu.menu_driver_options, menu);
         return true;
     }
-    // Back is restricted
+    /*/ Back is restricted
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(DriverOptions.this);
@@ -153,6 +153,7 @@ public class DriverOptions extends Activity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

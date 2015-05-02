@@ -124,7 +124,6 @@ public class DriverHomePage extends ListActivity {
             Intent loginActivity = new Intent(getApplicationContext(), Login.class);
             loginActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginActivity);
-
             return true;
         }
         if (id == R.id.Refresh) {
@@ -133,19 +132,14 @@ public class DriverHomePage extends ListActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     protected void onListItemClick(ListView l, View v, int position, long Id){
         super.onListItemClick(l, v, position, Id);
-
         ParseObject statusObject = request.get(position);
         String objectId = statusObject.getObjectId();
-
         //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
-
         Intent options = new Intent(DriverHomePage.this, DriverOptions.class);
        options.putExtra("objectID",objectId);
-
         startActivity(options);
     }
     // Restrict the back button
