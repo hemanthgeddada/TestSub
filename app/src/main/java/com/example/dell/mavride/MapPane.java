@@ -41,6 +41,53 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     private static final LatLng LH = new LatLng(32.7290878,-97.1082488);
     private static final LatLng WH = new LatLng(32.731606,-97.112588);
     private static final LatLng AH = new LatLng(32.7310998,-97.1093611);
+    private static final LatLng UCB = new LatLng(32.731223, -97.111211);
+    private static final LatLng GCP = new LatLng(32.729232, -97.107203);
+    private static final LatLng CPC = new LatLng(32.731077, -97.107890);
+    private static final LatLng B = new LatLng(32.729462, -97.110389);
+    private static final LatLng ARCH = new LatLng(32.731358, -97.116001);
+    private static final LatLng BOOK = new LatLng(32.733436, -97.109278);
+    private static final LatLng CARH = new LatLng(32.730745, -97.112594);
+    private static final LatLng CH = new LatLng(32.730815, -97.111521);
+    private static final LatLng DH = new LatLng(32.729378, -97.115116);
+    private static final LatLng ELAB = new LatLng(32.732515, -97.113101);
+    private static final LatLng SWEET = new LatLng(32.733802, -97.121975);
+    private static final LatLng FA = new LatLng(32.730530, -97.115261);
+    private static final LatLng GS = new LatLng(32.731745, -97.113834);
+    private static final LatLng HLTH = new LatLng(32.730442, -97.110806);
+    private static final LatLng LS = new LatLng(32.728912, -97.112887);
+    private static final LatLng MAC = new LatLng(32.731913, -97.116611);
+    private static final LatLng NANO = new LatLng(32.732262, -97.115333);
+    private static final LatLng PKH = new LatLng(32.729089, -97.111888);
+    private static final LatLng PH = new LatLng(32.730882, -97.112848);
+    private static final LatLng RH = new LatLng(32.730943, -97.112369);
+    private static final LatLng SH = new LatLng(32.730412, -97.114111);
+    private static final LatLng SWCA = new LatLng(32.734491, -97.114210);
+    private static final LatLng SC = new LatLng(32.734058, -97.121287);
+    private static final LatLng TEX = new LatLng(32.729723, -97.115132);
+    private static final LatLng TH = new LatLng(32.729942, -97.111748);
+    private static final LatLng ARBOR = new LatLng(32.730354, -97.121618);
+    private static final LatLng AUT = new LatLng(32.732834, -97.110585);
+    private static final LatLng BH = new LatLng(32.730901, -97.110818);
+    private static final LatLng CENTI = new LatLng(32.726786, -97.115629);
+    private static final LatLng CP = new LatLng(32.728116, -97.106819);
+    private static final LatLng CC = new LatLng(32.733224, -97.114988);
+    private static final LatLng GC = new LatLng(32.733233, -97.110858);
+    private static final LatLng MS = new LatLng(32.733246, -97.110036);
+    private static final LatLng MR = new LatLng(32.731656, -97.121560);
+    private static final LatLng OAK = new LatLng(32.732847, -97.110250);
+    private static final LatLng PECAN = new LatLng(32.726636, -97.109033);
+    private static final LatLng HEIGHTS = new LatLng(32.724203, -97.108727);
+    private static final LatLng LOFTS = new LatLng(32.724203, -97.108727);
+    private static final LatLng TIMBER = new LatLng(32.733456, -97.119660);
+    private static final LatLng TRINITY = new LatLng(32.724203, -97.108727);
+    private static final LatLng UV = new LatLng(32.730571, -97.119578);
+    private static final LatLng VH = new LatLng(32.731384, -97.108573);
+    private static final LatLng WC = new LatLng(32.732589, -97.110748);
+    private static final LatLng WS = new LatLng(32.727089, -97.109650);
+
+
+
 
     private GoogleMap googleMap;
 
@@ -285,6 +332,233 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
                     .title("LH").snippet("Lipscomb Hall")
                     .flat(true)
                     .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UCB, 16));
+            googleMap.addMarker(new MarkerOptions().position(UCB)
+                    .title("UC(B)").snippet("University Center Back")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(GCP, 16));
+            googleMap.addMarker(new MarkerOptions().position(GCP)
+                    .title("GCP").snippet("Green at College Park")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CPC, 16));
+            googleMap.addMarker(new MarkerOptions().position(CPC)
+                    .title("CPC").snippet("College Park Center")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(B, 16));
+            googleMap.addMarker(new MarkerOptions().position(LH)
+                    .title("B").snippet("Business Building")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ARCH, 16));
+            googleMap.addMarker(new MarkerOptions().position(ARCH)
+                    .title("ARCH").snippet("Architecture and Fine Arts Library")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BOOK, 16));
+            googleMap.addMarker(new MarkerOptions().position(BOOK)
+                    .title("BOOK").snippet("Bookstore")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CARH, 16));
+            googleMap.addMarker(new MarkerOptions().position(CARH)
+                    .title("CARH").snippet("Carlisle Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CH, 16));
+            googleMap.addMarker(new MarkerOptions().position(CH)
+                    .title("CH").snippet("College Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DH, 16));
+            googleMap.addMarker(new MarkerOptions().position(DH)
+                    .title("DH").snippet("Davis Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ELAB, 16));
+            googleMap.addMarker(new MarkerOptions().position(ELAB)
+                    .title("ELAB").snippet("Engineering and Research Lab")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SWEET, 16));
+            googleMap.addMarker(new MarkerOptions().position(SWEET)
+                    .title("SWEET").snippet("Sweet Center")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(FA, 16));
+            googleMap.addMarker(new MarkerOptions().position(FA)
+                    .title("FA").snippet("Fine Arts Building")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(GS, 16));
+            googleMap.addMarker(new MarkerOptions().position(GS)
+                    .title("GS").snippet("Geo Science")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(HLTH, 16));
+            googleMap.addMarker(new MarkerOptions().position(HLTH)
+                    .title("HLTH").snippet("Health Center")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LS, 16));
+            googleMap.addMarker(new MarkerOptions().position(LS)
+                    .title("LS").snippet("Life Science")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAC, 16));
+            googleMap.addMarker(new MarkerOptions().position(MAC)
+                    .title("MAC").snippet("Maverick Activity Center")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(NANO, 16));
+            googleMap.addMarker(new MarkerOptions().position(NANO)
+                    .title("NANO").snippet("Nano Fab Building")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PKH, 16));
+            googleMap.addMarker(new MarkerOptions().position(PKH)
+                    .title("PKH").snippet("Pickard Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PH, 16));
+            googleMap.addMarker(new MarkerOptions().position(PH)
+                    .title("PH").snippet("Preston Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(RH, 16));
+            googleMap.addMarker(new MarkerOptions().position(RH)
+                    .title("RH").snippet("Ransom Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SH, 16));
+            googleMap.addMarker(new MarkerOptions().position(SH)
+                    .title("SH").snippet("Science Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SC, 16));
+            googleMap.addMarker(new MarkerOptions().position(SC)
+                    .title("SC").snippet("Swift Center")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TEX, 16));
+            googleMap.addMarker(new MarkerOptions().position(TEX)
+                    .title("TEX").snippet("Texas Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TH, 16));
+            googleMap.addMarker(new MarkerOptions().position(TH)
+                    .title("TH").snippet("Trimble Hall")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ARBOR, 16));
+            googleMap.addMarker(new MarkerOptions().position(ARBOR)
+                    .title("ARBOR").snippet("Arbor Oaks")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AUT, 16));
+            googleMap.addMarker(new MarkerOptions().position(AUT)
+                    .title("AUT").snippet("Autumn Hollow")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SC, 16));
+            googleMap.addMarker(new MarkerOptions().position(SC)
+                    .title("SC").snippet("SC")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BH, 16));
+            googleMap.addMarker(new MarkerOptions().position(BH)
+                    .title("BH").snippet("Brazos House")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CENTI, 16));
+            googleMap.addMarker(new MarkerOptions().position(CENTI)
+                    .title("CENTI").snippet("Centinnial Court ")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CP, 16));
+            googleMap.addMarker(new MarkerOptions().position(CP)
+                    .title("CP").snippet("Center Point")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CC, 16));
+            googleMap.addMarker(new MarkerOptions().position(CC)
+                    .title("CC").snippet("Cooper Chase")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(GC, 16));
+            googleMap.addMarker(new MarkerOptions().position(GC)
+                    .title("GC").snippet("Garden CLub")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MS, 16));
+            googleMap.addMarker(new MarkerOptions().position(MS)
+                    .title("MS").snippet("Maple Square ")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MR, 16));
+            googleMap.addMarker(new MarkerOptions().position(MR)
+                    .title("MR").snippet("Meadow Run")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(OAK, 16));
+            googleMap.addMarker(new MarkerOptions().position(OAK)
+                    .title("OAK").snippet("Oak Landing")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(PECAN, 16));
+            googleMap.addMarker(new MarkerOptions().position(PECAN)
+                    .title("PECAN").snippet("Pecan Place")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(HEIGHTS, 16));
+            googleMap.addMarker(new MarkerOptions().position(HEIGHTS)
+                    .title("HEIGHTS").snippet("The Heights on Pecan")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LOFTS, 16));
+            googleMap.addMarker(new MarkerOptions().position(LOFTS)
+                    .title("LOFTS").snippet("The Lofts at College Park")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TIMBER, 16));
+            googleMap.addMarker(new MarkerOptions().position(TIMBER)
+                    .title("TIMBER").snippet("Timber Brook")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TRINITY, 16));
+            googleMap.addMarker(new MarkerOptions().position(TRINITY)
+                    .title("TRINITY").snippet("Trinity House ")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UV, 16));
+            googleMap.addMarker(new MarkerOptions().position(UV)
+                    .title("UV").snippet("University Village ")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(VH, 16));
+            googleMap.addMarker(new MarkerOptions().position(VH)
+                    .title("VH").snippet("Vandergriff Hall ")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(WC, 16));
+            googleMap.addMarker(new MarkerOptions().position(WC)
+                    .title("WC").snippet("West Crossing")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(WS, 16));
+            googleMap.addMarker(new MarkerOptions().position(WS)
+                    .title("WS").snippet("Woodland Springs")
+                    .flat(true)
+                    .draggable(true));
+
+
+
+
+
+
+
 
         }
 
