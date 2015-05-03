@@ -85,6 +85,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     private static final LatLng VH = new LatLng(32.731384, -97.108573);
     private static final LatLng WC = new LatLng(32.732589, -97.110748);
     private static final LatLng WS = new LatLng(32.727089, -97.109650);
+    private static final LatLng ZEN = new LatLng(32.729019, -97.106350);
 
 
 
@@ -550,6 +551,11 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(WS, 16));
             googleMap.addMarker(new MarkerOptions().position(WS)
                     .title("WS").snippet("Woodland Springs")
+                    .flat(true)
+                    .draggable(true));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ZEN, 16));
+            googleMap.addMarker(new MarkerOptions().position(ZEN)
+                    .title("ZEN").snippet("Zen Apartments")
                     .flat(true)
                     .draggable(true));
 
