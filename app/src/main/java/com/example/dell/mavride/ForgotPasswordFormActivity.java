@@ -227,9 +227,8 @@ public class ForgotPasswordFormActivity extends Activity {
             m.setTo(toArr);
             m.setFrom("mavrideuta@gmail.com");
             m.setSubject("MavRide App Password Reset Code");
-
-            ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
-            query2.whereEqualTo("Email", email1);
+            //ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Registration");
+            //query2.whereEqualTo("Email", email1);
             //ALSO STORE THIS CODE IN PARSE AGAINST THE USER'S EMAIL TO VALIDATE WHEN USER ENTERS THIS IN APP
             m.setBody("Hello,\nYour password reset code for MavRide App is "+code+".\n\nRegards,\n-Team MavRide");
         }

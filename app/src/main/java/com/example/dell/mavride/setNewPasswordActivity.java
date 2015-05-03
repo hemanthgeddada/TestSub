@@ -113,7 +113,7 @@ public class setNewPasswordActivity extends Activity {
                             }
                         }
                     });
-                    Toast.makeText(getApplicationContext(),"You can now login with your new password",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"You can now login with your new password",Toast.LENGTH_LONG).show();
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
