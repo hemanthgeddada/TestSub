@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.util.ArrayMap;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,19 +20,24 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 
 public class DriverHomePage extends ListActivity {
     //String objectid;
-    protected List<ParseObject> request;
-    public Thread refreshThread;
+    protected static List<ParseObject> request;
+    public static Thread refreshThread;
+    public String[] currentAllocated;
     public DriverHomePage()
     {
         if(GlobalResources.REFRESH_THREAD==0) {
             GlobalResources.REFRESH_THREAD=1;
+            refresh();
             asyncRefresh();
         }
+        currentAllocated=new String[3];
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +101,8 @@ public class DriverHomePage extends ListActivity {
         //Toast.makeText(getApplicationContext(), objectId, Toast.LENGTH_LONG).show();
         Intent options = new Intent(DriverHomePage.this, DriverOptions.class);
        options.putExtra("objectID",objectId);
+        refreshThread.interrupt();
+        GlobalResources.REFRESH_THREAD = 0;
         startActivity(options);
     }
     // Restrict the back button
@@ -114,7 +122,7 @@ public class DriverHomePage extends ListActivity {
     }
     public void asyncRefresh() {
         // do something long
-        Runnable runnable = new Runnable() {
+            Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 int i=0;
@@ -164,14 +172,58 @@ public class DriverHomePage extends ListActivity {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null) {
+                    int i=0;
+                    while(i<currentAllocated.length)
+                    {
+                        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
+                        try {
+                            ParseObject po = query2.get(currentAllocated[i]);
+                            if(po.getString("Status").equals("Cancelled"))
+                            {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
+                                builder.setMessage("A request was cancelled.");
+                                builder.setTitle("Alert");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+                            }
+                        }catch(ParseException ei)
+                        {
+                            System.out.println(ei);
+                        }
+                        //whereEqualTo specifies a selection condition for a particular tuple like where Email = email1 in table Registration
+                        i++;
+                    }
+                    i=0;
+                    currentAllocated=new String[3];
+                    while(i<parseObjects.size())
+                    {
+                        //if(parseObjects.get(i).getString("Status").equals("Pending")||parseObjects.get(i).getString("Status").equals("Waiting"))
+                        currentAllocated[i]=(parseObjects.get(i).getObjectId());
+                        i++;
+                    }
+                    i=0;
+                    while(i<currentAllocated.length)
+                    {
+                        System.out.println("currentAllocated["+i+"]="+currentAllocated[i]);
+                        i++;
+                    }
+                    request = parseObjects;
+                    //System.out.println("size: "+currentAllocated.size()+"-"+currentAllocated.containsKey("SbTxSj8Tyo"));
+                    //Calling request adapter class
+                    RequestAdapter adapter = new RequestAdapter(getListView().getContext(), request);
+                    setListAdapter(adapter);
                     if(parseObjects.size()>0){
-                        request = parseObjects;
-                        //Calling request adapter class
-                        RequestAdapter adapter = new RequestAdapter(getListView().getContext(), request);
-                        setListAdapter(adapter);
+
                     }
                     else{
-                        AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
+                        Toast.makeText(DriverHomePage.this,"No requests. Checking again in some time",Toast.LENGTH_SHORT).show();
+                        /*AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
                         builder.setMessage("No Pending Requests. Please refresh after some time");
                         builder.setTitle("No Requests");
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -182,6 +234,7 @@ public class DriverHomePage extends ListActivity {
                         });
                         AlertDialog dialog = builder.create();
                         dialog.show();
+                        */
                     }
                 }
             }

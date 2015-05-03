@@ -54,6 +54,7 @@
         </activity>
         <activity
             android:name=".DriverHomePage"
+            android:screenOrientation="portrait"
             android:label="MavRide" >
         </activity>
         <activity

@@ -94,7 +94,7 @@ public class DriverAllocation {
                                             }
                                         });
                                     } else {
-                                        System.out.print("Count is more than 3");
+                                        System.out.println("Count is more than 3");
                                         //ridersCount[0] = 0;
                                     }
 
@@ -122,7 +122,7 @@ public class DriverAllocation {
                                                     }
                                                 }
                                             } else {
-                                                System.out.print("No Pending Requests");
+                                                System.out.println("No Pending Requests");
                                             }
                                         }
                                     });
@@ -131,7 +131,7 @@ public class DriverAllocation {
                         });
                     }
                 } else {
-                    System.out.print("No Drivers are active");
+                    System.out.println("No Drivers are active");
                 }
             }
         });
