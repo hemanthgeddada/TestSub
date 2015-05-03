@@ -33,5 +33,14 @@
             android:layout_marginTop="57dp"
             android:id="@+id/btnDrop"
             android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:text="Bridge"
+        android:layout_marginTop="57dp"
+        android:id="@+id/btnBridge"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
 </ScrollView>

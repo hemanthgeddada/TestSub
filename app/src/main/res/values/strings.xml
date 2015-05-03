@@ -28,5 +28,6 @@
     <string name="Name">Name</string>
     <string name="Destination">Destination</string>
     <string name="title_activity_driver_timer">DriverTimer</string>
+    <string name="title_activity_bridge_drop_location">BridgeDropLocation</string>
 
 </resources>

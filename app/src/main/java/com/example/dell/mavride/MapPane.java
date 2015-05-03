@@ -23,10 +23,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import javax.xml.transform.Source;
 
 
 public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnMarkerClickListener, OnMarkerDragListener {
@@ -49,6 +53,8 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
     public String source;
     public String destination;
     public String ridersCount;
+    public String sourceArea;
+    public String destinationArea;
     protected String place;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,18 +193,26 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
                                         dialog.dismiss();
                                         ParseUser currentUser = ParseUser.getCurrentUser();
                                         String userid = currentUser.getObjectId();
-                                        ParseObject map = new ParseObject("RideRequest");
-                                        map.put("Status", "Unallocated");
-                                        map.put("Source", source);
-                                        map.put("Destination", destination);
-                                        map.put("NoRiders", riders);
-                                        map.put("RiderId",userid);
-                                        map.saveInBackground();
-                                        Intent intent = new Intent(getApplicationContext(), UserHome.class);
-                                        startActivity(intent);
-                                    }
-                                });
-                                builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                        boolean locationDiff;
+                                        if(sourceArea.equals(destinationArea)){
+                                            locationDiff = false;
+                                        }
+                                        else{
+                                            locationDiff = true;
+                                        }
+                    ParseObject map = new ParseObject("RideRequest");
+                    map.put("Status", "Unallocated");
+                    map.put("Source", source);
+                    map.put("Destination", destination);
+                    map.put("NoRiders", riders);
+                    map.put("RiderId", userid);
+                    map.put("CampusChange",locationDiff);
+                    map.saveInBackground();
+                    Intent intent = new Intent(getApplicationContext(), UserHome.class);
+                    startActivity(intent);
+                }
+            });
+                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Intent intent = new Intent(getApplicationContext(), MapPane.class);
@@ -354,6 +368,13 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
             });
             AlertDialog dialog = builder.create();
             dialog.show();
+            ParseQuery<ParseObject> querySource = ParseQuery.getQuery("Location");
+            querySource.whereEqualTo("LocName", source);
+            querySource.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    sourceArea = object.getString("CampusType");
+                }
+            });
         }
       // final LatLng dest = marker.getPosition();
 
@@ -370,6 +391,13 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
             });
             AlertDialog dialog = builder.create();
             dialog.show();
+            ParseQuery<ParseObject> queryDestination = ParseQuery.getQuery("Location");
+            queryDestination.whereEqualTo("LocName", destination);
+            queryDestination.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    destinationArea = object.getString("CampusType");
+                }
+            });
         }
 
 
