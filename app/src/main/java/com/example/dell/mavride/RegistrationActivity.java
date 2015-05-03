@@ -232,10 +232,29 @@ public class RegistrationActivity extends Activity {
     }*/
     public void sendEmail(View view)
     {
+        String email1=((EditText)findViewById(R.id.email_reg)).getText().toString().trim();
+        if(email1.isEmpty())
+        {
+            Toast.makeText(getApplicationContext(),"Please enter an email id to send the code to.",Toast.LENGTH_LONG).show();
+            return;
+        }
+        //if the email string is not a valid email id
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email1).matches()) {
+            Toast.makeText(getApplicationContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //if the email string doesn't end with @mavs.uta.edu
+        if (!email1.endsWith("@mavs.uta.edu"))
+        {
+            //email is validated to be correct
+            Toast.makeText(getApplicationContext(),"You need to enter your @mavs.uta.edu email address",Toast.LENGTH_SHORT).show();
+            return;
+        }
         cd = (int) (Math.random() * 9000) + 1000;
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         new SendEmailAsyncTask().execute();
+        Toast.makeText(getApplicationContext(), "Mail sent successfully", Toast.LENGTH_LONG).show();
         /*THE SECTION FROM
         **START**
          *  TO
