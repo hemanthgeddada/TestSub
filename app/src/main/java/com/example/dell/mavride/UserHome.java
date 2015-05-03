@@ -317,4 +317,8 @@ public class UserHome extends Activity {
         android.os.Process.killProcess(android.os.Process.myPid());
         super.onDestroy();
     }*/
+    public void showHelpActivity(View view)
+    {
+
+    }
     }

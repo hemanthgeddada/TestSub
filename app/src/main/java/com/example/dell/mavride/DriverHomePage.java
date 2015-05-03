@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-
 public class DriverHomePage extends ListActivity {
     //String objectid;
     protected static List<ParseObject> request;
@@ -67,9 +65,9 @@ public class DriverHomePage extends ListActivity {
                ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
                try {
                    ParseObject po = query2.get(currentAllocated[i]);
-                   if (po.getString("Status").equals("PickedUp")) {
+                   if (po.getString("Status").equals("PickedUp")||po.getString("Status").equals("Waiting")) {
                        AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
-                       builder.setMessage("You cannot logout when you have picked up some riders. Please drop them first.");
+                       builder.setMessage("You cannot logout when you have picked up/waiting on some riders. Please drop them first.");
                        builder.setTitle("Error");
                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                            @Override

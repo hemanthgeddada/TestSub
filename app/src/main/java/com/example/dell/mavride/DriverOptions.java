@@ -162,7 +162,7 @@ public class DriverOptions extends Activity {
         int id = item.getItemId();
 
         //Logging out and setting the default values for the driver
-        if (id == R.id.Logout) {
+        /*if (id == R.id.Logout) {
             ParseUser currentUser = ParseUser.getCurrentUser();
             String obj = currentUser.getObjectId();
             ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
@@ -184,8 +184,13 @@ public class DriverOptions extends Activity {
             Intent loginActivity = new Intent(getApplicationContext(), Login.class);
             loginActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginActivity);
-
             return true;
+        }*/
+        if(id==R.id.override_buttons)
+        {
+            ((Button)findViewById(R.id.btnPick)).setEnabled(true);
+            ((Button)findViewById(R.id.btnWait)).setEnabled(true);
+            ((Button)findViewById(R.id.btnDrop)).setEnabled(true);
         }
         return super.onOptionsItemSelected(item);
     }
