@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -167,11 +168,69 @@ public class UserHome extends Activity {
 
                 ParseQuery<ParseObject> compoundQuery = ParseQuery.or(queries);
                 compoundQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
+                    public void done(final ParseObject object, ParseException e) {
                         if (e == null) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
-                            if(object.get("Status").equals("Unallocated")){
-                                builder.setMessage("Your Request (Id: "+object.getObjectId()+") is under process and driver will be allocated soon");
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
+
+                            if (object.get("Status").equals("Unallocated")) {
+                                ParseQuery<ParseObject> ridesCount = ParseQuery.getQuery("RideRequest");
+                                ridesCount.whereGreaterThan("createdAt", object.getCreatedAt());
+                                //Allocation of requests;
+                                ridesCount.findInBackground(new FindCallback<ParseObject>() {
+                                    @Override
+                                    public void done(List<ParseObject> counter, ParseException e) {
+                                        if (e == null) {
+                                            int timeEstimated = 5 * (counter.size());
+                                            builder.setMessage("Your Request (Id: " + object.getObjectId() + ") is under process and driver will be allocated soon and your estimated time is: "+timeEstimated+" Minutes\"");
+                                            builder.setTitle("Request Status");
+                                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int i) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                            AlertDialog dialog = builder.create();
+                                            dialog.show();
+                                            //Toast.makeText(getApplicationContext(), timeEstimated, Toast.LENGTH_LONG).show();
+                                        } else {
+
+                                            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                });
+                            }
+                            if (object.get("Status").equals("Pending")) {
+                                ParseQuery<ParseObject> ridesCount = ParseQuery.getQuery("RideRequest");
+                                ridesCount.whereGreaterThan("createdAt", object.getCreatedAt());
+                                //Allocation of requests;
+                                ridesCount.findInBackground(new FindCallback<ParseObject>() {
+                                    @Override
+                                    public void done(List<ParseObject> counter, ParseException e) {
+                                        if (e == null) {
+                                            int timeEstimated = 5 * (counter.size());
+                                            builder.setMessage("Your request (Id: " + object.getObjectId() + ") is processed and driver is on the way and your estimated time is: "+timeEstimated+" Minutes");
+                                            builder.setTitle("Request Status");
+                                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int i) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                            AlertDialog dialog = builder.create();
+                                            dialog.show();
+                                            //Toast.makeText(getApplicationContext(), timeEstimated, Toast.LENGTH_LONG).show();
+                                        } else {
+
+                                            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                });
+
+                            }
+                            if (object.get("Status").equals("Waiting")) {
+                                builder.setMessage("Driver is waiting for you at " + object.get("Source") + ". Please reach your driver");
                                 builder.setTitle("Request Status");
                                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     @Override
@@ -180,27 +239,7 @@ public class UserHome extends Activity {
                                     }
                                 });
                             }
-                            if(object.get("Status").equals("Pending")){
-                                builder.setMessage("Your request (Id: "+object.getObjectId()+") is processed and driver is on the way");
-                                builder.setTitle("Request Status");
-                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int i) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                            }
-                            if(object.get("Status").equals("Waiting")){
-                                builder.setMessage("Driver is waiting for you at "+object.get("Source")+". Please reach your driver");
-                                builder.setTitle("Request Status");
-                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int i) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                            }
-                            if(object.get("Status").equals("PickedUp")){
+                            if (object.get("Status").equals("PickedUp")) {
                                 builder.setMessage("You are picked by a driver. Enjoy your safe ride to your destination");
                                 builder.setTitle("Request Status");
                                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -210,7 +249,7 @@ public class UserHome extends Activity {
                                     }
                                 });
                             }
-                            if(object.get("Status").equals("Expired")){
+                            if (object.get("Status").equals("Expired")) {
                                 builder.setMessage("Your waiting time is expired and request is cancelled");
                                 builder.setTitle("Request Status");
                                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -219,10 +258,13 @@ public class UserHome extends Activity {
                                         dialog.dismiss();
                                     }
                                 });
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             }
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                        } else {
+
+                        } else
+
+                        {
                             AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
                             builder.setMessage("Sorry, you don't have any pending requests");
                             builder.setTitle("No Pending Requests");
