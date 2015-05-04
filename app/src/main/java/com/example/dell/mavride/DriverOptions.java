@@ -84,7 +84,7 @@ public class DriverOptions extends Activity {
                                 destinationquery.getFirstInBackground(new GetCallback<ParseObject>() {
                                     public void done(ParseObject object, ParseException e) {
                                         String destinationArea = object.getString("CampusType");
-                                        if (campusChange) {
+                                        if (!campusChange) {
                                            // Toast.makeText(getApplicationContext(), "campus success", Toast.LENGTH_LONG).show();
                                             brdgebtn.setEnabled(false);
                                         } else {
@@ -140,6 +140,7 @@ public class DriverOptions extends Activity {
                                                             }
                                                         } else {
                                                             Toast.makeText(getApplicationContext(), "error in taking online driver part", Toast.LENGTH_LONG).show();
+                                                            brdgebtn.setEnabled(false);
                                                         }
                                                     }
                                                 });

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -103,7 +104,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.dell.mavride.DriverOptions" />
         </activity>
-
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help"
+            android:parentActivityName=".UserHome" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dell.mavride.UserHome" />
+        </activity>
+        <activity
+            android:name=".BridgeDropLocation"
+            android:label="@string/title_activity_bridge_drop_location" >
+        </activity>
     </application>
 
 </manifest>

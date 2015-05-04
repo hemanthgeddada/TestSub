@@ -31,6 +31,7 @@ public class BridgeDropLocation extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_drop_location);
+        btnNHBridge = (Button)findViewById(R.id.btnBridgeNH);
         Intent intent=getIntent();
         objectid=intent.getStringExtra("objectID");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
