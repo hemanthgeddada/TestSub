@@ -319,6 +319,7 @@ public class UserHome extends Activity {
     }*/
     public void showHelpActivity(View view)
     {
-
+        Intent intent=new Intent(this,HelpActivity.class);
+        startActivity(intent);
     }
     }
