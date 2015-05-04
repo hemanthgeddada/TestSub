@@ -132,17 +132,17 @@ public class DriverOptions extends Activity {
                                                                                     }
 
                                                                                 } else {
-                                                                                    Toast.makeText(getApplicationContext(), "error in bridge dialog box part", Toast.LENGTH_LONG).show();
+                                                                                   // Toast.makeText(getApplicationContext(), "error in bridge dialog box part", Toast.LENGTH_LONG).show();
                                                                                 }
                                                                             }
                                                                         });
                                                                     }
                                                                 } else {
-                                                                    Toast.makeText(getApplicationContext(), "error in taking online driver part", Toast.LENGTH_LONG).show();
+                                                                    //Toast.makeText(getApplicationContext(), "error in taking online driver part", Toast.LENGTH_LONG).show();
                                                                     brdgebtn.setEnabled(false);
                                                                 }
                                                             } else {
-                                                                Toast.makeText(getApplicationContext(), "error in taking online driver part", Toast.LENGTH_LONG).show();
+                                                               // Toast.makeText(getApplicationContext(), "error in taking online driver part", Toast.LENGTH_LONG).show();
                                                                 brdgebtn.setEnabled(false);
                                                             }
                                                         }
