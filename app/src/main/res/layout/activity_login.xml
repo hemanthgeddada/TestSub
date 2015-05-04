@@ -12,53 +12,55 @@
     tools:context="com.example.dell.mavride.Login"
     android:weightSum="1">
 
-    <TextView
+<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/textView3"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:textStyle="bold"
         android:textColor="#ff8800"
-        android:textSize="51sp"
-        android:layout_marginTop="25dp"
+        android:textSize="45sp"
+        android:layout_marginTop="15dp"
         android:singleLine="false" />
 
     <EditText
         android:layout_width="326dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:id="@+id/txtEmail"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
         android:textColor="#ff020202"
-
         />
 
     <EditText
         android:layout_width="326dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/txtPass"
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:hint="Password"
         android:textColor="#ff020202" />
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
 
-</LinearLayout>
+    <CheckBox
+        android:layout_marginTop="15dp"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Keep me logged in"
+        android:id="@+id/checkBox" />
 
     <Button
         android:layout_width="301dp"
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/btnLogin2"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
         android:background="#ff8800"
         android:layout_gravity="center_horizontal"
@@ -69,11 +71,9 @@
         android:text="@string/button_forgot_password"
         android:id="@+id/btnForgotPassword"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
         android:background="#ff8800"
         android:onClick="onClickForgotPassword"/>
-
-
 </LinearLayout>
 </ScrollView>

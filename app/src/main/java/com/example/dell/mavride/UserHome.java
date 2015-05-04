@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -259,6 +260,11 @@ public class UserHome extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.Logout) {
             ParseUser.logOut();
+            SharedPreferences settings = getSharedPreferences(GlobalResources.PREFS_NAME, 0);
+            SharedPreferences.Editor editor=settings.edit();
+            editor.remove("username");
+            editor.remove("password");
+            editor.commit();
             Intent userhome = new Intent(getApplicationContext(), Login.class);
             userhome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(userhome);
@@ -317,4 +323,9 @@ public class UserHome extends Activity {
         android.os.Process.killProcess(android.os.Process.myPid());
         super.onDestroy();
     }*/
+    public void showHelpActivity(View view)
+    {
+        Intent intent=new Intent(this,HelpActivity.class);
+        startActivity(intent);
+    }
     }
