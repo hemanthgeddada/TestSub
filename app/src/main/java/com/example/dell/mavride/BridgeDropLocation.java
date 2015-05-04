@@ -48,7 +48,7 @@ public class BridgeDropLocation extends Activity {
                     requestCreated = Riderequest.getCreatedAt();
                     riders = Riderequest.getInt("NoRiders");
                     riderId = Riderequest.getString("RiderId");
-                    Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
 
                 }
                 else{
