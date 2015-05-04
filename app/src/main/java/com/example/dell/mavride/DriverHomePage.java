@@ -167,6 +167,8 @@ public class DriverHomePage extends ListActivity {
     }
     public void refresh()
     {
+        DriverAllocationPriority priorAllocate = new DriverAllocationPriority();
+        priorAllocate.allocation();
         DriverAllocation allocate = new DriverAllocation();
         allocate.allocation();
         ParseUser userLogged = ParseUser.getCurrentUser();
