@@ -40,7 +40,8 @@ public class DriverOptions extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_options);
-
+        DriverAllocationPriority priorAllocate = new DriverAllocationPriority();
+        priorAllocate.allocation();
         Intent intent = getIntent();
         objectid = intent.getStringExtra("objectID");
         // Initialise three buttons
@@ -64,96 +65,101 @@ public class DriverOptions extends Activity {
                 if (status.equals("PickedUp")) {
                     waitbtn.setEnabled(false);
                     pickupbtn.setEnabled(false);
-                    //brdgebtn.setEnabled(false);
+                    brdgebtn.setEnabled(false);
                 }
-                boolean locationArea = parseObject.getBoolean("CampusChange");
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                String obj = currentUser.getObjectId();
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
-                query.whereEqualTo("DriverId", obj);
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        String currentLocation = object.getString("CurrentLocation");
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
-                        query.whereEqualTo("LocName", currentLocation);
-                        query.getFirstInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
-                                final String cartArea = object.getString("CampusType");
-                                ParseQuery<ParseObject> destinationquery = ParseQuery.getQuery("Location");
-                                destinationquery.whereEqualTo("LocName", destination);
-                                destinationquery.getFirstInBackground(new GetCallback<ParseObject>() {
-                                    public void done(ParseObject object, ParseException e) {
-                                        String destinationArea = object.getString("CampusType");
-                                        if (!campusChange) {
-                                           // Toast.makeText(getApplicationContext(), "campus success", Toast.LENGTH_LONG).show();
-                                            brdgebtn.setEnabled(false);
-                                        } else {
-                                            if (status.equals("Pending")) {
-                                                ParseQuery<ParseObject> avalDrivers = ParseQuery.getQuery("DriverDetail");
-                                                avalDrivers.whereEqualTo("DriverStatus", "Online");
-                                                avalDrivers.findInBackground(new FindCallback<ParseObject>() {
-                                                    @Override
-                                                    public void done(List<ParseObject> unAllocate, ParseException e) {
-                                                        if (e == null) {
-                                                            if (unAllocate.size() > 1) {
-                                                                for (int i = 0; i < unAllocate.size(); i++) {
-                                                                    ParseObject cLocationArea = unAllocate.get(i);
-                                                                    String cLocation = cLocationArea.getString("CurrentLocation");
-                                                                    ParseQuery<ParseObject> area = ParseQuery.getQuery("Location");
-                                                                    area.whereEqualTo("LocName", cLocation);
-                                                                    area.getFirstInBackground(new GetCallback<ParseObject>() {
-                                                                        public void done(ParseObject object, ParseException e) {
-                                                                            if (e == null) {
-                                                                                String dvr2Area = object.getString("CampusType");
-                                                                                if (dvr2Area.equals(cartArea)) {
-                                                                                    //do nothing
-                                                                                } else {
-                                                                                    AlertDialog.Builder builder = new AlertDialog.Builder(DriverOptions.this);
-                                                                                    builder.setMessage("There is a driver available at the bridge. Do you want to drop at bridge and raise a request for Pick Up?");
-                                                                                    builder.setTitle("Request Status");
-                                                                                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                                                        @Override
-                                                                                        public void onClick(DialogInterface dialog, int i) {
-                                                                                            pickupbtn.setEnabled(false);
-                                                                                            waitbtn.setEnabled(false);
-                                                                                        }
-                                                                                    });
-                                                                                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                                                        @Override
-                                                                                        public void onClick(DialogInterface dialog, int which) {
-                                                                                            dialog.dismiss();
-                                                                                        }
-                                                                                    });
-                                                                                    AlertDialog dialog = builder.create();
-                                                                                    dialog.show();
-                                                                                }
+                if(!parseObject.getBoolean("BridgeUsage")){
+                    boolean locationArea = parseObject.getBoolean("CampusChange");
+                    ParseUser currentUser = ParseUser.getCurrentUser();
+                    String obj = currentUser.getObjectId();
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
+                    query.whereEqualTo("DriverId", obj);
+                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+                        public void done(ParseObject object, ParseException e) {
+                            String currentLocation = object.getString("CurrentLocation");
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
+                            query.whereEqualTo("LocName", currentLocation);
+                            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                                public void done(ParseObject object, ParseException e) {
+                                    final String cartArea = object.getString("CampusType");
+                                    ParseQuery<ParseObject> destinationquery = ParseQuery.getQuery("Location");
+                                    destinationquery.whereEqualTo("LocName", destination);
+                                    destinationquery.getFirstInBackground(new GetCallback<ParseObject>() {
+                                        public void done(ParseObject object, ParseException e) {
+                                            String destinationArea = object.getString("CampusType");
+                                            if (!campusChange) {
+                                                // Toast.makeText(getApplicationContext(), "campus success", Toast.LENGTH_LONG).show();
+                                                brdgebtn.setEnabled(false);
+                                            } else {
+                                                if (status.equals("Pending")) {
+                                                    ParseQuery<ParseObject> avalDrivers = ParseQuery.getQuery("DriverDetail");
+                                                    avalDrivers.whereEqualTo("DriverStatus", "Online");
+                                                    avalDrivers.findInBackground(new FindCallback<ParseObject>() {
+                                                        @Override
+                                                        public void done(List<ParseObject> unAllocate, ParseException e) {
+                                                            if (e == null) {
+                                                                if (unAllocate.size() > 1) {
+                                                                    for (int i = 0; i < unAllocate.size(); i++) {
+                                                                        ParseObject cLocationArea = unAllocate.get(i);
+                                                                        String cLocation = cLocationArea.getString("CurrentLocation");
+                                                                        ParseQuery<ParseObject> area = ParseQuery.getQuery("Location");
+                                                                        area.whereEqualTo("LocName", cLocation);
+                                                                        area.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                                            public void done(ParseObject object, ParseException e) {
+                                                                                if (e == null) {
+                                                                                    String dvr2Area = object.getString("CampusType");
+                                                                                    if (dvr2Area.equals(cartArea)) {
+                                                                                        //do nothing
+                                                                                    } else {
+                                                                                        AlertDialog.Builder builder = new AlertDialog.Builder(DriverOptions.this);
+                                                                                        builder.setMessage("There is a driver available at the bridge. Do you want to drop at bridge and raise a request for Pick Up?");
+                                                                                        builder.setTitle("Request Status");
+                                                                                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                                                            @Override
+                                                                                            public void onClick(DialogInterface dialog, int i) {
+                                                                                                pickupbtn.setEnabled(false);
+                                                                                                waitbtn.setEnabled(false);
+                                                                                            }
+                                                                                        });
+                                                                                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                                            @Override
+                                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                                                dialog.dismiss();
+                                                                                            }
+                                                                                        });
+                                                                                        AlertDialog dialog = builder.create();
+                                                                                        dialog.show();
+                                                                                    }
 
-                                                                            } else {
-                                                                                Toast.makeText(getApplicationContext(), "error in bridge dialog box part", Toast.LENGTH_LONG).show();
+                                                                                } else {
+                                                                                    Toast.makeText(getApplicationContext(), "error in bridge dialog box part", Toast.LENGTH_LONG).show();
+                                                                                }
                                                                             }
-                                                                        }
-                                                                    });
+                                                                        });
+                                                                    }
+                                                                } else {
+                                                                    Toast.makeText(getApplicationContext(), "error in taking online driver part", Toast.LENGTH_LONG).show();
+                                                                    brdgebtn.setEnabled(false);
                                                                 }
                                                             } else {
                                                                 Toast.makeText(getApplicationContext(), "error in taking online driver part", Toast.LENGTH_LONG).show();
                                                                 brdgebtn.setEnabled(false);
                                                             }
-                                                        } else {
-                                                            Toast.makeText(getApplicationContext(), "error in taking online driver part", Toast.LENGTH_LONG).show();
-                                                            brdgebtn.setEnabled(false);
                                                         }
-                                                    }
-                                                });
-                                            } else {
-                                                brdgebtn.setEnabled(false);
+                                                    });
+                                                } else {
+                                                    brdgebtn.setEnabled(false);
+                                                }
                                             }
                                         }
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }else{
+                    //
+                }
+
             }
         });
 

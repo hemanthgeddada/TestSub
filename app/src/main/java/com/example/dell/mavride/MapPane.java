@@ -254,6 +254,7 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback, OnM
                     map.put("Destination", destination);
                     map.put("NoRiders", riders);
                     map.put("RiderId", userid);
+                    map.put("BridgeUsage", false);
                     map.put("CampusChange",locationDiff);
                     map.put("Priority", 0);
                     map.saveInBackground();

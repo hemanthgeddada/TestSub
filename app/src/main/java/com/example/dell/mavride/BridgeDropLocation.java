@@ -61,26 +61,41 @@ public class BridgeDropLocation extends Activity {
                 query.getInBackground(objectid, new GetCallback<ParseObject>() {
                     public void done(ParseObject Riderequest, ParseException e) {
                         if (e == null) {
+                            String des = Riderequest.getString("Destination");
                             Riderequest.put("Destination","NHBridge");
+                            Riderequest.put("BridgeUsage", true);
                             Riderequest.saveInBackground();
                             ParseObject newRequest = new ParseObject("RideRequest");
                             newRequest.put("Source", "NHBridge");
-                            newRequest.put("Destination", destination);
-                            newRequest.put("createdAt", requestCreated);
-                            newRequest.put("NoRiders", riders);
+                            newRequest.put("Destination", des);
+                            //newRequest.put("createdAt", requestCreated);
+                            newRequest.put("NoRiders", Riderequest.getInt("NoRiders"));
                             newRequest.put("RiderId", riderId);
                             newRequest.put("Status", "Unallocated");
                             newRequest.put("BridgeUsage", true);
                             newRequest.put("CampusChange", true);
                             newRequest.put("Priority", 1);
-                            newRequest.saveInBackground();
-                            Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
+                            newRequest.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e==null){
+                                       // Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(getApplicationContext(), DriverHomePage.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                            //Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
                             ParseQuery<ParseObject> loc = ParseQuery.getQuery("Location");
-                            loc.whereEqualTo("LocName",destination);
+                            loc.whereEqualTo("LocName",des);
                             loc.getFirstInBackground(new GetCallback<ParseObject>() {
                                                          public void done(ParseObject object, ParseException e) {
                                                             String area = object.getString("CampusType");
                                                              DriverAllocationPriority allocationPriority = new DriverAllocationPriority();
+                                                             allocationPriority.allocation();
                                                          }
                                                      });
 
