@@ -64,7 +64,7 @@ public class DriverOptions extends Activity {
                 if (status.equals("PickedUp")) {
                     waitbtn.setEnabled(false);
                     pickupbtn.setEnabled(false);
-                    brdgebtn.setEnabled(false);
+                    //brdgebtn.setEnabled(false);
                 }
                 boolean locationArea = parseObject.getBoolean("CampusChange");
                 ParseUser currentUser = ParseUser.getCurrentUser();
@@ -84,8 +84,8 @@ public class DriverOptions extends Activity {
                                 destinationquery.getFirstInBackground(new GetCallback<ParseObject>() {
                                     public void done(ParseObject object, ParseException e) {
                                         String destinationArea = object.getString("CampusType");
-                                        if (!campusChange) {
-                                            Toast.makeText(getApplicationContext(), "campus success", Toast.LENGTH_LONG).show();
+                                        if (campusChange) {
+                                           // Toast.makeText(getApplicationContext(), "campus success", Toast.LENGTH_LONG).show();
                                             brdgebtn.setEnabled(false);
                                         } else {
                                             if (status.equals("Pending")) {
@@ -258,7 +258,7 @@ public class DriverOptions extends Activity {
             @Override
             public void onClick(View v) {
                 Intent bridgeLocation = new Intent(getApplicationContext(), BridgeDropLocation.class);
-                bridgeLocation.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //bridgeLocation.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 bridgeLocation.putExtra("objectID",objectid);
                 startActivity(bridgeLocation);
             }

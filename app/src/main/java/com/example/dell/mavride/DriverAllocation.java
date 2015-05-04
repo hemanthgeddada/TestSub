@@ -62,6 +62,7 @@ public class DriverAllocation {
                                     if (ridersCount[0] < 3) {
                                         ParseQuery<ParseObject> unallocated = ParseQuery.getQuery("RideRequest");
                                         unallocated.whereEqualTo("Status", "Unallocated");
+                                        unallocated.whereEqualTo("Priority", 0);
                                         //Allocation of requests;
                                         unallocated.findInBackground(new FindCallback<ParseObject>() {
                                             @Override
