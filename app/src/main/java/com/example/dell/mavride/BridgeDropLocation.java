@@ -22,6 +22,8 @@ import java.util.Date;
 public class BridgeDropLocation extends Activity {
     String objectid;
     protected Button btnNHBridge;
+    protected Button btnSHBridge;
+    protected Button btnUHBridge;
     public String source;
     public String destination;
     public Date requestCreated;
@@ -32,6 +34,8 @@ public class BridgeDropLocation extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_drop_location);
         btnNHBridge = (Button)findViewById(R.id.btnBridgeNH);
+        btnSHBridge = (Button)findViewById(R.id.btnBridgeSH);
+        btnUHBridge = (Button)findViewById(R.id.btnBridgeUH);
         Intent intent=getIntent();
         objectid=intent.getStringExtra("objectID");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
@@ -79,7 +83,7 @@ public class BridgeDropLocation extends Activity {
                                 @Override
                                 public void done(ParseException e) {
                                     if(e==null){
-                                       // Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Destination Changed and drop at the bridge", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(getApplicationContext(), DriverHomePage.class);
                                         startActivity(intent);
                                     }
@@ -98,6 +102,118 @@ public class BridgeDropLocation extends Activity {
                                                              allocationPriority.allocation();
                                                          }
                                                      });
+
+                        }
+                        else{
+                            //
+                        }
+                    }
+                });
+            }
+
+        });
+        btnSHBridge.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view)
+            {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
+
+                query.getInBackground(objectid, new GetCallback<ParseObject>() {
+                    public void done(ParseObject Riderequest, ParseException e) {
+                        if (e == null) {
+                            String des = Riderequest.getString("Destination");
+                            Riderequest.put("Destination","SHBridge");
+                            Riderequest.put("BridgeUsage", true);
+                            Riderequest.saveInBackground();
+                            ParseObject newRequest = new ParseObject("RideRequest");
+                            newRequest.put("Source", "SHBridge");
+                            newRequest.put("Destination", des);
+                            //newRequest.put("createdAt", requestCreated);
+                            newRequest.put("NoRiders", Riderequest.getInt("NoRiders"));
+                            newRequest.put("RiderId", riderId);
+                            newRequest.put("Status", "Unallocated");
+                            newRequest.put("BridgeUsage", true);
+                            newRequest.put("CampusChange", true);
+                            newRequest.put("Priority", 1);
+                            newRequest.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e==null){
+                                        Toast.makeText(getApplicationContext(), "Destination Changed and drop at the bridge", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(getApplicationContext(), DriverHomePage.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                            //Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
+                            ParseQuery<ParseObject> loc = ParseQuery.getQuery("Location");
+                            loc.whereEqualTo("LocName",des);
+                            loc.getFirstInBackground(new GetCallback<ParseObject>() {
+                                public void done(ParseObject object, ParseException e) {
+                                    String area = object.getString("CampusType");
+                                    DriverAllocationPriority allocationPriority = new DriverAllocationPriority();
+                                    allocationPriority.allocation();
+                                }
+                            });
+
+                        }
+                        else{
+                            //
+                        }
+                    }
+                });
+            }
+
+        });
+        btnUHBridge.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view)
+            {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("RideRequest");
+
+                query.getInBackground(objectid, new GetCallback<ParseObject>() {
+                    public void done(ParseObject Riderequest, ParseException e) {
+                        if (e == null) {
+                            String des = Riderequest.getString("Destination");
+                            Riderequest.put("Destination","UHBridge");
+                            Riderequest.put("BridgeUsage", true);
+                            Riderequest.saveInBackground();
+                            ParseObject newRequest = new ParseObject("RideRequest");
+                            newRequest.put("Source", "UHBridge");
+                            newRequest.put("Destination", des);
+                            //newRequest.put("createdAt", requestCreated);
+                            newRequest.put("NoRiders", Riderequest.getInt("NoRiders"));
+                            newRequest.put("RiderId", riderId);
+                            newRequest.put("Status", "Unallocated");
+                            newRequest.put("BridgeUsage", true);
+                            newRequest.put("CampusChange", true);
+                            newRequest.put("Priority", 1);
+                            newRequest.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e==null){
+                                        Toast.makeText(getApplicationContext(), "Destination Changed and drop at the bridge", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(getApplicationContext(), DriverHomePage.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                            //Toast.makeText(getApplicationContext(), objectid, Toast.LENGTH_LONG).show();
+                            ParseQuery<ParseObject> loc = ParseQuery.getQuery("Location");
+                            loc.whereEqualTo("LocName",des);
+                            loc.getFirstInBackground(new GetCallback<ParseObject>() {
+                                public void done(ParseObject object, ParseException e) {
+                                    String area = object.getString("CampusType");
+                                    DriverAllocationPriority allocationPriority = new DriverAllocationPriority();
+                                    allocationPriority.allocation();
+                                }
+                            });
 
                         }
                         else{
