@@ -101,7 +101,7 @@ public class BridgeDropLocation extends Activity {
 
                         }
                         else{
-                            //error
+                            //
                         }
                     }
                 });

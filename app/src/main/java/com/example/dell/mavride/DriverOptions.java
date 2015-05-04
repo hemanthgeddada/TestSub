@@ -60,7 +60,7 @@ public class DriverOptions extends Activity {
                 //Disabling the buttons based on conditions
                 if (status.equals("Pending")) {
                     dropbtn.setEnabled(false);
-
+                    brdgebtn.setEnabled(false);
                 }
                 if (status.equals("PickedUp")) {
                     waitbtn.setEnabled(false);
@@ -68,6 +68,7 @@ public class DriverOptions extends Activity {
                     brdgebtn.setEnabled(false);
                 }
                 if(!parseObject.getBoolean("BridgeUsage")){
+                    brdgebtn.setEnabled(true);
                     boolean locationArea = parseObject.getBoolean("CampusChange");
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     String obj = currentUser.getObjectId();
@@ -157,7 +158,7 @@ public class DriverOptions extends Activity {
                         }
                     });
                 }else{
-                    //
+                    brdgebtn.setEnabled(false);
                 }
 
             }
