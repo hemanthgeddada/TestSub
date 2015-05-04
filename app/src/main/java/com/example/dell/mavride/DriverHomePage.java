@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-
 public class DriverHomePage extends ListActivity {
     //String objectid;
     protected static List<ParseObject> request;
@@ -62,6 +60,30 @@ public class DriverHomePage extends ListActivity {
         int id = item.getItemId();
         //Logging out and setting the default values for the driver
        if (id == R.id.Logout) {
+           int i=0;
+           while(i<currentAllocated.length) {
+               ParseQuery<ParseObject> query2 = ParseQuery.getQuery("RideRequest");
+               try {
+                   ParseObject po = query2.get(currentAllocated[i]);
+                   if (po.getString("Status").equals("PickedUp")||po.getString("Status").equals("Waiting")) {
+                       AlertDialog.Builder builder = new AlertDialog.Builder(DriverHomePage.this);
+                       builder.setMessage("You cannot logout when you have picked up/waiting on some riders. Please drop them first.");
+                       builder.setTitle("Error");
+                       builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int i) {
+                               dialog.dismiss();
+                           }
+                       });
+                       AlertDialog dialog = builder.create();
+                       dialog.show();
+                       return false;
+                   }
+               } catch (ParseException ei) {
+                   System.out.println(ei);
+               }
+               i++;
+           }
             ParseUser currentUser = ParseUser.getCurrentUser();
             String obj = currentUser.getObjectId();
             ParseQuery<ParseObject> query = ParseQuery.getQuery("DriverDetail");
@@ -240,4 +262,5 @@ public class DriverHomePage extends ListActivity {
             }
         });
     }
+
 }

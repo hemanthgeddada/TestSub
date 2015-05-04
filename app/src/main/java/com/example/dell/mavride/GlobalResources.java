@@ -5,4 +5,5 @@ package com.example.dell.mavride;
  */
 public class GlobalResources {
     public static int REFRESH_THREAD=0;
+    public static final String PREFS_NAME = "PERSISTENT_LOGIN";
 }

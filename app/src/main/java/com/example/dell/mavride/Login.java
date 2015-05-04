@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 public class Login extends Activity {
+
     protected EditText Email;
     protected EditText nPassword;
     protected Button logBtn;
@@ -28,11 +31,9 @@ public class Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         Email = (EditText)findViewById(R.id.txtEmail);
         nPassword = (EditText)findViewById(R.id.txtPass);
         logBtn = (Button)findViewById(R.id.btnLogin2);
-
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +74,15 @@ public class Login extends Activity {
                                         } else {
                                             Intent userHome = new Intent(getApplicationContext(), UserHome.class);
                                             userHome.putExtra("objectID", objid);
+                                            if(((CheckBox)findViewById(R.id.checkBox)).isChecked())
+                                            {
+                                                SharedPreferences login = getSharedPreferences(GlobalResources.PREFS_NAME, 0);
+                                                SharedPreferences.Editor editor = login.edit();
+                                                editor.putString("username", (((EditText) findViewById(R.id.txtEmail)).getText().toString().trim()));
+                                                editor.putString("password", (((EditText) findViewById(R.id.txtPass)).getText().toString().trim()));
+                                                editor.commit();
+                                                System.out.println("preferences savedd");
+                                            }
                                             startActivity(userHome);
                                         }
                                     }
@@ -124,9 +134,13 @@ public class Login extends Activity {
             Email.setText(getIntent().getStringExtra("loginUsername"));
             nPassword.requestFocus();
         }
+        if(getIntent().getStringExtra("mode")!=null && getIntent().getStringExtra("mode").equals("persistent"))
+        {
+            Email.setText(getIntent().getStringExtra("username"));
+            nPassword.setText(getIntent().getStringExtra("password"));
+            logBtn.performClick();
+        }
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
