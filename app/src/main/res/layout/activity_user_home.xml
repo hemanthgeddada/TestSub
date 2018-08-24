@@ -1,0 +1,65 @@
+<ScrollView
+    android:layout_height="match_parent" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.dell.mavride.UserHome">
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Get a Ride"
+        android:id="@+id/btnride"
+        android:background="#ff8800"
+        android:layout_marginTop="20dip"
+        android:layout_below="@+id/txtViewUser"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel Ride"
+        android:id="@+id/btncride"
+        android:background="#ff8800"
+        android:layout_marginTop="20dip"
+        android:layout_below="@+id/btnstatus"
+        android:layout_alignLeft="@+id/btnride"
+        android:layout_alignStart="@+id/btnride" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:layout_marginTop="20dip"
+        android:layout_below="@+id/btnride"
+        android:id="@+id/btnstatus"
+        android:background="#ff8800"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/btncride"
+        android:layout_alignStart="@+id/btncride" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Welcome to MavRide"
+        android:id="@+id/txtViewUser"
+        android:textStyle="normal"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffff8b1c" />
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Help"
+        android:id="@+id/btnhelp"
+        android:background="#ff8800"
+        android:layout_marginTop="20dip"
+        android:layout_below="@+id/btncride"
+        android:layout_centerHorizontal="true"
+        android:onClick="showHelpActivity"/>
+
+</RelativeLayout>
+</ScrollView>
